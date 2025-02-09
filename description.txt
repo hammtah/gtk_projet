@@ -1,0 +1,28 @@
+<btn-normale>
+    <property name="text" >hello</property>
+    <property name="icon" >icon.png</property>
+    <property name="mnemonic" >1</property>
+    <property name="x" >10</property>
+    <property name="y" >50</property>
+    <property name="width" >100</property>
+    <property name="height" >10</property>
+    <btn-normale-style name="police" >Arial</btn-normale-style>
+    <btn-normale-style name="color" >white</btn-normale-style>
+    <btn-normale-style name="taille" >8</btn-normale-style>
+    <btn-normale-style name="gras" >1</btn-normale-style>
+    <btn-normale-style name="modern_bgcolor" >pink,blue</btn-normale-style>
+</btn-normale>
+
+<checkbox>
+    <property name="text_ckeckbox" >checkbox</property>
+    <property name="mnemonic" >1</property>
+    <property name="checked" >0</property>
+    <property name="x" >0</property>
+    <property name="y" >100</property>
+    <property name="width" >50</property>
+    <property name="height" >60</property>
+    <checkboxstyle name="police" >Arial</checkboxstyle>
+    <checkboxstyle name="color" >black</checkboxstyle>
+    <checkboxstyle name="taille" >10</checkboxstyle>
+    <checkboxstyle name="gras" >1</checkboxstyle>
+</checkbox>
