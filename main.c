@@ -394,13 +394,13 @@ int main(int argc, char *argv[]){
    //Les labels des boutons
    char* labels[256] = {"hello", "mme", "bonjour", "non", NULL};
    //Le style commun des boutons
-   Style* st = init_style("Colspan", hex_color_init("#ff23CE"), 25, 1, NULL, -1, -1);
+   Style* st = init_style("Colspan", hex_color_init("#ff23CE"), 15, 1, NULL, -1, -1);
    //Creer la liste des boutons radios
     liste_radios(labels, //Les labels des boutons
                  fixed, //Le conteneur fixed (de type fixedo)
                  st, //Style commun
-                 0, //Horizontal(1), ou Vertical(0)
-                 *cord(0, 300));//Les cordonées où mettre la liste
+                 1, //Horizontal(1), ou Vertical(0)
+                 *cord(400, 00));//Les cordonées où mettre la liste
     ////////////////////////////////////////////////////////////////////////////////////////////////
     gtk_widget_show_all(maFenetre->window);
 

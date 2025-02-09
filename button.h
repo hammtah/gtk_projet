@@ -247,7 +247,7 @@ btn* creer_button(btn* mybtn)
     //Ajouter le bouton au conteneur, s'il ne s'agit d'un conteneur fixe
     if((!mybtn->isFixed) && ((mybtn->container)!=NULL))
     {
-        //gtk_container_add(GTK_CONTAINER(mybtn->container), mybtn->button);
+        gtk_container_add(GTK_CONTAINER(mybtn->container), mybtn->button);
         //gtk_box_pack_start(GTK_BOX(mybtn->container), mybtn->button, TRUE, TRUE, 0);
 
     }
@@ -400,6 +400,8 @@ void appliquer_style_button(Style *monStyle, btn *b) {
         if (monStyle->gras == 1){
             pango_font_description_set_weight(font_desc, PANGO_WEIGHT_BOLD);
             pango_font_description_set_size(font_desc, monStyle->taille * PANGO_SCALE);
+            // Appliquer le gras au widget du bouton
+            gtk_widget_override_font(b->button, font_desc);
         }
 
         // Libérer la mémoire allouée pour la description de police
@@ -433,7 +435,7 @@ void liste_radios(char* labels[256], fixedo* fixed, Style* st, int est_hori,
                         NULL, NULL);
     creer_button(pere);//Creer le pere
     //Ajouter le pere au box
-    gtk_box_pack_start(GTK_BOX(box), pere->button, TRUE, TRUE, 0);
+    //gtk_box_pack_start(GTK_BOX(box), pere->button, TRUE, TRUE, 0);
 
     //appliquer le style au bouton pere
     if(st)
@@ -444,14 +446,14 @@ void liste_radios(char* labels[256], fixedo* fixed, Style* st, int est_hori,
     char **i = labels;
     while(i[++j]){
         //Creer le bouton
-        btn* b = btnRadio(i[j], i[j], i[j], NULL, margin(24, 24, 24, 24),
+        btn* b = btnRadio(i[j], i[j], i[j], box, margin(24, 24, 24, 24),
                              pere->button, NULL);
         creer_button(b);//Creer le pere
         //appliquer le style au bouton
         if(st)
             appliquer_style_button(st, b);
         //Ajouter le bouton au box
-        gtk_box_pack_start(GTK_BOX(box), b->button, TRUE, TRUE, 0);
+        //gtk_box_pack_start(GTK_BOX(box), b->button, TRUE, TRUE, 0);
 
     }
 
