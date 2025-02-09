@@ -392,13 +392,13 @@ int main(int argc, char *argv[]){
 
    //////////////////////////////////liste des radios////////////////////
    //Les labels des boutons
-   char* labels[256] = {"hello", "mme", "bonjour", "non", NULL};
+   char* labels[256] = {"Faible", "Moyen", "Bien", "Très bien", NULL};
    //Le style commun des boutons
-   Style* st = init_style("Colspan", hex_color_init("#ff23CE"), 15, 1, NULL, -1, -1);
+   Style* st = init_style("Colspan", hex_color_init("#000"), 8, 1, NULL, -1, -1);
    //Creer le box
    StyledBox* bx = init_styled_box(GTK_ORIENTATION_HORIZONTAL, TRUE,
                                    16, NULL,
-                                   "gray", "15", "3");
+                                   "light-gray", "0", "3");
    create_styled_box(bx);
    //Creer la liste des boutons radios
    liste_radios(labels, st, bx);
