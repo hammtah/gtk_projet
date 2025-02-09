@@ -9,7 +9,6 @@
 #include "checkbox_xml.h"
 #include "dialog_xml.h"
 #include "radio_xml.h"
-#include "taha_template.h"
 
 #ifndef XML_TAHA_BOX_H
 #define XML_TAHA_BOX_H
@@ -21,8 +20,22 @@ typedef struct {
     gchar *css_classes; // Classes CSS pour le style
     gchar *background_color; // Couleur de fond en CSS
     gchar *border_radius; // Rayon de bordure en CSS
+    gchar *border; // Epaisseur de bordure en CSS
     GtkWidget *widget; // Le GtkBox lui-même
 } StyledBox;
+
+/**
+ * @brief Alloue dynamiquement une structure StyledBox et vérifie si l'allocation a réussi.
+ * @return Un pointeur vers un StyledBox alloué ou NULL si l'allocation échoue.
+ */
+StyledBox *allocate_styled_box() {
+    StyledBox *box = (StyledBox *)malloc(sizeof(StyledBox));
+    if (!box) {
+        fprintf(stderr, "Erreur: Échec de l'allocation mémoire pour StyledBox.\n");
+        return NULL;
+    }
+    return box;
+}
 
 /**
  * @brief Initialise une structure StyledBox avec les valeurs fournies.
@@ -31,16 +44,21 @@ typedef struct {
  * son homogénéité, l'espacement entre les enfants et les styles CSS associés.
  * Elle ne crée pas encore le GtkBox lui-même, cela se fera dans une autre fonction.
  *
- * @param box Pointeur vers la structure StyledBox à initialiser.
  * @param orientation Orientation du GtkBox (GTK_ORIENTATION_HORIZONTAL ou GTK_ORIENTATION_VERTICAL).
  * @param homogeneous Définit si les enfants ont la même taille (TRUE ou FALSE).
  * @param spacing Espacement entre les widgets à l'intérieur du GtkBox.
  * @param css_classes Liste de classes CSS optionnelles à appliquer (peut être NULL).
  * @param background_color Couleur de fond en CSS (peut être NULL).
  * @param border_radius Rayon de la bordure en CSS (peut être NULL).
+ * @param border Epaisseur de la bordure en CSS (peut être NULL).
+ *
+ * @return *box un pointeur vers le box initialisé
  */
-void init_styled_box(StyledBox *box, GtkOrientation orientation, gboolean homogeneous, gint spacing,
-                     const gchar *css_classes, const gchar *background_color, const gchar *border_radius) {
+
+StyledBox *init_styled_box( GtkOrientation orientation, gboolean homogeneous, gint spacing,
+                     const gchar *css_classes, const gchar *background_color,
+                     const gchar *border_radius, const gchar *border) {
+    StyledBox* box = allocate_styled_box();
     box->orientation = orientation;
     box->homogeneous = homogeneous;
     box->spacing = spacing;
@@ -49,6 +67,7 @@ void init_styled_box(StyledBox *box, GtkOrientation orientation, gboolean homoge
     box->css_classes = css_classes ? g_strdup(css_classes) : NULL;
     box->background_color = background_color ? g_strdup(background_color) : NULL;
     box->border_radius = border_radius ? g_strdup(border_radius) : NULL;
+    box->border = border ? g_strdup(border) : NULL;
 
     box->widget = NULL; // Le widget sera créé dans une autre fonction
 }
@@ -81,9 +100,10 @@ void create_styled_box(StyledBox *box) {
     if (box->background_color || box->border_radius) {
         GtkCssProvider *provider = gtk_css_provider_new();
         gchar *css = g_strdup_printf(
-                "box { background-color: %s; border-radius: %s; }",
+                "box { background: %s; border-radius: %s; border: %s solid}",
                 box->background_color ? box->background_color : "transparent",
-                box->border_radius ? box->border_radius : "0px"
+                box->border_radius ? box->border_radius : "0px",
+                box->border ? box->border : "0px"
         );
 
         // Chargement et application du style CSS

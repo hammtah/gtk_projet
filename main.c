@@ -6,7 +6,7 @@
 #include "dialog_xml.h"
 #include "radio_xml.h"
 #include "taha_template.h"
-
+#include "box.h"
 
 void on_open_file_button_clicked(GtkWidget *button, gpointer user_data) {
     GtkWidget *file_dialog;
@@ -395,14 +395,19 @@ int main(int argc, char *argv[]){
    char* labels[256] = {"hello", "mme", "bonjour", "non", NULL};
    //Le style commun des boutons
    Style* st = init_style("Colspan", hex_color_init("#ff23CE"), 15, 1, NULL, -1, -1);
+   //Creer le box
+   StyledBox* bx = init_styled_box(GTK_ORIENTATION_HORIZONTAL, TRUE,
+                                   16, NULL,
+                                   "gray", "15", "3");
+   create_styled_box(bx);
    //Creer la liste des boutons radios
-    liste_radios(labels, //Les labels des boutons
-                 fixed, //Le conteneur fixed (de type fixedo)
-                 st, //Style commun
-                 1, //Horizontal(1), ou Vertical(0)
-                 *cord(400, 00));//Les cordonées où mettre la liste
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    gtk_widget_show_all(maFenetre->window);
+   liste_radios(labels, st, bx);
+
+   //Ajouter la liste(le box) au fixed
+   fixed_add_widget(fixed,bx->widget,0,600);
+
+   ////////////////////////////////////////////////////////////////////////////////////////////////
+   gtk_widget_show_all(maFenetre->window);
 
     // Boucle principale GTK
     gtk_main();

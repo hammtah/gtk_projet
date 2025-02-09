@@ -421,17 +421,37 @@ void appliquer_style_button(Style *monStyle, btn *b) {
 
 /////////box des boutons
 #include "fixed.h"
+#include "box.h"
 
-void liste_radios(char* labels[256], fixedo* fixed, Style* st, int est_hori,
-                  coordonnees c) {
-    GtkWidget *box = NULL;
-    if(est_hori)
-        box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
-    else
-        box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
+/**
+ * @brief Crée une liste de boutons radio à partir d'une liste de labels.
+ *
+ * Cette fonction génère une série de boutons radio en utilisant les labels fournis.
+ * Le premier label est utilisé pour créer un bouton "père", et les labels suivants
+ * sont utilisés pour créer des boutons "enfants" qui sont associés au bouton père.
+ * Chaque bouton est stylisé selon le style fourni et ajouté à un conteneur StyledBox.
+ *
+ * @param labels Tableau de chaînes de caractères contenant les labels des boutons radio.
+ *               Le premier élément est utilisé pour le bouton père, les autres pour les enfants.
+ *               Le tableau doit se terminer par un pointeur NULL.
+ * @param st Pointeur vers une structure Style contenant les styles à appliquer aux boutons.
+ *           Si NULL, aucun style n'est appliqué.
+ * @param bx Pointeur vers une structure StyledBox dans laquelle les boutons seront ajoutés.
+ *
+ * @note La fonction suppose que le widget du StyledBox (bx->widget) est déjà créé et valide.
+ * @note Les marges des boutons sont fixées à 24 pixels sur tous les côtés.
+ *
+ * @example
+ * char* labels[] = {"Option 1", "Option 2", "Option 3", NULL};
+ * Style *style = { ... }; // Définir le style
+ * StyledBox *box = { ... }; // Définir le conteneur
+ * liste_radios(labels, style, box);
+ */
+
+void liste_radios(char* labels[256], Style* st, StyledBox* bx) {
 
     //Creer le pere
-    btn* pere = btnRadio(labels[0], labels[0], labels[0], box, margin(24, 24, 24, 24),
+    btn* pere = btnRadio(labels[0], labels[0], labels[0], bx->widget, margin(24, 24, 24, 24),
                         NULL, NULL);
     creer_button(pere);//Creer le pere
     //Ajouter le pere au box
@@ -446,7 +466,7 @@ void liste_radios(char* labels[256], fixedo* fixed, Style* st, int est_hori,
     char **i = labels;
     while(i[++j]){
         //Creer le bouton
-        btn* b = btnRadio(i[j], i[j], i[j], box, margin(24, 24, 24, 24),
+        btn* b = btnRadio(i[j], i[j], i[j], bx->widget, margin(0, 0, 0, 0),
                              pere->button, NULL);
         creer_button(b);//Creer le pere
         //appliquer le style au bouton
@@ -456,11 +476,6 @@ void liste_radios(char* labels[256], fixedo* fixed, Style* st, int est_hori,
         //gtk_box_pack_start(GTK_BOX(box), b->button, TRUE, TRUE, 0);
 
     }
-
-    //Ajouter au fixed
-    fixed_add_widget(fixed,box,c.x,c.y);
-
-
 }
 
 
