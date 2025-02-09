@@ -391,22 +391,40 @@ int main(int argc, char *argv[]){
     menu(fixed);
 
    //////////////////////////////////liste des radios////////////////////
-   //Les labels des boutons
-   char* labels[256] = {"Faible", "Moyen", "Bien", "Très bien", NULL};
-   //Le style commun des boutons
-   Style* st = init_style("Colspan", hex_color_init("#000"), 8, 1, NULL, -1, -1);
-   //Creer le box
-   StyledBox* bx = init_styled_box(GTK_ORIENTATION_HORIZONTAL, TRUE,
-                                   16, NULL,
-                                   "light-gray", "0", "3");
-   create_styled_box(bx);
-   //Creer la liste des boutons radios
-   liste_radios(labels, st, bx);
+    {
+        //Les labels des boutons
+        char *labels[256] = {"Faible", "Moyen", "Bien", "Très bien", NULL};
+        //Le style commun des boutons
+        Style *st = init_style("Colspan", hex_color_init("#000"), 8, 1, NULL, -1, -1);
+        //Creer le box
+        StyledBox *bx = init_styled_box(GTK_ORIENTATION_HORIZONTAL, TRUE,
+                                        16, NULL,
+                                        "light-gray", "0", "3");
+        create_styled_box(bx);
+        //Creer la liste des boutons radios
+        liste_radios(labels, st, bx);
 
-   //Ajouter la liste(le box) au fixed
-   fixed_add_widget(fixed,bx->widget,0,600);
+        //Ajouter la liste(le box) au fixed
+        fixed_add_widget(fixed, bx->widget, 10, 600);
+    }
+    //////////////////////////////////liste des checks////////////////////
+    {
+        //Les labels des boutons
+        char *labelsc[256] = {"Convival", "Ineressant", "Facile à utiliser", "Optimise le travail", NULL};
+        //Le style commun des boutons
+        Style *stc = init_style("Colspan", hex_color_init("#000"), 12, 1, NULL, -1, -1);
+        //Creer le box
+        StyledBox *bxc = init_styled_box(GTK_ORIENTATION_HORIZONTAL, TRUE,
+                                         16, NULL,
+                                         "light-gray", "0", "3");
+        create_styled_box(bxc);
+        //Creer la liste des boutons radios
+        liste_checks(labelsc, stc, bxc);
 
-   ////////////////////////////////////////////////////////////////////////////////////////////////
+        //Ajouter la liste(le box) au fixed
+        fixed_add_widget(fixed, bxc->widget, 10, 300);
+    }
+    ////////////////////////////////////////////////////////////////////////////////////////////////
    gtk_widget_show_all(maFenetre->window);
 
     // Boucle principale GTK

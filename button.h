@@ -439,7 +439,7 @@ void appliquer_style_button(Style *monStyle, btn *b) {
  * @param bx Pointeur vers une structure StyledBox dans laquelle les boutons seront ajoutés.
  *
  * @note La fonction suppose que le widget du StyledBox (bx->widget) est déjà créé et valide.
- * @note Les marges des boutons sont fixées à 24 pixels sur tous les côtés.
+ * @note Les marges des boutons sont fixées à 0 pixels sur tous les côtés.
  *
  * @example
  * char* labels[] = {"Option 1", "Option 2", "Option 3", NULL};
@@ -451,7 +451,7 @@ void appliquer_style_button(Style *monStyle, btn *b) {
 void liste_radios(char* labels[256], Style* st, StyledBox* bx) {
 
     //Creer le pere
-    btn* pere = btnRadio(labels[0], labels[0], labels[0], bx->widget, margin(24, 24, 24, 24),
+    btn* pere = btnRadio(labels[0], labels[0], labels[0], bx->widget, margin(0, 0, 0, 0),
                         NULL, NULL);
     creer_button(pere);//Creer le pere
     //Ajouter le pere au box
@@ -468,6 +468,47 @@ void liste_radios(char* labels[256], Style* st, StyledBox* bx) {
         //Creer le bouton
         btn* b = btnRadio(i[j], i[j], i[j], bx->widget, margin(0, 0, 0, 0),
                              pere->button, NULL);
+        creer_button(b);//Creer le pere
+        //appliquer le style au bouton
+        if(st)
+            appliquer_style_button(st, b);
+        //Ajouter le bouton au box
+        //gtk_box_pack_start(GTK_BOX(box), b->button, TRUE, TRUE, 0);
+
+    }
+}
+
+
+/**
+ * @brief Crée une liste de boutons à cocher (checkboxes) à partir d'une liste de labels.
+ *
+ * Cette fonction génère une série de boutons à cocher en utilisant les labels fournis.
+ * Chaque bouton est créé avec les propriétés spécifiées, stylisé selon le style fourni,
+ * et ajouté à un conteneur StyledBox.
+ *
+ * @param labels Tableau de chaînes de caractères contenant les labels des boutons à cocher.
+ *               Le tableau doit se terminer par un pointeur NULL.
+ * @param st Pointeur vers une structure Style contenant les styles à appliquer aux boutons.
+ *           Si NULL, aucun style n'est appliqué.
+ * @param bx Pointeur vers une structure StyledBox dans laquelle les boutons seront ajoutés.
+ *
+ * @note La fonction suppose que le widget du StyledBox (bx->widget) est déjà créé et valide.
+ * @note Les marges des boutons sont fixées à 0 pixel sur tous les côtés.
+ *
+ * @example
+ * char* labels[] = {"Option 1", "Option 2", "Option 3", NULL};
+ * Style* style = { ... }; // Définir le style
+ * StyledBox* box = { ... }; // Définir le conteneur
+ * liste_checks(labels, style, box);
+ */
+void liste_checks(char* labels[256], Style* st, StyledBox* bx) {
+
+    //Creer les autres boutons
+    int j = -1;//Commencer par le 1er label
+    while(labels[++j]){
+        //Creer le bouton
+        btn* b = btnCheck(labels[j], labels[j], labels[j], margin(0, 0, 0, 0),
+                          bx->widget, FALSE, NULL);
         creer_button(b);//Creer le pere
         //appliquer le style au bouton
         if(st)
