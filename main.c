@@ -403,7 +403,6 @@ int main(int argc, char *argv[]){
         create_styled_box(bx);
         //Creer la liste des boutons radios
         liste_radios(labels, st, bx);
-
         //Ajouter la liste(le box) au fixed
         fixed_add_widget(fixed, bx->widget, 10, 600);
     }
@@ -424,6 +423,14 @@ int main(int argc, char *argv[]){
         //Ajouter la liste(le box) au fixed
         fixed_add_widget(fixed, bxc->widget, 10, 300);
     }
+    //Associer un label au liste radio
+    Monlabel* l1 = creer_label(init_label("Vos connaissance de GTK!", "ti", *cord(10,550), *dim(0,0)));
+    fixed_add_widget(fixed, l1->elem, 10, 560);
+
+    //Associer un label au liste checks
+    Monlabel* l2 = creer_label(init_label("Vos commentaires sur GTK!", "ti", *cord(10,250), *dim(0,0)));
+    fixed_add_widget(fixed, l2->elem, 10, 260);
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
    gtk_widget_show_all(maFenetre->window);
 

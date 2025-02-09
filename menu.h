@@ -107,7 +107,26 @@ void on_menu_item_activate(GtkWidget *widget, gpointer data) {
 
 
 //Creer un sous menu avec des options saisies
+
 GtkWidget* creer_sous_menu(char* items[256]) {
+    // Créer un conteneur horizontal (GtkBox) au lieu d'un GtkMenu
+    GtkWidget *sous_menu = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5); // 5 est l'espacement entre les éléments
+
+    // Ajouter des éléments au sous-menu
+    int j = -1;
+    while (items[++j]) {
+        // Créer un bouton pour chaque élément au lieu d'un GtkMenuItem
+        GtkWidget *button = gtk_button_new_with_label(items[j]);
+        g_signal_connect(button, "clicked", G_CALLBACK(on_menu_item_activate), items[j]);
+
+        // Ajouter le bouton au conteneur horizontal
+        gtk_box_pack_start(GTK_BOX(sous_menu), button, FALSE, FALSE, 0);
+    }
+    gtk_widget_show_all(sous_menu);
+
+    // Retourner le conteneur horizontal
+    return sous_menu;
+    /*
     GtkWidget *sous_menu = gtk_menu_new();
     // Ajouter des éléments au sous-menu
     int j = -1;
@@ -116,6 +135,7 @@ GtkWidget* creer_sous_menu(char* items[256]) {
         g_signal_connect(item_sous_menu1, "activate", G_CALLBACK(on_menu_item_activate), items[j]);
         gtk_menu_shell_append(GTK_MENU_SHELL(sous_menu), item_sous_menu1);
     }
+     */
     /*
     GtkWidget *item_sous_menu1 = gtk_menu_item_new_with_label("Sous-menu 1");
     g_signal_connect(item_sous_menu1, "activate", G_CALLBACK(on_menu_item_activate), "Sous-menu 1");
@@ -127,9 +147,8 @@ GtkWidget* creer_sous_menu(char* items[256]) {
     gtk_menu_shell_append(GTK_MENU_SHELL(sous_menu), item_sous_menu1);
     gtk_menu_shell_append(GTK_MENU_SHELL(sous_menu), item_sous_menu2);
 */
-    return sous_menu;
+    //return sous_menu;
 }
-
 #endif //TEST1_MENU_H
 
 
