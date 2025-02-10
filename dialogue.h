@@ -256,7 +256,78 @@ void free_boite_dialog(boite_dialog* bg) {
 }
 
 
+//Traiter les réponses provenants du boite de dialogue
+void dialog_response(GtkDialog *dialog, gint response_id, gpointer user_data) {
+    switch (response_id) {
+        case GTK_RESPONSE_OK:
+            g_print("\nOK cliqué\n");
+            // Traitement pour OK
+            break;
 
+        case GTK_RESPONSE_CANCEL:
+            g_print("\nAnnulation cliquée\n");
+            // Traitement pour Annuler
+            break;
+
+        case GTK_RESPONSE_NO:
+            g_print("\nNon cliqué\n");
+            // Traitement pour Non
+            break;
+
+        default:
+            g_print("\nRéponse inattendue: %d\n", response_id);
+            // Traitement par défaut
+            break;
+    }
+
+    // Fermer la boîte de dialogue
+    gtk_widget_destroy(GTK_WIDGET(dialog));
+
+    // Si besoin, accéder aux données utilisateur
+    //MyData *data = (MyData *)user_data;
+    // ... utilisation de data ...
+}
+
+
+void dialogue_template(char* titre, char* message, char* messageIcon, char* icon,
+                       coordonnees c, GtkWidget* parent) {
+    boite_dialog *boite = NULL;
+
+// Le conteneur des widgets formant le contenue du dialogue (content area)
+    GtkWidget *contentArea = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 50);  // Espacement de 10 pixels
+// Ajoute 20 pixels de padding autour du contenu de la boîte(faire semblant que le box est centré)
+    gtk_container_set_border_width(GTK_CONTAINER(contentArea), 50);
+//Image
+    MonImage *ima = init_image(messageIcon, *dim(48, 48), *cord(32, 32));
+    creer_image(ima);
+//Ajouter l'image au conteneur (contentArea)
+    gtk_box_pack_start(GTK_BOX(contentArea), ima->Image, TRUE, TRUE, 0);
+//Label
+    GtkWidget *content_label = gtk_label_new(message);
+//Ajouter le label(message) au conteneur (contentArea)
+    gtk_box_pack_start(GTK_BOX(contentArea), content_label, TRUE, TRUE, 0);
+
+
+//Creer le box
+    boite = DIALOG_XY(
+            contentArea,//Contenu(un widget)
+            titre,//titre
+            dim(200, 100),//dimension
+            icon, // Pas d'icône pour cet exemple
+            parent,//Parent(conteneur)
+            TRUE,//modal ou pas
+            cord(c.x, c.y)//Position
+    );
+    creer_boite_dialogue(boite);
+
+    //Ajouter des boutons
+    GtkWidget *btnOk = gtk_button_new_with_label("Ok");
+    addActionWidget(boite, btnOk, GTK_RESPONSE_OK);
+
+    //Associer un signal au boite
+    g_signal_connect(boite->dialog, "response", G_CALLBACK(dialog_response), NULL);
+
+}
 
 
 

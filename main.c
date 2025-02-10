@@ -431,6 +431,11 @@ int main(int argc, char *argv[]){
     Monlabel* l2 = creer_label(init_label("Vos commentaires sur GTK!", "ti", *cord(10,250), *dim(0,0)));
     fixed_add_widget(fixed, l2->elem, 10, 260);
 
+    ////////////////////////Dialogue prédefinie//////////////////////////////
+    dialogue_template("HEllo", "im a message",
+                      "ex_img.jpg", "icon.png", *cord(0, 100),
+                      fixed->fixed_container);
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
    gtk_widget_show_all(maFenetre->window);
 
