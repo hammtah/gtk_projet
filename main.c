@@ -483,12 +483,12 @@ int main(int argc, char *argv[]){
 
     //JOurs
     {
-        StyledBox* jour = init_styled_box(GTK_ORIENTATION_VERTICAL, TRUE, 15, "",
+        StyledBox* jour = init_styled_box(GTK_ORIENTATION_VERTICAL, TRUE, 0, "",
                                           "", "0", "0", cord(150, 150),
                                           container->widget);
         create_styled_box(jour);
 
-        creer_label(init_label("Jours", "Jours", NULL, NULL, jour->widget));
+        creer_label(init_label("Jours", "Jours", NULL, NULL, jour->widget, "red", 1, "16", "Colspan"));
 
         gtkComboBox *cjour = init_comboBox(*dim(20, 20), *cord(0, 0), "", jour->widget);
         create_ComboBox(cjour);
@@ -499,6 +499,7 @@ int main(int argc, char *argv[]){
         }
         elementActive(cjour, 1);
     }
+
     //mois
     {
         StyledBox* mois = init_styled_box(GTK_ORIENTATION_VERTICAL, TRUE, 15, "",
@@ -506,7 +507,7 @@ int main(int argc, char *argv[]){
                                           container->widget);
         create_styled_box(mois);
 
-        creer_label(init_label("Mois", "Mois", NULL, NULL, mois->widget));
+        creer_label(init_label("Mois", "Mois", NULL, NULL, mois->widget, "black", 1, "12", "Colspan"));
 
         gtkComboBox *cjour = init_comboBox(*dim(20, 20), *cord(0, 0), "", mois->widget);
         create_ComboBox(cjour);
@@ -525,7 +526,7 @@ int main(int argc, char *argv[]){
                                           container->widget);
         create_styled_box(mois);
 
-        creer_label(init_label("Anne", "Anne", NULL, NULL, mois->widget));
+        creer_label(init_label("Anne", "Anne", NULL, NULL, mois->widget, "black", 1, "12", "Colspan"));
 
         gtkComboBox *cjour = init_comboBox(*dim(20, 20), *cord(0, 0), "", mois->widget);
         create_ComboBox(cjour);
