@@ -339,7 +339,12 @@ int mainj(int argc, char *argv[]) {
 }
 
 
-
+void open_dialog(GtkWidget* widget, gpointer data){
+    fixedo* fix = (fixedo*) data;
+    dialogue_template("HEllo", "im a message",
+                      "ex_img.jpg", "icon.png", *cord(0, 100),
+                      fix->fixed_container);
+}
 
 int main(int argc, char *argv[]){
     // Initialisation de GTK
@@ -436,6 +441,8 @@ int main(int argc, char *argv[]){
     btn* bb = btnNormalFixed("nom", "label", "tooltip", fixed->fixed_container,
                              cord(100, 100), dim(50, 20), NULL);
     creer_button(bb);
+    g_signal_connect(bb->button, "clicked", G_CALLBACK(open_dialog), fixed->fixed_container);
+
     Style* bst = init_style(NULL, hex_color_init("#ffff"),
                             -1, -1, "ex_img.jpg", -1,
                             -1);
@@ -451,7 +458,22 @@ int main(int argc, char *argv[]){
 
     // Création du widget GTK TextView à partir de l'objet MonTextView
     MonTextView *created_textview = creer_textview(textview);
-    ////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////Combobox///////////////////////////////////////////////
+    // Initialiser la structure gtkComboBox
+    gtkComboBox *combo = init_comboBox(*dim(90, 30), *cord(90, 50),
+                                       "monComboBox", fixed->fixed_container);
+
+    // Créer la ComboBox avec la fonction create_ComboBox
+    create_ComboBox(combo);
+
+    // Ajouter des éléments à la ComboBox
+    ajouterElementComboBox(combo, "1", "Option 1");
+    ajouterElementComboBox(combo, "2", "Option 2");
+    ajouterElementComboBox(combo, "3", "Option 3");
+
+    // Définir l'élément actif (sélectionner l'option 1)
+    elementActive(combo, 0);
+    ///////////////////////////////////////////////////////////////////////////////////////////////
    gtk_widget_show_all(maFenetre->window);
 
     // Boucle principale GTK

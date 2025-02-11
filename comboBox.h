@@ -84,7 +84,7 @@ Description  : Ajoute un élément à la combobox spécifiée
 void ajouterElementComboBox(gtkComboBox *myCombo,char id[50],char text[50])
 {
     // Ajout de l'élément à la combobox en utilisant l'identifiant et le texte fournis
-    gtk_combo_box_text_prepend(GTK_COMBO_BOX_TEXT(myCombo->comboBox),id, text);
+    gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(myCombo->comboBox),id, text);
 }//Fin fonction ajouterElementComboBox()
 
 
