@@ -399,12 +399,10 @@ int main(int argc, char *argv[]){
         //Creer le box
         StyledBox *bx = init_styled_box(GTK_ORIENTATION_HORIZONTAL, TRUE,
                                         16, NULL,
-                                        "light-gray", "0", "3");
+                                        "light-gray", "0", "3", cord(10, 600), fixed->fixed_container);
         create_styled_box(bx);
         //Creer la liste des boutons radios
         liste_radios(labels, st, bx);
-        //Ajouter la liste(le box) au fixed
-        fixed_add_widget(fixed, bx->widget, 10, 600);
     }
     //////////////////////////////////liste des checks////////////////////
     {
@@ -415,13 +413,11 @@ int main(int argc, char *argv[]){
         //Creer le box
         StyledBox *bxc = init_styled_box(GTK_ORIENTATION_HORIZONTAL, TRUE,
                                          16, NULL,
-                                         "light-gray", "0", "3");
+                                         "light-gray", "0", "3",cord(10, 300), fixed->fixed_container);
         create_styled_box(bxc);
         //Creer la liste des boutons radios
         liste_checks(labelsc, stc, bxc);
 
-        //Ajouter la liste(le box) au fixed
-        fixed_add_widget(fixed, bxc->widget, 10, 300);
     }
     //Associer un label au liste radio
     Monlabel* l1 = creer_label(init_label("Vos connaissance de GTK!", "ti", *cord(10,550), *dim(0,0)));
@@ -445,22 +441,16 @@ int main(int argc, char *argv[]){
                             -1);
     appliquer_style_button(bst, bb);
     /////////////////////////////Text view/////////////////////////////
-    // Définition des coordonnées et des dimensions
-    coordonnees C = {100, 300};  // Exemple de coordonnées (x, y)
-    dimension D = {200, 300};   // Exemple de dimensions (largeur, hauteur)
-
 
     StyledBox* bbox = init_styled_box(GTK_ORIENTATION_HORIZONTAL,
-                                      TRUE, 15, "", "", "5", "1");
+                                      TRUE, 15, "", "", "5", "1", cord(100, 600), fixed->fixed_container);
     create_styled_box(bbox);
-    fixed_add_widget(fixed, bbox->widget, 110, 600);
     // Initialisation du TextView avec un texte, un titre, des coordonnées et des dimensions
     MonTextView *textview = init_textview(" exemple de texte dans le TextView.", "MonTextViewTitre",
                                           *cord(100, 500), *dim(300, 50), bbox->widget);
 
     // Création du widget GTK TextView à partir de l'objet MonTextView
     MonTextView *created_textview = creer_textview(textview);
-    //fixed_add_widget(fixed,created_textview->elem,C.x,C.y);
     ////////////////////////////////////////////////////////////////////////////////////////////////
    gtk_widget_show_all(maFenetre->window);
 

@@ -22,6 +22,8 @@ typedef struct {
     gchar *border_radius; // Rayon de bordure en CSS
     gchar *border; // Epaisseur de bordure en CSS
     GtkWidget *widget; // Le GtkBox lui-même
+    coordonnees* cord; //Position
+    GtkWidget* container;//Conteneur (fixed)
 } StyledBox;
 
 /**
@@ -51,13 +53,16 @@ StyledBox *allocate_styled_box() {
  * @param background_color Couleur de fond en CSS (peut être NULL).
  * @param border_radius Rayon de la bordure en CSS (peut être NULL).
  * @param border Epaisseur de la bordure en CSS (peut être NULL).
+ * @param cord Position du box (x et y)
+ * @param container Le conteneur (fixed)
  *
  * @return *box un pointeur vers le box initialisé
  */
 
 StyledBox *init_styled_box( GtkOrientation orientation, gboolean homogeneous, gint spacing,
                      const gchar *css_classes, const gchar *background_color,
-                     const gchar *border_radius, const gchar *border) {
+                     const gchar *border_radius, const gchar *border, coordonnees* cord,
+                     GtkWidget* container) {
     StyledBox* box = allocate_styled_box();
     box->orientation = orientation;
     box->homogeneous = homogeneous;
@@ -68,8 +73,9 @@ StyledBox *init_styled_box( GtkOrientation orientation, gboolean homogeneous, gi
     box->background_color = background_color ? g_strdup(background_color) : NULL;
     box->border_radius = border_radius ? g_strdup(border_radius) : NULL;
     box->border = border ? g_strdup(border) : NULL;
-
+    box->cord = cord ;
     box->widget = NULL; // Le widget sera créé dans une autre fonction
+    box->container = container;
 }
 
 
@@ -96,6 +102,11 @@ void create_styled_box(StyledBox *box) {
         gtk_style_context_add_class(context, box->css_classes);
     }
 
+    //Associé le box à un conteneur
+    if(GTK_IS_FIXED(box->container)){
+        gtk_fixed_put(GTK_FIXED(box->container), box->widget, box->cord->x, box->cord->y);
+    }
+    gtk_container_add(GTK_CONTAINER(box->container), box->widget);
     // Application des styles CSS si des valeurs sont fournies
     if (box->background_color || box->border_radius) {
         GtkCssProvider *provider = gtk_css_provider_new();
