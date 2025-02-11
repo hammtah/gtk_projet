@@ -13,12 +13,13 @@ typedef struct {
     gchar *titre;           // Titre du TextView (optionnel)
     coordonnees Crd;        // Coordonnées du TextView
     dimension dim;          // Dimensions du TextView
+    GtkWidget* container;//conteneur
 } MonTextView;
 
 
 
 // Fonction pour initialiser un TextView
-MonTextView *init_textview(const gchar *texte, const gchar *tit, coordonnees C, dimension D) {
+MonTextView *init_textview(const gchar *texte, const gchar *tit, coordonnees C, dimension D, GtkWidget* container) {
     if (!texte) {
         printf("Texte vide pour le TextView!\n");
         exit(-1);
@@ -53,6 +54,7 @@ MonTextView *init_textview(const gchar *texte, const gchar *tit, coordonnees C, 
     // Initialisation des coordonnées et dimensions
     T->Crd = C;
     T->dim = D;
+    if(container) T->container = container;
 
     return T;
 }
@@ -67,6 +69,11 @@ MonTextView *creer_textview(MonTextView *T) {
         gtk_widget_set_name(T->elem, T->titre);
     }
     gtk_widget_set_size_request(T->elem, T->dim.width, T->dim.height);
+
+    if(GTK_IS_FIXED(T->container)){
+        gtk_fixed_put(GTK_FIXED(T->container), T->elem, T->Crd.x, T->Crd.y);
+    }
+    gtk_container_add(GTK_CONTAINER(T->container), T->elem);
     return T;
 }
 

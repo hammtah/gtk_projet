@@ -98,11 +98,11 @@ fixed= init_fixed("principal",dim);
     dimension D = {200, 300};   // Exemple de dimensions (largeur, hauteur)
 
     // Initialisation du TextView avec un texte, un titre, des coordonnées et des dimensions
-    MonTextView *textview = init_textview(" exemple de texte dans le TextView.", "MonTextViewTitre", C, D);
+    ///MonTextView *textview = init_textview(" exemple de texte dans le TextView.", "MonTextViewTitre", C, D);
 
     // Création du widget GTK TextView à partir de l'objet MonTextView
-    MonTextView *created_textview = creer_textview(textview);
-    fixed_add_widget(fixed,created_textview->elem,C.x,C.y);
+    //MonTextView *created_textview = creer_textview(textview);
+    //fixed_add_widget(fixed,created_textview->elem,C.x,C.y);
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -444,6 +444,23 @@ int main(int argc, char *argv[]){
                             -1, -1, "ex_img.jpg", -1,
                             -1);
     appliquer_style_button(bst, bb);
+    /////////////////////////////Text view/////////////////////////////
+    // Définition des coordonnées et des dimensions
+    coordonnees C = {100, 300};  // Exemple de coordonnées (x, y)
+    dimension D = {200, 300};   // Exemple de dimensions (largeur, hauteur)
+
+
+    StyledBox* bbox = init_styled_box(GTK_ORIENTATION_HORIZONTAL,
+                                      TRUE, 15, "", "", "5", "1");
+    create_styled_box(bbox);
+    fixed_add_widget(fixed, bbox->widget, 110, 600);
+    // Initialisation du TextView avec un texte, un titre, des coordonnées et des dimensions
+    MonTextView *textview = init_textview(" exemple de texte dans le TextView.", "MonTextViewTitre",
+                                          *cord(100, 500), *dim(300, 50), bbox->widget);
+
+    // Création du widget GTK TextView à partir de l'objet MonTextView
+    MonTextView *created_textview = creer_textview(textview);
+    //fixed_add_widget(fixed,created_textview->elem,C.x,C.y);
     ////////////////////////////////////////////////////////////////////////////////////////////////
    gtk_widget_show_all(maFenetre->window);
 
