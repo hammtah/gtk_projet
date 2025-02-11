@@ -186,7 +186,7 @@ fixed= init_fixed("principal",dim);
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////---entry---///////////////////////////////////////////////////////////////////////
-
+/*
     // Initialiser les dimensions
     dimension dim_basic = { .width = 200, .height = 30 };
     dimension dim_password = { .width = 200, .height = 30 };
@@ -221,6 +221,8 @@ fixed= init_fixed("principal",dim);
     // Ajouter des classes CSS (facultatif)
     entry_set_css_class(basic_entry_widget, "basic-entry");
     entry_set_css_class(password_entry_widget, "password-entry");
+
+    */
 ////////////////////////////////////////////////////////////////////////////////////////
 
 //////////////////////////////////---progressBar--/////////////////////////////////////////
@@ -551,6 +553,51 @@ int main(int argc, char *argv[]){
             ajouterElementComboBox(cmois, snum, snum);
         }
     }*/
+
+    ///////////////////////////---entry---///////////////////////////////////////////////////////////////////////
+
+    // Initialiser les dimensions
+    dimension dim_basic = { .width = 200, .height = 30 };
+    dimension dim_password = { .width = 200, .height = 30 };
+
+    // Initialiser un entry_type_basic
+    entry_type_basic *basic_entry = Init_Entry_Basic(
+
+            &dim_basic,
+            TRUE,  // editable
+            TRUE,  // visible
+            "Entrez votre texte ici...",
+            50,    // longueur maximale
+            "Texte par défaut",
+            fixed->fixed_container,
+            cord(600, 200)
+    );
+
+    // Ajouter l'entrée basic au conteneur
+    GtkWidget *basic_entry_widget = creer_entry_basic(basic_entry);
+    //fixed_add_widget(fixed,basic_entry_widget,600,200);
+
+    // Initialiser un entry_type_password
+    entry_type_password *password_entry = Init_Entry_Password(
+
+            &dim_password,
+            "Mot de passe...",
+            '*',
+            fixed->fixed_container,
+            cord(600, 250)
+    );
+
+    // Ajouter l'entrée password au conteneur
+    GtkWidget *password_entry_widget = creer_entry_pass(password_entry);
+    //fixed_add_widget(fixed,password_entry_widget,600,250);
+
+    // Ajouter des classes CSS (facultatif)
+    entry_set_css_class(basic_entry_widget, "basic-entry");
+    entry_set_css_class(password_entry_widget, "password-entry");
+
+    //Submit button(work just for the last one)
+    g_signal_connect(bb->button, "clicked", G_CALLBACK(simule_entry_activation), basic_entry_widget);
+    g_signal_connect(bb->button, "clicked", G_CALLBACK(simule_entry_activation), password_entry_widget);
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
    gtk_widget_show_all(maFenetre->window);
