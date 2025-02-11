@@ -440,7 +440,9 @@ int main(int argc, char *argv[]){
     btn* bb = btnNormalFixed("nom", "label", "tooltip", fixed->fixed_container,
                              cord(100, 100), dim(50, 20), NULL);
     creer_button(bb);
-    Style* bst = init_style(NULL, NULL, -1, -1, "black", -1, -1);
+    Style* bst = init_style(NULL, hex_color_init("#ffff"),
+                            -1, -1, "ex_img.jpg", -1,
+                            -1);
     appliquer_style_button(bst, bb);
     ////////////////////////////////////////////////////////////////////////////////////////////////
    gtk_widget_show_all(maFenetre->window);

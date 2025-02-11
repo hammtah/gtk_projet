@@ -349,10 +349,23 @@ void regler_css(btn *b, Style* stl) {
     // Construct the dynamic CSS string
     //BAckground
     printf("#hello { background: %s;}", stl->bgcolor);
-    gchar *css = g_strdup_printf("#%s { background: %s; \
+    char* bgcolor = stl->bgcolor ? stl->bgcolor : "";
+    gchar *css ;
+    //Si le 'bgcolor' est une image(contient une extension) alors appliquer l'image comme background
+    if (strchr(bgcolor, '.')) {
+        css = g_strdup_printf("#%s { background: url('%s') no-repeat center center ; \
+                                        background-size: cover;\
                                         border: %dpx solid black; \
                                         border-radius: %dpx;}",
-                                        b->nom, stl->bgcolor, stl->border, stl->border_radius);
+                              b->nom, bgcolor, stl->border, stl->border_radius);
+    }
+        //Si le 'bgcolor' est une background color
+    else{
+        css = g_strdup_printf("#%s { background: %s ; \
+                                        border: %dpx solid black; \
+                                        border-radius: %dpx;}",
+                              b->nom, bgcolor, stl->border, stl->border_radius);
+    }
 
     // Load the CSS into the provider
     gtk_css_provider_load_from_data(provider, css, -1, NULL);
