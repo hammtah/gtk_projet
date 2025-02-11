@@ -90,37 +90,6 @@ fixed= init_fixed("principal",dim);
 
     fixed_add_widget(fixed,maFenetre->bgImg.Image,0,0);//Appliquer l'arriere plan
 
- //////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-///////////////////////////////---textview---///////////////////////////////////////////////////////////////
-    // Définition des coordonnées et des dimensions
-    coordonnees C = {100, 300};  // Exemple de coordonnées (x, y)
-    dimension D = {200, 300};   // Exemple de dimensions (largeur, hauteur)
-
-    // Initialisation du TextView avec un texte, un titre, des coordonnées et des dimensions
-    ///MonTextView *textview = init_textview(" exemple de texte dans le TextView.", "MonTextViewTitre", C, D);
-
-    // Création du widget GTK TextView à partir de l'objet MonTextView
-    //MonTextView *created_textview = creer_textview(textview);
-    //fixed_add_widget(fixed,created_textview->elem,C.x,C.y);
-
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/////////////////////////////////////---label---////////////////////////////////////////////////////////////:
-
-    // Définition des coordonnées et des dimensions
-    coordonnees C1 = {100, 100};  // Exemple de coordonnées (x, y)
-    dimension D1 = {200, 50};   // Exemple de dimensions (largeur, hauteur)
-
-    // Initialisation du label avec un texte, un titre, des coordonnées et des dimensions
-    //Monlabel *label = init_label("Ceci est un exemple de texte dans le Label.", "MonLabelTitre", C1, D1);
-
-    // Création du widget GTK Label à partir de l'objet Monlabel
-    //Monlabel *created_label = creer_label(label);
-    //fixed_add_widget(fixed,label->elem,C1.x,C1.y);
-
-
-
 
 
 
@@ -147,112 +116,35 @@ fixed= init_fixed("principal",dim);
     elementActive(combo, 0);
 
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-////////////////////////////////////---menu---///////////////////////////////////////////////////////
-/*
-// Créer une barre de menu
-    MenuBar *menu_bar = creer_menu_bar();
-
-    // Créer un menu "Fichier"
-    Menu *menu_fichier = creer_menu();
-    ajouter_element_au_menu(menu_fichier, "Ouvrir", G_CALLBACK(on_menu_item_activate));
-    ajouter_element_au_menu(menu_fichier, "Enregistrer", G_CALLBACK(on_menu_item_activate));
-
-    // Ajouter un sous-menu à "Options"
-    GtkWidget *sous_menu = creer_sous_menu();
-    GtkWidget *item_options = gtk_menu_item_new_with_label("Options");
-    gtk_menu_item_set_submenu(GTK_MENU_ITEM(item_options), sous_menu);
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu_fichier->menu), item_options);
-
-    ajouter_element_au_menu(menu_fichier, "Quitter", G_CALLBACK(gtk_main_quit));
-    ajouter_menu_a_barre(menu_bar, "Fichier", menu_fichier);
-
-    // Créer un menu "Edition"
-    Menu *menu_edition = creer_menu();
-    ajouter_element_au_menu(menu_edition, "Couper", G_CALLBACK(on_menu_item_activate));
-    ajouter_element_au_menu(menu_edition, "Copier", G_CALLBACK(on_menu_item_activate));
-    ajouter_element_au_menu(menu_edition, "Coller", G_CALLBACK(on_menu_item_activate));
-    ajouter_menu_a_barre(menu_bar, "Édition", menu_edition);
-
-    // Créer un menu "Aide"
-    Menu *menu_aide = creer_menu();
-    ajouter_element_au_menu(menu_aide, "À propos", G_CALLBACK(on_menu_item_activate));
-    ajouter_menu_a_barre(menu_bar, "Aide", menu_aide);
-    fixed_add_widget(fixed,menu_bar->menu_bar,500,0);
-    // Ajouter la barre de menu à la fenêtre
-
-*/
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-///////////////////////////---entry---///////////////////////////////////////////////////////////////////////
-/*
-    // Initialiser les dimensions
-    dimension dim_basic = { .width = 200, .height = 30 };
-    dimension dim_password = { .width = 200, .height = 30 };
-
-    // Initialiser un entry_type_basic
-    entry_type_basic *basic_entry = Init_Entry_Basic(
-
-            &dim_basic,
-            TRUE,  // editable
-            TRUE,  // visible
-            "Entrez votre texte ici...",
-            50,    // longueur maximale
-            "Texte par défaut"
-    );
-
-    // Ajouter l'entrée basic au conteneur
-    GtkWidget *basic_entry_widget = add_entry_basic(basic_entry);
-    fixed_add_widget(fixed,basic_entry_widget,600,200);
-
-    // Initialiser un entry_type_password
-    entry_type_password *password_entry = Init_Entry_Password(
-
-            &dim_password,
-            "Mot de passe...",
-            '*'
-    );
-
-    // Ajouter l'entrée password au conteneur
-    GtkWidget *password_entry_widget = add_entry_password(password_entry);
-    fixed_add_widget(fixed,password_entry_widget,600,250);
-
-    // Ajouter des classes CSS (facultatif)
-    entry_set_css_class(basic_entry_widget, "basic-entry");
-    entry_set_css_class(password_entry_widget, "password-entry");
-
-    */
-////////////////////////////////////////////////////////////////////////////////////////
-
 //////////////////////////////////---progressBar--/////////////////////////////////////////
-    // Initialiser les dimensions
-    dimension dim_pulse = { .width = 300, .height = 30 };
-    dimension dim_fraction = { .width = 300, .height = 30 };
+    {
+        // Initialiser les dimensions
+        dimension dim_pulse = {.width = 300, .height = 30};
+        dimension dim_fraction = {.width = 300, .height = 30};
 
-    // Créer une barre de progression de type pulsation
-    progress_bar_type_pulse *pbar_pulse = Init_ProgressBar_Type_Pulse(
-             &dim_pulse, TRUE, 'b', 100);
+        // Créer une barre de progression de type pulsation
+        progress_bar_type_pulse *pbar_pulse = Init_ProgressBar_Type_Pulse(
+                &dim_pulse, TRUE, 'b', 100);
 
-    GtkWidget *pulse_widget = add_progressbar_Tpulse(pbar_pulse);
-      // Position dans le conteneur fixed
-    fixed_add_widget(fixed,pulse_widget,500,900);
+        GtkWidget *pulse_widget = add_progressbar_Tpulse(pbar_pulse);
+        // Position dans le conteneur fixed
+        fixed_add_widget(fixed, pulse_widget, 500, 900);
 
 
-    // Créer une barre de progression fractionnée
+        // Créer une barre de progression fractionnée
 
-    progress_bar_type_fraction *pbar_fraction = Init_ProgressBar_Type_Fraction(
-             &dim_fraction, TRUE, 'r', 10.0);
-    // Simuler un téléchargement avec `DownloadProgress`
-    DownloadProgress *progress = g_malloc(sizeof(DownloadProgress));
-    progress->progress_bar = GTK_PROGRESS_BAR(pbar_fraction->pbar);
-    progress->total_size = 1024 * 100;  // 100 KB
-    progress->current_size = 0;
-    progress->is_active = TRUE;
+        progress_bar_type_fraction *pbar_fraction = Init_ProgressBar_Type_Fraction(
+                &dim_fraction, TRUE, 'r', 10.0);
+        // Simuler un téléchargement avec `DownloadProgress`
+        DownloadProgress *progress = g_malloc(sizeof(DownloadProgress));
+        progress->progress_bar = GTK_PROGRESS_BAR(pbar_fraction->pbar);
+        progress->total_size = 1024 * 100;  // 100 KB
+        progress->current_size = 0;
+        progress->is_active = TRUE;
 
-    GtkWidget *fraction_widget = add_progressbar_Tfraction(pbar_fraction, progress);
-    fixed_add_widget(fixed,fraction_widget,500,920);
-
+        GtkWidget *fraction_widget = add_progressbar_Tfraction(pbar_fraction, progress);
+        fixed_add_widget(fixed, fraction_widget, 500, 920);
+    }
 ////////////////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////---boite_Dialogue---///////////////////////////////////////
@@ -327,7 +219,7 @@ fixed= init_fixed("principal",dim);
 }
 
 
-int mainj(int argc, char *argv[]) {
+int mainx(int argc, char *argv[]) {
     // Initialisation de GTK
     gtk_init(&argc, &argv);
     FILE *file = fopen("desc.txt", "r");
@@ -380,6 +272,9 @@ int main(int argc, char *argv[]){
     // Création de la fenêtre
     create_window(maFenetre);
 
+    ajouterHeader(maFenetre,50,900,"Test des Fonctions GTK+",
+                  "ex_img.jpg",50,50);
+
 ///////////////////////////////////////---fixed---//////////////////////////////////////////////////////
 
     fixedo *fixed;
@@ -389,10 +284,6 @@ int main(int argc, char *argv[]){
     gtk_container_add(GTK_CONTAINER(maFenetre->window),fixed->fixed_container);
 
     fixed_add_widget(fixed,maFenetre->bgImg.Image,0,0);//Appliquer l'arriere plan
-
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 
     ////////////////////////////////////---menu---///////////////////////////////////////////////////////
     menu(fixed);
@@ -439,7 +330,7 @@ int main(int argc, char *argv[]){
                       "ex_img.jpg", "icon.png", *cord(0, 100),
                       fixed->fixed_container);
                       */
-    //////////////////////////////////Buton///////////////////////////////////////////////////////
+    //////////////////////////////////  Button ///////////////////////////////////////////////////////
     btn* bb = btnNormalFixed("nom", "label", "tooltip", fixed->fixed_container,
                              cord(100, 100), dim(50, 20), NULL);
     creer_button(bb);
@@ -521,84 +412,54 @@ int main(int argc, char *argv[]){
         elementActive(cjour, 1);
 
     }
-    //anne
-    {
-        StyledBox* mois = init_styled_box(GTK_ORIENTATION_VERTICAL, TRUE, 15, "",
-                                          "", "0", "0", cord(150, 150),
-                                          container->widget);
-        create_styled_box(mois);
-
-        creer_label(init_label("Anne", "Anne", NULL, NULL, mois->widget, "black", 1, "12", "Colspan"));
-
-        gtkComboBox *cjour = init_comboBox(*dim(20, 20), *cord(0, 0), "", mois->widget);
-        create_ComboBox(cjour);
-        for (int i = 2000; i < 2025; i++) {
-            char snum[2];
-            itoa(i, snum, 10);
-            ajouterElementComboBox(cjour, snum, snum);
-        }
-        elementActive(cjour, 1);
-
-    }
-    /*
-    StyledBox* mois = init_styled_box(GTK_ORIENTATION_HORIZONTAL, TRUE, 15, "",
-                                      "", "0", "0", cord(150, 150),
-                                      container->widget);
-    {
-        create_styled_box(mois);
-        gtkComboBox *cmois = init_comboBox(*dim(20, 20), *cord(0, 0), "", jour->widget);
-        for (int i = 0; i < 12; i++) {
-            char snum[2];
-            itoa(i, snum, 10);
-            ajouterElementComboBox(cmois, snum, snum);
-        }
-    }*/
 
     ///////////////////////////---entry---///////////////////////////////////////////////////////////////////////
 
-    // Initialiser les dimensions
-    dimension dim_basic = { .width = 200, .height = 30 };
-    dimension dim_password = { .width = 200, .height = 30 };
+    {
+        // Initialiser les dimensions
+        dimension dim_basic = {.width = 200, .height = 30};
+        dimension dim_password = {.width = 200, .height = 30};
 
-    // Initialiser un entry_type_basic
-    entry_type_basic *basic_entry = Init_Entry_Basic(
+        // Initialiser un entry_type_basic
+        entry_type_basic *basic_entry = Init_Entry_Basic(
 
-            &dim_basic,
-            TRUE,  // editable
-            TRUE,  // visible
-            "Entrez votre texte ici...",
-            50,    // longueur maximale
-            "Texte par défaut",
-            fixed->fixed_container,
-            cord(600, 200)
-    );
+                &dim_basic,
+                TRUE,  // editable
+                TRUE,  // visible
+                "Entrez votre texte ici...",
+                50,    // longueur maximale
+                "Texte par défaut",
+                fixed->fixed_container,
+                cord(600, 200)
+        );
 
-    // Ajouter l'entrée basic au conteneur
-    GtkWidget *basic_entry_widget = creer_entry_basic(basic_entry);
-    //fixed_add_widget(fixed,basic_entry_widget,600,200);
+        // Ajouter l'entrée basic au conteneur
+        GtkWidget *basic_entry_widget = creer_entry_basic(basic_entry);
+        //fixed_add_widget(fixed,basic_entry_widget,600,200);
 
-    // Initialiser un entry_type_password
-    entry_type_password *password_entry = Init_Entry_Password(
+        // Initialiser un entry_type_password
+        entry_type_password *password_entry = Init_Entry_Password(
 
-            &dim_password,
-            "Mot de passe...",
-            '*',
-            fixed->fixed_container,
-            cord(600, 250)
-    );
+                &dim_password,
+                "Mot de passe...",
+                '*',
+                fixed->fixed_container,
+                cord(600, 250)
+        );
 
-    // Ajouter l'entrée password au conteneur
-    GtkWidget *password_entry_widget = creer_entry_pass(password_entry);
-    //fixed_add_widget(fixed,password_entry_widget,600,250);
+        // Ajouter l'entrée password au conteneur
+        GtkWidget *password_entry_widget = creer_entry_pass(password_entry);
+        //fixed_add_widget(fixed,password_entry_widget,600,250);
 
-    // Ajouter des classes CSS (facultatif)
-    entry_set_css_class(basic_entry_widget, "basic-entry");
-    entry_set_css_class(password_entry_widget, "password-entry");
+        // Ajouter des classes CSS (facultatif)
+        entry_set_css_class(basic_entry_widget, "basic-entry");
+        entry_set_css_class(password_entry_widget, "password-entry");
 
-    //Submit button(work just for the last one)
-    g_signal_connect(bb->button, "clicked", G_CALLBACK(simule_entry_activation), basic_entry_widget);
-    g_signal_connect(bb->button, "clicked", G_CALLBACK(simule_entry_activation), password_entry_widget);
+        //Submit button(work just for the last one)
+        g_signal_connect(bb->button, "clicked", G_CALLBACK(simule_entry_activation), basic_entry_widget);
+        g_signal_connect(bb->button, "clicked", G_CALLBACK(simule_entry_activation), password_entry_widget);
 
+    }
     ///////////////////////////////////////////////////////////////////////////////////////////////
    gtk_widget_show_all(maFenetre->window);
 

@@ -91,4 +91,97 @@ void create_window(Mywindow *maFenetre)
     // Ajoute le widget d'image à la fenêtre
     //gtk_container_add(GTK_CONTAINER(maFenetre->window), background_image->image);
 }
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////
+GtkWidget* create_image_widget_from_file(const gchar *file_path)
+{
+    GdkPixbuf *pixbuf;
+    GtkWidget *image_widget;
+
+    // Charger l'image à partir du fichier spécifié
+    pixbuf = gdk_pixbuf_new_from_file(file_path, NULL);
+    if (!pixbuf) {
+        // Afficher une erreur si le chargement de l'image échoue
+        g_printerr("Erreur lors du chargement de l'image : %s\n", file_path);
+        return NULL;
+    }
+    // Créer un widget GtkImage à partir de l'image chargée
+    image_widget = gtk_image_new_from_pixbuf(pixbuf);
+    // Libérer la mémoire utilisée par le pixbuf, car le widget GtkImage le détient désormais
+    g_object_unref(pixbuf);
+    return image_widget;
+}//FIN fonction create_image_widget_from_file()
+void set_icon_size(GtkWidget *image_widget, int width, int height)
+{
+    GdkPixbuf *pixbuf = gtk_image_get_pixbuf(GTK_IMAGE(image_widget));
+    if (pixbuf != NULL)
+    {
+        GdkPixbuf *scaled_pixbuf = gdk_pixbuf_scale_simple(pixbuf, width, height, GDK_INTERP_BILINEAR);
+        gtk_image_set_from_pixbuf(GTK_IMAGE(image_widget), scaled_pixbuf);
+        g_object_unref(scaled_pixbuf);  // Free the scaled pixbuf after use
+    }
+}
+////////////////////////////////////////////////////////////////////////
+//------> fonction pour ajouter headerBar au fenêtre au lieur de header ordinaire
+////////////////////////////////////////////////////////////////////////
+
+/*************************************************************
+Nom          : ajouterHeader()
+Entrée       : window *maFenetre- Un pointeur vers la structure de fenêtre (window)
+              int headerHeight  - La hauteur souhaitée de la barre d'en-tête
+              char titre[60] - Le titre à afficher dans la barre d'en-tête
+              char icon[60] - Le chemin d'accès à l'icône
+              int iconWidth - La largeur de l'icône.
+              int iconHeight - La hauteur de l'icône.
+Sortie       : -
+Description  : cette fonction personnalise l'apparence de la fenêtre en
+ajoutant une barre d'en-tête
+*************************************************************/
+#include "includes_button.h"
+void ajouterHeader(Mywindow* maFenetre,int headerHeight,int headerWidth,char titre[60],char icon[60],int iconWidth,int iconHeight)
+{
+    GtkWidget *header_bar = gtk_header_bar_new();
+    gtk_widget_set_size_request(header_bar, headerWidth, headerHeight);
+    gtk_header_bar_set_title(GTK_HEADER_BAR(header_bar), titre);
+    gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (header_bar), TRUE);
+    // Création d'une icône pour la barre d'en-tête
+
+    if (strlen(maFenetre->icon_name) > 0 && strlen(icon) > 0) {
+        GtkWidget *icon_image = create_image_widget_from_file(icon);
+        set_icon_size(icon_image, iconWidth, iconHeight);
+        gtk_header_bar_pack_start(GTK_HEADER_BAR(header_bar), icon_image);
+    } else {
+        GdkPixbuf *empty_icon = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8, 1, 1);
+        gdk_pixbuf_fill(empty_icon, 0x00000000); // Fill the icon with transparency
+        GtkWidget *empty_icon_image = gtk_image_new_from_pixbuf(empty_icon);
+        gtk_header_bar_pack_start(GTK_HEADER_BAR(header_bar), empty_icon_image);
+        g_object_unref(empty_icon); // Free the memory allocated for the empty icon
+    }
+
+    //FIN
+    GtkWidget *box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+    gtk_style_context_add_class (gtk_widget_get_style_context (box), "linked");
+    GtkWidget *button1 = gtk_button_new ();
+    gtk_container_add (GTK_CONTAINER (button1), gtk_image_new_from_icon_name ("pan-start-symbolic", GTK_ICON_SIZE_BUTTON));
+    gtk_container_add (GTK_CONTAINER (box), button1);
+    GtkWidget *button2 = gtk_button_new ();
+    gtk_container_add (GTK_CONTAINER (button2), gtk_image_new_from_icon_name ("pan-end-symbolic", GTK_ICON_SIZE_BUTTON));
+    gtk_container_add (GTK_CONTAINER (box), button2);
+    gtk_header_bar_pack_start (GTK_HEADER_BAR (header_bar), box);
+    gtk_window_set_titlebar (GTK_WINDOW(maFenetre->window), header_bar);
+}//Fin Fonction ajouterHeader()
+
+////////////////////////////////////////////////////////////////////////
+//-------> ajouter button à header
+void ajouterButtonHeaderDebut(GtkWidget *header_bar,GtkWidget *button)
+{
+    gtk_header_bar_pack_start(GTK_HEADER_BAR(header_bar), button);
+}
+void ajouterButtonHeaderFin(GtkWidget *header_bar,GtkWidget *button)
+{
+    gtk_header_bar_pack_end(GTK_HEADER_BAR(header_bar), button);
+}
 #endif //PROJET_GTK_WINDOW_H
