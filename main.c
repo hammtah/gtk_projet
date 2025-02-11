@@ -432,10 +432,16 @@ int main(int argc, char *argv[]){
     fixed_add_widget(fixed, l2->elem, 10, 260);
 
     ////////////////////////Dialogue prédefinie//////////////////////////////
-    dialogue_template("HEllo", "im a message",
+    /*dialogue_template("HEllo", "im a message",
                       "ex_img.jpg", "icon.png", *cord(0, 100),
                       fixed->fixed_container);
-
+                      */
+    //////////////////////////////////Buton///////////////////////////////////////////////////////
+    btn* bb = btnNormalFixed("nom", "label", "tooltip", fixed->fixed_container,
+                             cord(100, 100), dim(50, 20), NULL);
+    creer_button(bb);
+    Style* bst = init_style(NULL, NULL, -1, -1, "black", -1, -1);
+    appliquer_style_button(bst, bb);
     ////////////////////////////////////////////////////////////////////////////////////////////////
    gtk_widget_show_all(maFenetre->window);
 
