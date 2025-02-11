@@ -13,13 +13,14 @@ typedef struct {
     GtkWidget *elem;       // Widget du label
     gchar *texte;          // Texte du label
     gchar *titre;          // Titre du label
-    coordonnees Crd;       // Coordonnées du label
-    dimension dim;         // Dimensions du label
+    coordonnees* Crd;       // Coordonnées du label
+    dimension* dim;         // Dimensions du label
+    GtkWidget* container;
 } Monlabel;
 
 
 // Fonction pour initialiser et allouer un label
-Monlabel *init_label(const gchar *texte, const gchar *tit, coordonnees C, dimension D) {
+Monlabel *init_label(const gchar *texte, const gchar *tit, coordonnees* C, dimension* D, GtkWidget* container) {
     if (!texte) {
         printf("Label vide!!!!!!\n");
         exit(-1);
@@ -54,6 +55,7 @@ Monlabel *init_label(const gchar *texte, const gchar *tit, coordonnees C, dimens
     // Initialisation des coordonnées et dimensions
     L->Crd = C;
     L->dim = D;
+    L->container = container;
 
     return L;
 }
@@ -64,7 +66,13 @@ Monlabel *creer_label(Monlabel *L) {
     if (L->titre) {
         gtk_widget_set_name(L->elem, L->titre);
     }
-    gtk_widget_set_size_request(L->elem, L->dim.width, L->dim.height);
+    if(L->dim)
+        gtk_widget_set_size_request(L->elem, L->dim->width, L->dim->height);
+
+    if(GTK_IS_FIXED(L->container)){
+        gtk_fixed_put(GTK_FIXED(L->container), L->elem, L->Crd->x, L->Crd->y);
+    }
+    gtk_container_add(GTK_CONTAINER(L->container), L->elem);
     return L;
 }
 

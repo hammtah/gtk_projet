@@ -113,11 +113,11 @@ fixed= init_fixed("principal",dim);
     dimension D1 = {200, 50};   // Exemple de dimensions (largeur, hauteur)
 
     // Initialisation du label avec un texte, un titre, des coordonnées et des dimensions
-    Monlabel *label = init_label("Ceci est un exemple de texte dans le Label.", "MonLabelTitre", C1, D1);
+    //Monlabel *label = init_label("Ceci est un exemple de texte dans le Label.", "MonLabelTitre", C1, D1);
 
     // Création du widget GTK Label à partir de l'objet Monlabel
-    Monlabel *created_label = creer_label(label);
-    fixed_add_widget(fixed,label->elem,C1.x,C1.y);
+    //Monlabel *created_label = creer_label(label);
+    //fixed_add_widget(fixed,label->elem,C1.x,C1.y);
 
 
 
@@ -425,12 +425,12 @@ int main(int argc, char *argv[]){
 
     }
     //Associer un label au liste radio
-    Monlabel* l1 = creer_label(init_label("Vos connaissance de GTK!", "ti", *cord(10,550), *dim(0,0)));
-    fixed_add_widget(fixed, l1->elem, 10, 560);
+    //Monlabel* l1 = creer_label(init_label("Vos connaissance de GTK!", "ti", *cord(10,550), *dim(0,0)));
+    //fixed_add_widget(fixed, l1->elem, 10, 560);
 
     //Associer un label au liste checks
-    Monlabel* l2 = creer_label(init_label("Vos commentaires sur GTK!", "ti", *cord(10,250), *dim(0,0)));
-    fixed_add_widget(fixed, l2->elem, 10, 260);
+    //Monlabel* l2 = creer_label(init_label("Vos commentaires sur GTK!", "ti", *cord(10,250), *dim(0,0)));
+    //fixed_add_widget(fixed, l2->elem, 10, 260);
 
     ////////////////////////Dialogue prédefinie//////////////////////////////
     /*dialogue_template("HEllo", "im a message",
@@ -473,6 +473,84 @@ int main(int argc, char *argv[]){
 
     // Définir l'élément actif (sélectionner l'option 1)
     elementActive(combo, 0);
+
+    //////////////////////////////Test////////////////////////////
+
+    StyledBox* container = init_styled_box(GTK_ORIENTATION_HORIZONTAL, TRUE, 30, "",
+                                      "", "5", "2", cord(150, 150),
+                                      fixed->fixed_container);
+    create_styled_box(container);
+
+    //JOurs
+    {
+        StyledBox* jour = init_styled_box(GTK_ORIENTATION_VERTICAL, TRUE, 15, "",
+                                          "", "0", "0", cord(150, 150),
+                                          container->widget);
+        create_styled_box(jour);
+
+        creer_label(init_label("Jours", "Jours", NULL, NULL, jour->widget));
+
+        gtkComboBox *cjour = init_comboBox(*dim(20, 20), *cord(0, 0), "", jour->widget);
+        create_ComboBox(cjour);
+        for (int i = 0; i < 31; i++) {
+            char snum[2];
+            itoa(i, snum, 10);
+            ajouterElementComboBox(cjour, snum, snum);
+        }
+        elementActive(cjour, 1);
+    }
+    //mois
+    {
+        StyledBox* mois = init_styled_box(GTK_ORIENTATION_VERTICAL, TRUE, 15, "",
+                                          "", "0", "0", cord(150, 150),
+                                          container->widget);
+        create_styled_box(mois);
+
+        creer_label(init_label("Mois", "Mois", NULL, NULL, mois->widget));
+
+        gtkComboBox *cjour = init_comboBox(*dim(20, 20), *cord(0, 0), "", mois->widget);
+        create_ComboBox(cjour);
+        for (int i = 0; i < 13; i++) {
+            char snum[2];
+            itoa(i, snum, 10);
+            ajouterElementComboBox(cjour, snum, snum);
+        }
+        elementActive(cjour, 1);
+
+    }
+    //anne
+    {
+        StyledBox* mois = init_styled_box(GTK_ORIENTATION_VERTICAL, TRUE, 15, "",
+                                          "", "0", "0", cord(150, 150),
+                                          container->widget);
+        create_styled_box(mois);
+
+        creer_label(init_label("Anne", "Anne", NULL, NULL, mois->widget));
+
+        gtkComboBox *cjour = init_comboBox(*dim(20, 20), *cord(0, 0), "", mois->widget);
+        create_ComboBox(cjour);
+        for (int i = 2000; i < 2025; i++) {
+            char snum[2];
+            itoa(i, snum, 10);
+            ajouterElementComboBox(cjour, snum, snum);
+        }
+        elementActive(cjour, 1);
+
+    }
+    /*
+    StyledBox* mois = init_styled_box(GTK_ORIENTATION_HORIZONTAL, TRUE, 15, "",
+                                      "", "0", "0", cord(150, 150),
+                                      container->widget);
+    {
+        create_styled_box(mois);
+        gtkComboBox *cmois = init_comboBox(*dim(20, 20), *cord(0, 0), "", jour->widget);
+        for (int i = 0; i < 12; i++) {
+            char snum[2];
+            itoa(i, snum, 10);
+            ajouterElementComboBox(cmois, snum, snum);
+        }
+    }*/
+
     ///////////////////////////////////////////////////////////////////////////////////////////////
    gtk_widget_show_all(maFenetre->window);
 
