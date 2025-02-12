@@ -596,6 +596,35 @@ int main(int argc, char *argv[]) {
     // Définir l'élément actif (sélectionner l'option 1)
     elementActive(combo, 0);
 
+
+
+    //////////////////////////////////liste des radios////////////////////
+    {
+        dimension diml = {10, 15}; // Largeur: 800px, Hauteur: 600px
+        coordonnees cordl = {0, 500}; // Position: x=200, y=100
+
+        dimension dimr = {100, 150}; // Largeur: 800px, Hauteur: 600px
+        coordonnees cordr = {0, 530}; // Position: x=200, y=100
+
+        creer_label(init_label("Utilisation de votre ordinateur", "Jourss",
+                               &cordl, &diml, fixed->fixed_container,
+                               "black", 1, "16", "Colspan"));
+
+        //Les labels des boutons
+        char *labels[256] = {"Très bonne", "Moyenne", "Faible",  NULL};
+        //Le style commun des boutons
+        Style *st = init_style("Colspan", hex_color_init("#000"), 8, 1, NULL, -1, -1);
+        //Creer le box
+        StyledBox *bx = init_styled_box(GTK_ORIENTATION_VERTICAL, TRUE,
+                                        16, NULL,
+                                        "", "0", "3",
+                                        &cordr, fixed->fixed_container);
+        create_styled_box(bx);
+        //Creer la liste des boutons radios
+        liste_radios(labels, st, bx);
+    }
+
+
     ///////////////////////////////////////////////////////////////////////////////////////////////
     gtk_widget_show_all(maFenetre->window);
 
