@@ -520,6 +520,21 @@ int main(int argc, char *argv[]) {
     //MENU
     menu(fixed);
 
+    //Liste radio
+    //////////////////////////////////liste des radios////////////////////
+    {
+        //Les labels des boutons
+        char *labels[256] = {"Très bonne", "Moyenne", "Faible",  NULL};
+        //Le style commun des boutons
+        Style *st = init_style("Colspan", hex_color_init("#000"), 8, 1, NULL, -1, -1);
+        //Creer le box
+        StyledBox *bx = init_styled_box(GTK_ORIENTATION_HORIZONTAL, TRUE,
+                                        16, NULL,
+                                        "", "0", "3", cord(10, 600), fixed->fixed_container);
+        create_styled_box(bx);
+        //Creer la liste des boutons radios
+        liste_radios(labels, st, bx);
+    }
 
 
     ///////////////////////////////////////////////////////////////////////////////////////////////

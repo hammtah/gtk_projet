@@ -467,6 +467,7 @@ void liste_radios(char* labels[256], Style* st, StyledBox* bx) {
     btn* pere = btnRadio(labels[0], labels[0], labels[0], bx->widget, margin(0, 0, 0, 0),
                         NULL, NULL);
     creer_button(pere);//Creer le pere
+
     //Ajouter le pere au box
     //gtk_box_pack_start(GTK_BOX(box), pere->button, TRUE, TRUE, 0);
 
@@ -482,6 +483,8 @@ void liste_radios(char* labels[256], Style* st, StyledBox* bx) {
         btn* b = btnRadio(i[j], i[j], i[j], bx->widget, margin(0, 0, 0, 0),
                              pere->button, NULL);
         creer_button(b);//Creer le pere
+        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(b->button), FALSE); // Select the radio button
+
         //appliquer le style au bouton
         if(st)
             appliquer_style_button(st, b);
@@ -489,6 +492,8 @@ void liste_radios(char* labels[256], Style* st, StyledBox* bx) {
         //gtk_box_pack_start(GTK_BOX(box), b->button, TRUE, TRUE, 0);
 
     }
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(pere->button), TRUE); // Select the radio button
+
 }
 
 
