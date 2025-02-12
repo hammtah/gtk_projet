@@ -235,8 +235,8 @@ int mainx(int argc, char *argv[]) {
 
 void open_dialog(GtkWidget* widget, gpointer data){
     fixedo* fix = (fixedo*) data;
-    dialogue_template("HEllo", "im a message",
-                      "ex_img.jpg", "icon.png", *cord(0, 100),
+    dialogue_template("Boite", "Voulez vous afficher une image",
+                      "ex_img.jpg", "icon.png", *cord(1200, 600),
                       fix->fixed_container);
 }
 
@@ -624,6 +624,33 @@ int main(int argc, char *argv[]) {
         liste_radios(labels, st, bx);
     }
 
+    //100 1500
+    //////////////////////////////////  Button ///////////////////////////////////////////////////////
+
+        btn *bb = btnNormalFixed("OK", "OK", "OK", fixed->fixed_container,
+                                 cord(1300, 850), dim(150, 50), NULL);
+        creer_button(bb);
+        g_signal_connect(bb->button, "clicked", G_CALLBACK(open_dialog), fixed->fixed_container);
+
+        Style *bst = init_style("Colspan", hex_color_init("#ffff"),
+                                8, -1, "ex_img.jpg", -1,
+                                -1);
+        appliquer_style_button(bst, bb);
+
+
+
+    //////////////////////////////////  Button ///////////////////////////////////////////////////////
+    {
+        btn *bb = btnNormalFixed("Quitter", "Quitter", "Quitter", fixed->fixed_container,
+                                 cord(1000, 850), dim(150, 50), NULL);
+        creer_button(bb);
+        g_signal_connect(bb->button, "clicked", gtk_main_quit, fixed->fixed_container);
+
+        Style *bst = init_style(NULL, hex_color_init("#1111"),
+                                -1, -1, "background.png", -1,
+                                -1);
+        appliquer_style_button(bst, bb);
+    }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
     gtk_widget_show_all(maFenetre->window);

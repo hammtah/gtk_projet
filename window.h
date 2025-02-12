@@ -84,7 +84,6 @@ void create_window(Mywindow *maFenetre)
     // Charge l'icône de la fenêtre à partir du chemin donné
     GdkPixbuf *icon= create_icon_from_file(maFenetre->icon_name);
 
-
     //appliquer l'icon
     gtk_window_set_icon(GTK_WINDOW(maFenetre->window), icon);
     MonImage *background_image = init_image(maFenetre->bgImg.path,maFenetre->dim,maFenetre->cord);

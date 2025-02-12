@@ -266,6 +266,8 @@ void dialog_response(GtkDialog *dialog, gint response_id, gpointer user_data) {
 
         case GTK_RESPONSE_CANCEL:
             g_print("\nAnnulation cliquée\n");
+            gtk_widget_destroy(GTK_WIDGET(dialog));
+
             // Traitement pour Annuler
             break;
 
@@ -281,7 +283,6 @@ void dialog_response(GtkDialog *dialog, gint response_id, gpointer user_data) {
     }
 
     // Fermer la boîte de dialogue
-    gtk_widget_destroy(GTK_WIDGET(dialog));
 
     // Si besoin, accéder aux données utilisateur
     //MyData *data = (MyData *)user_data;
@@ -321,9 +322,16 @@ void dialogue_template(char* titre, char* message, char* messageIcon, char* icon
     creer_boite_dialogue(boite);
 
     //Ajouter des boutons
-    GtkWidget *btnOk = gtk_button_new_with_label("Ok");
+    GtkWidget *btnOk = gtk_button_new_with_label("Oui");
     addActionWidget(boite, btnOk, GTK_RESPONSE_OK);
 
+    //Ajouter des boutons
+    GtkWidget *btnNon = gtk_button_new_with_label("Non");
+    addActionWidget(boite, btnNon, GTK_RESPONSE_NO);
+
+    //Ajouter des boutons
+    GtkWidget *btnAn = gtk_button_new_with_label("Annuler");
+    addActionWidget(boite, btnAn, GTK_RESPONSE_CANCEL);
     //Associer un signal au boite
     g_signal_connect(boite->dialog, "response", G_CALLBACK(dialog_response), NULL);
 
