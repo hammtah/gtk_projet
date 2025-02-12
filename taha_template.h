@@ -226,6 +226,6 @@ void menu(fixedo* fixed){
     // Ajouter la barre de menu à la fenêtre
 */
 
-    fixed_add_widget(fixed,menu_bar->menu_bar,500,0);
+    fixed_add_widget(fixed,menu_bar->menu_bar,0,0);
 
 }

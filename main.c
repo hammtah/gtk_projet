@@ -523,6 +523,16 @@ int main(int argc, char *argv[]) {
     //Liste radio
     //////////////////////////////////liste des radios////////////////////
     {
+        dimension diml = {10, 15}; // Largeur: 800px, Hauteur: 600px
+        coordonnees cordl = {0, 200}; // Position: x=200, y=100
+
+        dimension dimr = {100, 150}; // Largeur: 800px, Hauteur: 600px
+        coordonnees cordr = {0, 220}; // Position: x=200, y=100
+
+        creer_label(init_label("La qualité de votre oridinateur", "Jours",
+                               &cordl, &diml, fixed->fixed_container,
+                               "black", 1, "16", "Colspan"));
+
         //Les labels des boutons
         char *labels[256] = {"Très bonne", "Moyenne", "Faible",  NULL};
         //Le style commun des boutons
@@ -530,10 +540,39 @@ int main(int argc, char *argv[]) {
         //Creer le box
         StyledBox *bx = init_styled_box(GTK_ORIENTATION_HORIZONTAL, TRUE,
                                         16, NULL,
-                                        "", "0", "3", cord(10, 600), fixed->fixed_container);
+                                        "", "0", "3",
+                                        &cordr, fixed->fixed_container);
         create_styled_box(bx);
         //Creer la liste des boutons radios
         liste_radios(labels, st, bx);
+    }
+
+    //////////////////////////////////liste des checks////////////////////
+    {
+
+        dimension diml = {10, 10}; // Largeur: 800px, Hauteur: 600px
+        coordonnees cordl = {0, 400}; // Position: x=200, y=100
+
+        dimension dimr = {1000, 1500}; // Largeur: 800px, Hauteur: 600px
+        coordonnees cordr = {0, 420}; // Position: x=200, y=100
+
+        creer_label(init_label("Son ergonomie", "erognomie",
+                               &cordl, &diml, fixed->fixed_container,
+                               "black", 1, "16", "Colspan"));
+
+        //Les labels des boutons
+        char *labelsc[256] = {"Convival", "Ineressant", "Facile à utiliser", "Optimise le travail", NULL};
+        //Le style commun des boutons
+        Style *stc = init_style("Colspan", hex_color_init("#000"), 8, 1, NULL, -1, -1);
+        //Creer le box
+        StyledBox *bxc = init_styled_box(GTK_ORIENTATION_HORIZONTAL, TRUE,
+                                         16, NULL,
+                                         "", "0", "3",
+                                         &cordr, fixed->fixed_container);
+        create_styled_box(bxc);
+        //Creer la liste des boutons radios
+        liste_checks(labelsc, stc, bxc);
+
     }
 
 
