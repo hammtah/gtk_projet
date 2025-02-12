@@ -75,7 +75,7 @@ void menu(fixedo* fixed){
         }
 
         //Ajouter le menu au container
-        ajouter_menu_a_barre(menu_bar, "Mon choix", menu_fichier);
+        ajouter_menu_a_barre(menu_bar, "Ordianateur", menu_fichier);
     }
 
     //Creer un menu (Votre choix)
@@ -89,7 +89,7 @@ void menu(fixedo* fixed){
         //Ajouter un item au menu (Souschoix1)
         {
             GtkWidget *item_options = gtk_menu_item_new_with_label(
-                    "Souschoix1");//Cet item sera le parent d'un sous menu
+                    "Marque");//Cet item sera le parent d'un sous menu
             //Ajouter des items au sous menu ("Options")
             {
                 //Creer un sous menu
@@ -106,11 +106,11 @@ void menu(fixedo* fixed){
         //Ajouter un item au menu (Souschoix2)
         {
             GtkWidget *item_options = gtk_menu_item_new_with_label(
-                    "Souschoix2");//Cet item sera le parent d'un sous menu
+                    "Puissance");//Cet item sera le parent d'un sous menu
             //Ajouter des items au sous menu ("Options")
             {
                 //Creer un sous menu
-                char *options[256] = {"choix221", "choix222", "choix223", NULL};
+                char *options[256] = {"Processor", "Vitesse", "Dique Dur", NULL};
                 GtkWidget *sous_menu = creer_sous_menu(options);
                 //Maintenant le sous menu va etre afficher si on hover sur "Options"
                 gtk_menu_item_set_submenu(GTK_MENU_ITEM(item_options), sous_menu);
@@ -123,7 +123,7 @@ void menu(fixedo* fixed){
         //Ajouter un item au menu (Souschoix3)
         {
             GtkWidget *item_options = gtk_menu_item_new_with_label(
-                    "Souschoix3");//Cet item sera le parent d'un sous menu
+                    "Prix");//Cet item sera le parent d'un sous menu
             //Ajouter des items au sous menu ("Options")
             {
                 //Creer un sous menu
@@ -138,7 +138,7 @@ void menu(fixedo* fixed){
         }
 
         //Ajouter le menu au container
-        ajouter_menu_a_barre(menu_bar, "Votre choix", menu_fichier);
+        ajouter_menu_a_barre(menu_bar, "Portable", menu_fichier);
     }
 
     //Creer un menu (Leur choix)
@@ -198,7 +198,7 @@ void menu(fixedo* fixed){
         }
 
         //Ajouter le menu au container
-        ajouter_menu_a_barre(menu_bar, "Votre choix", menu_fichier);
+        ajouter_menu_a_barre(menu_bar, "Ecouteur", menu_fichier);
     }
 
     /*

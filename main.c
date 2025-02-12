@@ -240,7 +240,7 @@ void open_dialog(GtkWidget* widget, gpointer data){
                       fix->fixed_container);
 }
 
-int main(int argc, char *argv[]){
+int mainf(int argc, char *argv[]){
     // Initialisation de GTK
     gtk_init(&argc, &argv);
 ////////////////////////////////---création de window---///////////////////////////////////////////////
@@ -462,6 +462,68 @@ int main(int argc, char *argv[]){
     }
     ///////////////////////////////////////////////////////////////////////////////////////////////
    gtk_widget_show_all(maFenetre->window);
+
+    // Boucle principale GTK
+    gtk_main();
+
+    // Libération des ressources
+    return 0;
+}
+
+int main(int argc, char *argv[]) {
+    // Initialisation de GTK
+    gtk_init(&argc, &argv);
+////////////////////////////////---création de window---///////////////////////////////////////////////
+    // Dimensions et coordonnées de la fenêtre
+    dimension dim = {1000, 1500}; // Largeur: 800px, Hauteur: 600px
+    coordonnees cord = {200, 100}; // Position: x=200, y=100
+
+    // Couleur de fond
+    HexColor *bg_color = hex_color_init("#FFC0CB"); // Couleur rose
+
+    // Image de fond
+    MonImage bg_img = {
+            .path = "background.png", // Remplacez par le chemin de votre image
+            .dim = dim,
+            .cord = cord
+    };
+
+    // Initialisation de la fenêtre
+    Mywindow *maFenetre = init_window("Presentation Ordianteur", "icon.png",
+                                      dim,                       // Dimensions
+                                      0,                        // Bordure
+                                      FALSE,                      // Redimensionnable
+                                      GTK_WIN_POS_CENTER,        // Position: Centrée
+                                      cord,                      // Coordonnées
+                                      *bg_color,                 // Couleur de fond
+                                      bg_img                     // Image de fond
+    );
+
+    // Création de la fenêtre
+    create_window(maFenetre);
+
+    ajouterHeader(maFenetre, 50, 900, "Presentation Ordianteur",
+                  "ex_img.jpg", 50, 50);
+
+///////////////////////////////////////---fixed---//////////////////////////////////////////////////////
+
+    fixedo *fixed;
+    fixed = init_fixed("principal", dim);
+    creer_fixed(fixed);
+
+    gtk_container_add(GTK_CONTAINER(maFenetre->window), fixed->fixed_container);
+
+    fixed_add_widget(fixed, maFenetre->bgImg.Image, 0, 0);//Appliquer l'arriere plan
+
+    ///////////////////////////////////////Exam/////////////////////////////////////
+
+    //MENU
+    menu(fixed);
+
+
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    gtk_widget_show_all(maFenetre->window);
 
     // Boucle principale GTK
     gtk_main();
