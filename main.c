@@ -575,6 +575,26 @@ int main(int argc, char *argv[]) {
 
     }
 
+    ///////////////////////////////////////Combobox///////////////////////////////////////////////
+    // Initialiser la structure gtkComboBox
+    creer_label(init_label("Liste deroulante", "Jours",
+                           cord(1200, 200), dim(0,0), fixed->fixed_container,
+                           "black", 1, "16", "Colspan"));
+
+    gtkComboBox *combo = init_comboBox(*dim(300, 30), *cord(1200, 230),
+                                       "monComboBox", fixed->fixed_container);
+
+    // Créer la ComboBox avec la fonction create_ComboBox
+    create_ComboBox(combo);
+
+    // Ajouter des éléments à la ComboBox
+    ajouterElementComboBox(combo, "1", "HP");
+    ajouterElementComboBox(combo, "2", "DELL");
+    ajouterElementComboBox(combo, "3", "ASUS");
+    ajouterElementComboBox(combo, "4", "ACER");
+
+    // Définir l'élément actif (sélectionner l'option 1)
+    elementActive(combo, 0);
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
     gtk_widget_show_all(maFenetre->window);
