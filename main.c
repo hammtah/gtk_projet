@@ -219,10 +219,10 @@ fixed= init_fixed("principal",dim);
 }
 
 
-int mainx(int argc, char *argv[]) {
+int main(int argc, char *argv[]) {
     // Initialisation de GTK
     gtk_init(&argc, &argv);
-    FILE *file = fopen("desc.txt", "r");
+    FILE *file = fopen("tt.html", "r");
     if (!file) {
         printf("ERREUR d'ouverture du fichier !!");
         return -1;
@@ -470,7 +470,7 @@ int mainf(int argc, char *argv[]){
     return 0;
 }
 
-int main(int argc, char *argv[]) {
+int maine(int argc, char *argv[]) {
     // Initialisation de GTK
     gtk_init(&argc, &argv);
 ////////////////////////////////---création de window---///////////////////////////////////////////////

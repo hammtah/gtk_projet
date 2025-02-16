@@ -5,6 +5,7 @@
 #ifndef TEST1_LABEL_H
 #define TEST1_LABEL_H
 #include "global.h"
+#include "xml_utility.h"
 
 
 
@@ -115,6 +116,79 @@ Monlabel *creer_label(Monlabel *L) {
 }
 
 
+void label_xml(FILE *file, int parent)
+{
+    //Variables pour initier le bouton
+    char color1[MAX], color2[MAX],boxEmplacement;
+    gchar *expand_gchar,*fill_gchar;
+    gint type_bg = -1; // 0:pour simple background ; 1:pour simple background modern;
+    int test, hasMnemonic;
+    char x[10], y[10];
+    char width[MAX], height[MAX];
+    gchar *bgColor_gchar, *icon_gchar;
+    char title[MAX], icon[MAX], bgcolor[MAX], taille[MAX], border[MAX],
+            color[MAX], police[MAX], gras[MAX],border_radius[MAX];
+    icon[0] = '\0';
+    char car;
+
+    // Si la balise est une propriété ou un style
+    while ((test = balise(file)) == 22)
+    {
+        char mot[MAX], taille[MAX];
+        int ind = 0;
+        Epeurerblanc(file);
+        fseek(file, 6, SEEK_CUR);
+        fscanf(file, "%s", mot);
+            // Récupération du texte du label
+            if (!(strcmp("text\"", mot)))
+            {
+                lire_gchar_str_with_deplacement(file,title,10);
+            }
+                // Récupération de la position x
+            else if (!(strcmp("x\"", mot))) {
+                lire_gchar_str_with_deplacement(file, x, 10);
+            }
+                // Récupération de la position y du label
+            else if (!(strcmp("y\"", mot))) {
+                lire_gchar_str_with_deplacement(file, y, 10);
+            }
+                // Récupération de la largeur du bouton
+            else if (!(strcmp("width\"", mot))) {
+                lire_gchar_str_with_deplacement(file, width, 10);
+            }
+                // Récupération de la hauteur du bouton
+            else if (!(strcmp("height\"", mot))) {
+                lire_gchar_str_with_deplacement(file, height, 10);
+            }
+
+        if (!(strcmp("color\"", mot))) {
+            lire_gchar_str_with_deplacement(file, color, 10);
+        }
+        else if (!(strcmp("police\"", mot))) {
+            lire_gchar_str_with_deplacement(file, police, 10);
+        }
+        else if (!(strcmp("taille\"", mot))) {
+            lire_gchar_str_with_deplacement(file, taille, 10);
+        }
+        else if (!(strcmp("gras\"", mot))) {
+            lire_gchar_str_with_deplacement(file, gras, 10);
+
+        }
+
+    }
+
+    // Si la balise est fermante
+
+
+    // Créer le label
+    //Creer le style
+    Monlabel* label = init_label(title, title, cord(atoi(x), atoi(y)), dim(atoi(width), atoi(height)),
+            parents[parent],color, atoi(gras), taille, police);
+    //Creer le bouton
+    creer_label(label);
+    // Créer d'autres objets à partir du fichier XML
+    creer_object(file, parent);
+}
 
 
 

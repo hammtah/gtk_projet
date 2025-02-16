@@ -18,7 +18,8 @@ void button_xml(FILE *file, int parent);
 void checkbox_xml(FILE *file, int parent) ;
 void BoiteDialog_xml(FILE *file,int parent);
 void radioList_xml(FILE *file, int  parent) ;
-btn* radio_xml(FILE *file, GtkWidget* groupe, Style** st) ;
+void label_xml(FILE *file, int parent);
+
 //tableau global qui contient les widgets parents
 //0: window, 2:fixed, 4:menu_parent
 GtkWidget *parents[5]={NULL,NULL,NULL,NULL,NULL};
@@ -232,6 +233,8 @@ void creer_object(FILE *file,int parent)
         case 2: button_xml(file,parent);break;
         case 3:checkbox_xml(file, parent);break;
         case 12: BoiteDialog_xml(file,parent);break;
+        case 5:label_xml(file,parent);break;
+
         /*
         case 4:radio_xml(file, );break;
         case 5:label_xml(file,parent);break;

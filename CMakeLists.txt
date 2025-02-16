@@ -40,6 +40,7 @@ add_executable(xml_taha main.c
         radio_xml.h
         test.c
         taha_template.h
-        box.h)
+        box.h
+        xml_equipe.h)
 
 target_link_libraries(xml_taha ${GTK3_LIBRARIES})
