@@ -19,6 +19,7 @@ void checkbox_xml(FILE *file, int parent) ;
 void BoiteDialog_xml(FILE *file,int parent);
 void radioList_xml(FILE *file, int  parent) ;
 void label_xml(FILE *file, int parent);
+void entry_xml(FILE *file,int parent);
 
 //tableau global qui contient les widgets parents
 //0: window, 2:fixed, 4:menu_parent
@@ -234,16 +235,14 @@ void creer_object(FILE *file,int parent)
         case 3:checkbox_xml(file, parent);break;
         case 12: BoiteDialog_xml(file,parent);break;
         case 5:label_xml(file,parent);break;
+        case 21: entry_xml(file,parent);break;
 
         /*
-        case 4:radio_xml(file, );break;
-        case 5:label_xml(file,parent);break;
         case 6:TextView_xml(file, parent);break;
         case 12: BoiteDialog_xml(file,parent);break;
         case 13: menu_barre_xml(file,parent);break;
         case 17: box_xml(file,parent);break;
         case 20: comboBox_xml(file,parent);break;
-        case 21: entry_xml(file,parent);break;
         case 30:calender_xml(file,parent);break;
          */
         case 31:radioList_xml(file,parent);break;
@@ -251,7 +250,6 @@ void creer_object(FILE *file,int parent)
         case 32:filechooser_xml(file,parent);break;
         case 33:image_xml(file,parent);break;
         case 34:spin_xml(file,parent);break;
-        case 36:checkboxList_xml(file,parent);break;
          */
         default:printf("pas de children");break;
     }

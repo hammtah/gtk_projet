@@ -6,6 +6,8 @@
 #define TEST1_ENTRY_H
 
 #include "global.h"
+#include "xml_utility.h"
+
 typedef struct {
 
     GtkWidget *entry;
@@ -181,6 +183,62 @@ void entry_set_css_class(GtkWidget *entry, const gchar *class_name) {
 }
 
 
+void entry_xml(FILE *file,int parent)
+{
+    char x[10],y[10], type[10], is_editable[2],is_visible[2],
+     width[10], height[10], max[10];
+    char placeholder[256],default_text[256];
+
+    while((balise(file))==22) {
+        char mot[MAX];
+        int ind = 0;
+        Epeurerblanc(file);
+        fseek(file, 6, SEEK_CUR);
+        fscanf(file, "%s", mot);
+
+        if (!(strcmp("type\"", mot))) {
+            lire_gchar_str_with_deplacement(file, type, 10);
+        }
+        //recuperation du text par defaut
+        if (!(strcmp("placeholder\"", mot))) {
+            lire_gchar_str_with_deplacement(file, placeholder, 10);
+        }
+       else if (!(strcmp("visible\"", mot))) {
+            lire_gchar_str_with_deplacement(file, is_visible, 10);
+        }
+        else if (!(strcmp("editable\"", mot))) {
+            lire_gchar_str_with_deplacement(file, is_editable, 10);
+        }
+        else if (!(strcmp("x\"", mot))) {
+            lire_gchar_str_with_deplacement(file, x, 10);
+        } else if (!(strcmp("y\"", mot))) {
+            lire_gchar_str_with_deplacement(file, y, 10);
+        } else if (!(strcmp("width\"", mot))) {
+            lire_gchar_str_with_deplacement(file, width, 10);
+        } else if (!(strcmp("height\"", mot)))
+        {
+            lire_gchar_str_with_deplacement(file, height, 10);
+        } else if (!(strcmp("max\"", mot))) { //max caractéres
+            lire_gchar_str_with_deplacement(file, max, 10);
+        } else if (!(strcmp("default_text\"", mot))) { //default_text
+            lire_gchar_str_with_deplacement(file, default_text, 10);
+        }
+
+    }
+    if(!strcmp(type, "basic")){
+        entry_type_basic* eb = Init_Entry_Basic(dim(atoi(width), atoi(height)), atoi(is_editable),
+                                            atoi(is_visible), placeholder, atoi(max), default_text,
+                                            parents[parent], cord(atoi(x), atoi(y)));
+        creer_entry_basic(eb);
+    }
+    else if(!strcmp(type, "pass")){
+        entry_type_password* ep = Init_Entry_Password(dim(atoi(width), atoi(height)), placeholder,
+                                                      '*',parents[parent],
+                                                      cord(atoi(x), atoi(y)));
+        creer_entry_pass(ep);
+    }
+    creer_object(file,parent);
+}
 
 
 
