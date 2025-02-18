@@ -162,7 +162,7 @@ btn* radio_xml(FILE *file, GtkWidget* groupe, Style** st) {
     printf("\n!Voici mes info: text: %s, mnemonic: %s, checked: %s!\n", text, mnemonic, checked);
 
     //Creer l'objet btn
-    btn* bra = btnRadio(text, text_, text, NULL, margin(24, 24, 24, 24),
+    btn* bra = btnRadio(text, text_, text, NULL, margin(0, 0, 0, 0),
                     groupe, NULL);
     //Retourner le bouton
     return (btn*)bra;

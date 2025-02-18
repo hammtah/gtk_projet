@@ -23,6 +23,7 @@ typedef struct {
     gchar *border; // Epaisseur de bordure en CSS
     GtkWidget *widget; // Le GtkBox lui-même
     coordonnees* cord; //Position
+    dimension* dim;
     GtkWidget* container;//Conteneur (fixed)
 } StyledBox;
 
@@ -54,6 +55,7 @@ StyledBox *allocate_styled_box() {
  * @param border_radius Rayon de la bordure en CSS (peut être NULL).
  * @param border Epaisseur de la bordure en CSS (peut être NULL).
  * @param cord Position du box (x et y)
+ * @param dim Dimension (width et height)
  * @param container Le conteneur (fixed)
  *
  * @return *box un pointeur vers le box initialisé
@@ -61,7 +63,7 @@ StyledBox *allocate_styled_box() {
 
 StyledBox *init_styled_box( GtkOrientation orientation, gboolean homogeneous, gint spacing,
                      const gchar *css_classes, const gchar *background_color,
-                     const gchar *border_radius, const gchar *border, coordonnees* cord,
+                     const gchar *border_radius, const gchar *border, coordonnees* cord, dimension* dim,
                      GtkWidget* container) {
     StyledBox* box = allocate_styled_box();
     box->orientation = orientation;
@@ -74,6 +76,7 @@ StyledBox *init_styled_box( GtkOrientation orientation, gboolean homogeneous, gi
     box->border_radius = border_radius ? g_strdup(border_radius) : NULL;
     box->border = border ? g_strdup(border) : NULL;
     box->cord = cord ;
+    box->dim = dim;
     box->widget = NULL; // Le widget sera créé dans une autre fonction
     box->container = container;
 }
@@ -94,6 +97,7 @@ void create_styled_box(StyledBox *box) {
     box->widget = gtk_box_new(box->orientation, box->spacing);
     gtk_box_set_homogeneous(GTK_BOX(box->widget), box->homogeneous);
 
+
     // Récupération du contexte de style
     GtkStyleContext *context = gtk_widget_get_style_context(box->widget);
 
@@ -107,6 +111,11 @@ void create_styled_box(StyledBox *box) {
         gtk_fixed_put(GTK_FIXED(box->container), box->widget, box->cord->x, box->cord->y);
     }
     gtk_container_add(GTK_CONTAINER(box->container), box->widget);
+
+    //Ajuster la dimension
+    gtk_widget_set_size_request(GTK_WIDGET(box->widget),box->dim->width,box->dim->height);
+
+
     // Application des styles CSS si des valeurs sont fournies
     if (box->background_color || box->border_radius) {
         GtkCssProvider *provider = gtk_css_provider_new();
@@ -185,6 +194,14 @@ void box_xml(FILE *file,int parent)
         {
             lire_gchar_str_with_deplacement(file, y, 10);
         }
+            // Récupération de la largeur du box
+        else if (!(strcmp("width\"", mot))) {
+            lire_gchar_str_with_deplacement(file, width, 10);
+        }
+            // Récupération de la hauteur du box
+        else if (!(strcmp("height\"", mot))) {
+            lire_gchar_str_with_deplacement(file, height, 10);
+        }
         else if (!(strcmp("border\"", mot)))
         {
             lire_gchar_str_with_deplacement(file, border, 10);
@@ -198,7 +215,8 @@ void box_xml(FILE *file,int parent)
     //Creer le box et le mettre dans le conteneur fixed
     StyledBox* b = init_styled_box(orientation, homogeneous, atoi(spacing),
                                    NULL, bgColor,border_radius, border,
-                                   cord(atoi(x), atoi(y)), parents[parent]);
+                                   cord(atoi(x), atoi(y)),
+                                   dim(atoi(width), atoi(height)),parents[parent]);
     create_styled_box(b);
     //le mettre dans fixed
     //gtk_fixed_put(GTK_FIXED(parents[parent]),MonBox->box,cord.xw,cord.yh);

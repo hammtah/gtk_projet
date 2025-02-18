@@ -236,10 +236,12 @@ btn* creer_button(btn* mybtn)
         gtk_fixed_put(GTK_FIXED(mybtn->container), mybtn->button, mybtn->pos->x, mybtn->pos->y);
     }
     //Ajuster les margins du bouton
+
     gtk_widget_set_margin_start(mybtn->button, mybtn->margin->mleft);
     gtk_widget_set_margin_end(mybtn->button, mybtn->margin->mright);
     gtk_widget_set_margin_top(mybtn->button, mybtn->margin->mtop);
     gtk_widget_set_margin_bottom(mybtn->button, mybtn->margin->mbottom);
+    printf("\nMargins: %d %d %d %d", mybtn->margin->mleft,mybtn->margin->mright,mybtn->margin->mtop,mybtn->margin->mbottom);
     //Activer ou désactiver la sensibilitée
     gtk_widget_set_sensitive(mybtn->button, mybtn->isSensitive);
     // Donner le focus au bouton

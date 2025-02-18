@@ -297,7 +297,7 @@ int mainf(int argc, char *argv[]){
         //Creer le box
         StyledBox *bx = init_styled_box(GTK_ORIENTATION_HORIZONTAL, TRUE,
                                         16, NULL,
-                                        "light-gray", "0", "3", cord(10, 600), fixed->fixed_container);
+                                        "light-gray", "0", "3", cord(10, 600),dim(20, 20), fixed->fixed_container);
         create_styled_box(bx);
         //Creer la liste des boutons radios
         liste_radios(labels, st, bx);
@@ -311,7 +311,7 @@ int mainf(int argc, char *argv[]){
         //Creer le box
         StyledBox *bxc = init_styled_box(GTK_ORIENTATION_HORIZONTAL, TRUE,
                                          16, NULL,
-                                         "light-gray", "0", "3",cord(10, 300), fixed->fixed_container);
+                                         "light-gray", "0", "3",cord(10, 300), dim(20, 20),fixed->fixed_container);
         create_styled_box(bxc);
         //Creer la liste des boutons radios
         liste_checks(labelsc, stc, bxc);
@@ -343,7 +343,7 @@ int mainf(int argc, char *argv[]){
     /////////////////////////////Text view/////////////////////////////
 
     StyledBox* bbox = init_styled_box(GTK_ORIENTATION_HORIZONTAL,
-                                      TRUE, 15, "", "", "5", "1", cord(100, 600), fixed->fixed_container);
+                                      TRUE, 15, "", "", "5", "1", cord(100, 600), dim(20, 20),fixed->fixed_container);
     create_styled_box(bbox);
     // Initialisation du TextView avec un texte, un titre, des coordonnées et des dimensions
     MonTextView *textview = init_textview(" exemple de texte dans le TextView.", "MonTextViewTitre",
@@ -371,14 +371,14 @@ int mainf(int argc, char *argv[]){
 
     StyledBox* container = init_styled_box(GTK_ORIENTATION_HORIZONTAL, TRUE, 30, "",
                                       "", "5", "2", cord(150, 150),
-                                      fixed->fixed_container);
+                                           dim(20, 20),fixed->fixed_container);
     create_styled_box(container);
 
     //JOurs
     {
         StyledBox* jour = init_styled_box(GTK_ORIENTATION_VERTICAL, TRUE, 0, "",
                                           "", "0", "0", cord(150, 150),
-                                          container->widget);
+                                          dim(20, 20),container->widget);
         create_styled_box(jour);
 
         creer_label(init_label("Jours", "Jours", NULL, NULL, jour->widget, "red", 1, "16", "Colspan"));
@@ -397,7 +397,7 @@ int mainf(int argc, char *argv[]){
     {
         StyledBox* mois = init_styled_box(GTK_ORIENTATION_VERTICAL, TRUE, 15, "",
                                           "", "0", "0", cord(150, 150),
-                                          container->widget);
+                                          dim(20, 20),container->widget);
         create_styled_box(mois);
 
         creer_label(init_label("Mois", "Mois", NULL, NULL, mois->widget, "black", 1, "12", "Colspan"));
@@ -541,7 +541,7 @@ int maine(int argc, char *argv[]) {
         StyledBox *bx = init_styled_box(GTK_ORIENTATION_HORIZONTAL, TRUE,
                                         16, NULL,
                                         "", "0", "3",
-                                        &cordr, fixed->fixed_container);
+                                        &cordr, dim(20, 20),fixed->fixed_container);
         create_styled_box(bx);
         //Creer la liste des boutons radios
         liste_radios(labels, st, bx);
@@ -568,7 +568,7 @@ int maine(int argc, char *argv[]) {
         StyledBox *bxc = init_styled_box(GTK_ORIENTATION_HORIZONTAL, TRUE,
                                          16, NULL,
                                          "", "0", "3",
-                                         &cordr, fixed->fixed_container);
+                                         &cordr, dim(20, 20),fixed->fixed_container);
         create_styled_box(bxc);
         //Creer la liste des boutons radios
         liste_checks(labelsc, stc, bxc);
@@ -618,7 +618,7 @@ int maine(int argc, char *argv[]) {
         StyledBox *bx = init_styled_box(GTK_ORIENTATION_VERTICAL, TRUE,
                                         16, NULL,
                                         "", "0", "3",
-                                        &cordr, fixed->fixed_container);
+                                        &cordr, dim(20, 20),fixed->fixed_container);
         create_styled_box(bx);
         //Creer la liste des boutons radios
         liste_radios(labels, st, bx);

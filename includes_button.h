@@ -22,7 +22,7 @@
 //Macro pour un spin qui comporte des entiers naturels, elle a comme borne sup: 100 et borne inf: -100
 #define spinObj(start, step)  createSpinObj(start, -100, 100, step, 0)
 //Les valeurs par défaults
-#define DEFAULT_BTN_DIM dim(32, 16) //La dimension par défaut d'un bouton
+#define DEFAULT_BTN_DIM dim(8, 8) //La dimension par défaut d'un bouton
 #define DEFAULT_BTN_POS cord(0, 0) //La position par défaut d'un bouton
 #define DEFAULT_BTN_MARGIN margin(0,0,0,0);//La margine par défaut d'un bouton
 /*******IMAGE**********/

@@ -120,7 +120,7 @@ btn* init_checkbox_xml(FILE *file, int parent){
     }
         //Si le parent n'est pas fixed
     else{
-        mybtn = btnCheck(title, title, title, margin(atoi(x), atoi(y),atoi(x), atoi(y)),
+        mybtn = btnCheck(title, title, title, margin(0,0,0,0),
                               parents[parent],isChecked,ima
         );
     }
