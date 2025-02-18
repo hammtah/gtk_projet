@@ -348,8 +348,7 @@
 				25,
 				26,
 				28,
-				29,
-				30
+				29
 			]
 		}
 	],
@@ -505,11 +504,6 @@
 		{
 			"backtrace" : 1,
 			"path" : "box.h",
-			"sourceGroupIndex" : 1
-		},
-		{
-			"backtrace" : 1,
-			"path" : "xml_equipe.h",
 			"sourceGroupIndex" : 1
 		}
 	],

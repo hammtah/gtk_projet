@@ -128,4 +128,88 @@ void create_styled_box(StyledBox *box) {
 }
 
 
+//Xml things
+void box_xml(FILE *file,int parent)
+{
+    char border_radius[MAX], border[MAX],  cord[MAX];
+    char homogeneous,spacing[MAX],x[MAX],y[MAX],bgColor[MAX], width[MAX], height[MAX];
+    int orientation;
+    int test;
+    //si on trouve property balise retourne 22
+    while((test=balise(file))==22)
+    {
+        char mot[MAX];
+        int ind=0;
+        Epeurerblanc(file);
+        fseek(file, 6, SEEK_CUR);
+        fscanf(file, "%s", mot);
+
+        //recuperation du l'orientation de box
+        // 0 pour horizontal et 1 pour vertical
+        if (!(strcmp("orientation\"", mot)))
+        {
+            orientation = char_TO_int(lire_gchar(file));
+            printf("orientation: %d", orientation);
+        }
+        if (!(strcmp("spacing\"", mot)))
+        {
+            lire_gchar_str_with_deplacement(file, spacing, 10);
+        }
+            //recuperation de width
+        else if (!(strcmp("width\"", mot)))
+        {
+            lire_gchar_str_with_deplacement(file, width, 10);
+        }
+            //recuperation de height
+        else if (!(strcmp("height\"", mot)))
+        {
+            lire_gchar_str_with_deplacement(file, height, 10);
+        }
+            //recuperation de l'homogeneté
+        else if (!(strcmp("homogene\"", mot)))
+        {
+            homogeneous = char_TO_int(lire_gchar(file));
+        }
+            //recuperation de couleur de fond
+        else if (!(strcmp("bgColor\"", mot)))
+        {
+            lire_gchar_str_with_deplacement(file, bgColor, 10);
+        }
+            //recuperation de couleur de fond
+        else if (!(strcmp("x\"", mot)))
+        {
+            lire_gchar_str_with_deplacement(file, x, 10);
+        }
+            //recuperation de couleur de fond
+        else if (!(strcmp("y\"", mot)))
+        {
+            lire_gchar_str_with_deplacement(file, y, 10);
+        }
+        else if (!(strcmp("border\"", mot)))
+        {
+            lire_gchar_str_with_deplacement(file, border, 10);
+        }
+        else if (!(strcmp("border_radius\"", mot)))
+        {
+            lire_gchar_str_with_deplacement(file, border_radius, 10);
+        }
+    }
+    //creation
+    //Creer le box et le mettre dans le conteneur fixed
+    StyledBox* b = init_styled_box(orientation, homogeneous, atoi(spacing),
+                                   NULL, bgColor,border_radius, border,
+                                   cord(atoi(x), atoi(y)), parents[parent]);
+    create_styled_box(b);
+    //le mettre dans fixed
+    //gtk_fixed_put(GTK_FIXED(parents[parent]),MonBox->box,cord.xw,cord.yh);
+    //si child balise retourne 23
+    if((test==23))
+    {
+        parents[3]=b->widget;
+        creer_object(file,3);
+    }
+
+}
+
+
 #endif //XML_TAHA_BOX_H

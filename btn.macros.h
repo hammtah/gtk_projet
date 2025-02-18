@@ -26,24 +26,24 @@
 /***********************RADIO************************/
 #define btnRadio(nom, label, tooltip, container, margin, groupeMember, img) \
                                 initBtn(RADIO, nom, label,TRUE, tooltip,img, \
-                                NULL, FALSE, NULL, margin, \
+                                dim(5,5), FALSE, NULL, margin, \
                                 TRUE, container, groupeMember,GTK_ALIGN_START,1, TRUE, NULL)
 
 #define btnRadioFixed(nom, label, tooltip, container, pos, groupeMember, img) \
                                 initBtn(RADIO, nom, label,TRUE, tooltip,img, \
-                                NULL, TRUE, pos, NULL, \
+                                dim(5,5), TRUE, pos, NULL, \
                                 TRUE, container, groupeMember,GTK_ALIGN_START,1, TRUE, NULL)
 
 /***********************CHECKBOXES************************/
 #define btnCheck(nom, label, tooltip, margin, container, isChecked, img) \
                                 initBtn(CHECKBOX, nom, label,TRUE, tooltip,img, \
-                                NULL, FALSE, NULL, margin, \
+                                dim(5,5), FALSE, NULL, margin, \
                                 TRUE, container, NULL,GTK_ALIGN_START,1, isChecked, NULL)
 
 
 #define btnCheckFixed(nom, label, tooltip, pos, container, isChecked, img) \
                                 initBtn(CHECKBOX, nom, label,TRUE, tooltip,img, \
-                                NULL, TRUE, pos, NULL, \
+                                dim(5,5), TRUE, pos, NULL, \
                                 TRUE, container, NULL,GTK_ALIGN_START,1, isChecked, NULL)
 
 /***********************TOGGLE************************/
