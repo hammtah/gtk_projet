@@ -240,14 +240,13 @@ void creer_object(FILE *file,int parent)
         case 21: entry_xml(file,parent);break;
         case 6:TextView_xml(file, parent);break;
         case 17: box_xml(file,parent);break;
+        case 31:radioList_xml(file,parent);break;
 
         /*
         case 13: menu_barre_xml(file,parent);break;
-        case 17: box_xml(file,parent);break;
         case 20: comboBox_xml(file,parent);break;
         case 30:calender_xml(file,parent);break;
          */
-        case 31:radioList_xml(file,parent);break;
         /*
         case 32:filechooser_xml(file,parent);break;
         case 33:image_xml(file,parent);break;
