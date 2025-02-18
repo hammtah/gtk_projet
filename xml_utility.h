@@ -20,6 +20,7 @@ void BoiteDialog_xml(FILE *file,int parent);
 void radioList_xml(FILE *file, int  parent) ;
 void label_xml(FILE *file, int parent);
 void entry_xml(FILE *file,int parent);
+void TextView_xml(FILE *file, int parent);
 
 //tableau global qui contient les widgets parents
 //0: window, 2:fixed, 4:menu_parent
@@ -236,10 +237,9 @@ void creer_object(FILE *file,int parent)
         case 12: BoiteDialog_xml(file,parent);break;
         case 5:label_xml(file,parent);break;
         case 21: entry_xml(file,parent);break;
+        case 6:TextView_xml(file, parent);break;
 
         /*
-        case 6:TextView_xml(file, parent);break;
-        case 12: BoiteDialog_xml(file,parent);break;
         case 13: menu_barre_xml(file,parent);break;
         case 17: box_xml(file,parent);break;
         case 20: comboBox_xml(file,parent);break;

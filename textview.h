@@ -78,6 +78,55 @@ MonTextView *creer_textview(MonTextView *T) {
 }
 
 
+void TextView_xml(FILE *file, int  parent)
+{
+    char text[MAX], height[MAX], width[MAX], bgColor[MAX], icon[MAX];
+    char x[10], y[10];
+    char car;
+    //const gchar *texte, const gchar *tit, coordonnees C, dimension D, GtkWidget* container
+    // Si on trouve une balise "property", on continue la lecture
+    while ((balise(file)) == 22 )
+    {
+        char mot[MAX];
+        int ind = 0;
+        Epeurerblanc(file);
+        fseek(file, 6, SEEK_CUR);
+        fscanf(file, "%s", mot);
+        // Récupération du texte à afficher dans le TextView
+        if (!(strcmp("text\"", mot)))
+        {
+            lire_gchar_str_with_deplacement(file,text,10);
+        }
+            // Récupération du buffer du TextView
+            // Récupération de la position en X
+        else if (!(strcmp("x\"", mot)))
+        {
+            lire_gchar_str_with_deplacement(file,x,10);
+        }
+            // Récupération de la position en Y
+        else if (!(strcmp("y\"", mot)))
+        {
+            lire_gchar_str_with_deplacement(file,y,10);
+        }
+            // Récupération de la largeur
+        else if (!(strcmp("width\"", mot)))
+        {
+            lire_gchar_str_with_deplacement(file,width,10);
+        }
+            // Récupération de la hauteur
+        else if (!(strcmp("height\"", mot)))
+        {
+            lire_gchar_str_with_deplacement(file,height,10);
+        }
+    }
+
+    MonTextView* tt = init_textview(text, text, *cord(atoi(x), atoi(y)),
+                                    *dim(atoi(width), atoi(height)), parents[parent]);
+
+    creer_textview(tt);
+    // Appeler récursivement la fonction pour traiter d'autres éléments
+    creer_object(file, parent);
+}
 
 
 
