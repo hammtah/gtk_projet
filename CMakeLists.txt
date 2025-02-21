@@ -41,6 +41,7 @@ add_executable(xml_taha main.c
         test.c
         taha_template.h
         box.h
+        projet_utility.h
 )
 
 target_link_libraries(xml_taha ${GTK3_LIBRARIES})

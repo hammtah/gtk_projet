@@ -7,6 +7,9 @@
 #include "global.h"
 #include "coordonnees.h"
 
+GtkWidget* inputTexte(char* label, coordonnees* cord, GtkWidget* container);
+GtkWidget* inputCheck(char* label, coordonnees* cord, GtkWidget* container);
+GtkWidget* inputCombo(char* label, coordonnees* cord, GtkWidget* container,char* items[256]);
 /*********MACROS**********/
 //Définir un macro qui crée une boite de dialogue qui se positionne selon une position
 // de l'enumeration: GtkWindowPosition
@@ -258,6 +261,9 @@ void free_boite_dialog(boite_dialog* bg) {
 
 //Traiter les réponses provenants du boite de dialogue
 void dialog_response(GtkDialog *dialog, gint response_id, gpointer user_data) {
+    GtkWidget* combo = (GtkWidget*) user_data;
+    const gchar *combo_text = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(combo));
+    g_print("Entry: %s\n", combo_text);
     switch (response_id) {
         case GTK_RESPONSE_OK:
             g_print("\nOK cliqué\n");
@@ -295,29 +301,35 @@ void dialogue_template(char* titre, char* message, char* messageIcon, char* icon
     boite_dialog *boite = NULL;
 
 // Le conteneur des widgets formant le contenue du dialogue (content area)
-    GtkWidget *contentArea = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 50);  // Espacement de 10 pixels
+    GtkWidget *contentArea = gtk_box_new(GTK_ORIENTATION_VERTICAL, 50);  // Espacement de 10 pixels
 // Ajoute 20 pixels de padding autour du contenu de la boîte(faire semblant que le box est centré)
-    gtk_container_set_border_width(GTK_CONTAINER(contentArea), 50);
+    //gtk_container_set_border_width(GTK_CONTAINER(contentArea), 50);
 //Image
-    MonImage *ima = init_image(messageIcon, *dim(48, 48), *cord(32, 32));
-    creer_image(ima);
+    //MonImage *ima = init_image(messageIcon, *dim(48, 48), *cord(32, 32));
+    //creer_image(ima);
 //Ajouter l'image au conteneur (contentArea)
-    gtk_box_pack_start(GTK_BOX(contentArea), ima->Image, TRUE, TRUE, 0);
+    //gtk_box_pack_start(GTK_BOX(contentArea), ima->Image, TRUE, TRUE, 0);
 //Label
     GtkWidget *content_label = gtk_label_new(message);
 //Ajouter le label(message) au conteneur (contentArea)
     gtk_box_pack_start(GTK_BOX(contentArea), content_label, TRUE, TRUE, 0);
 
+    //Test
+    GtkWidget* input = inputTexte("Texte", cord(100, 100), contentArea);
+    GtkWidget* btn = inputCheck("isChecked", cord(100, 100), contentArea);
+    char* options[] = {"Colspan", "System", "Sans Serif", "Inter"};
+    GtkWidget* combo = inputCombo("Fonts", cord(100, 100), contentArea, options);
+
 
 //Creer le box
-    boite = DIALOG_XY(
+    boite = DIALOG(
             contentArea,//Contenu(un widget)
             titre,//titre
-            dim(200, 100),//dimension
+            dim(500, 300),//dimension
             icon, // Pas d'icône pour cet exemple
             parent,//Parent(conteneur)
             TRUE,//modal ou pas
-            cord(c.x, c.y)//Position
+            GTK_WIN_POS_CENTER//Position
     );
     creer_boite_dialogue(boite);
 
@@ -326,14 +338,10 @@ void dialogue_template(char* titre, char* message, char* messageIcon, char* icon
     addActionWidget(boite, btnOk, GTK_RESPONSE_OK);
 
     //Ajouter des boutons
-    GtkWidget *btnNon = gtk_button_new_with_label("Non");
-    addActionWidget(boite, btnNon, GTK_RESPONSE_NO);
-
-    //Ajouter des boutons
     GtkWidget *btnAn = gtk_button_new_with_label("Annuler");
     addActionWidget(boite, btnAn, GTK_RESPONSE_CANCEL);
     //Associer un signal au boite
-    g_signal_connect(boite->dialog, "response", G_CALLBACK(dialog_response), NULL);
+    g_signal_connect(boite->dialog, "response", G_CALLBACK(dialog_response), combo);
 
 }
 
