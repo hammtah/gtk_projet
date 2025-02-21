@@ -1,0 +1,290 @@
+<window>
+    <property name="title">mafenasasdtre</property>
+    <property name="width">900</property>
+    <property name="height">900</property>
+    <property name="resizable">1</property>
+    <property name="border">5</property>
+    <property name="position">c</property>
+    <property name="x">1</property>
+    <property name="y">1</property>
+    <property name="bgColor">pink</property>
+    <property name="icon">icon.png</property>
+    <property name="headerBar">1</property>
+    <property name="bgImage">background.png</property>
+    <child>
+
+        <fixed>
+
+            <children>
+                <label>
+                    <property name="text_label">Bienvenue dans xml !!!!</property>
+                    <property name="mnemonic">0</property>
+                    <property name="x">160</property>
+                    <property name="y">700</property>
+                    <property name="width">100</property>
+                    <property name="height">100</property>
+                    <labelstyle name="police">Arial</labelstyle>
+                    <labelstyle name="color">black</labelstyle>
+                    <labelstyle name="taille">10</labelstyle>
+                    <labelstyle name="gras">0</labelstyle>
+                </label>
+
+                <image>
+                    <property name="file_path">icon.png</property>
+                    <property name="x">10</property>
+                    <property name="y">10</property>
+                    <property name="width">50</property>
+                    <property name="height">50</property>
+                </image>
+                <box>
+                    <property name="orientation">h</property>
+                    <property name="space_child">50</property>
+                    <property name="width">100</property>
+                    <property name="height">50</property>
+                    <property name="homogene">1</property>
+                    <property name="bgColor">pink</property>
+                    <property name="x">0</property>
+                    <property name="y">0</property>
+                    <child>
+                        <menubarre>
+                            <property name="orientation">h</property>
+                            <menu>
+                                <property name="title">MonChoix</property>
+                                <property name="has_accel">1</property>
+                                <property name="has_submenu">0</property>
+
+                            </menu>
+
+                            <menu>
+                                <property name="label">VotreChoix</property>
+                                <property name="has_submenu">1</property>
+                                <submenu>
+                                    <menuitem>
+                                    <property name="label">Sous Choix1</property>
+                                    <property name="has_submenu">0</property>
+                                    <property name="has_accel">0</property>
+                                    </menuitem>
+                                    <menuitem>
+                                    <property name="label">Sous Choix2</property>
+                                    <property name="has_submenu">1</property>
+                                    <property name="has_accel">0</property>
+                                    <submenu>
+                                        <menuitem>
+                                        <property name="label">Choix221</property>
+                                        <property name="has_submenu">0</property>
+                                        <property name="has_accel">0</property>
+                                        </menuitem>
+                                        <menuitem>
+                                        <property name="label">Choix222</property>
+                                        <property name="has_submenu">0</property>
+                                        <property name="has_accel">0</property>
+
+                                        </menuitem>
+                                        <menuitem>
+                                        <property name="label">Choix223</property>
+                                        <property name="has_submenu">0</property>
+                                        <property name="has_accel">0</property>
+                                        </menuitem>
+                                    </submenu>
+
+                                    </menuitem>
+                                    <menuitem>
+                                    <property name="label">Sous Choix3</property>
+                                    <property name="has_submenu">0</property>
+                                    <property name="has_accel">0</property>
+                                    </menuitem>
+                                </submenu>
+                            </menu>
+                            <menu>
+                                <property name="label">LeurChoix</property>
+                                <property name="has_submenu">0</property>
+
+                            </menu>
+                        </menubarre>
+                    </child>
+                </box>
+                <button>
+                    <property name="text">hello</property>
+                    <property name="icon">icon.png</property>
+                    <property name="mnemonic">1</property>
+                    <property name="x">10</property>
+                    <property name="y">50</property>
+                    <property name="width">100</property>
+                    <property name="height">10</property>
+                    <buttonstyle name="police">Arial</buttonstyle>
+                    <buttonstyle name="color">white</buttonstyle>
+                    <buttonstyle name="taille">8</buttonstyle>
+                    <buttonstyle name="gras">1</buttonstyle>
+                    <buttonstyle name="modern_bgcolor">pink,blue</buttonstyle>
+                </button>
+                <checkbox>
+                    <property name="text_ckeckbox">checkbox</property>
+                    <property name="mnemonic">1</property>
+                    <property name="checked">0</property>
+                    <property name="x">0</property>
+                    <property name="y">100</property>
+                    <property name="width">50</property>
+                    <property name="height">60</property>
+                    <checkboxstyle name="police">Arial</checkboxstyle>
+                    <checkboxstyle name="color">black</checkboxstyle>
+                    <checkboxstyle name="taille">10</checkboxstyle>
+                    <checkboxstyle name="gras">1</checkboxstyle>
+                </checkbox>
+
+
+
+
+                <checkboxList>
+                    <checkbox>
+                        <property name="text_ckeckbox">1er check</property>
+                        <property name="mnemonic">1</property>
+                        <property name="checked">0</property>
+                        <property name="x">300</property>
+                        <property name="y">500</property>
+                        <property name="width">50</property>
+                        <property name="height">60</property>
+                        <checkboxstyle name="police">Arial</checkboxstyle>
+                        <checkboxstyle name="color">black</checkboxstyle>
+                        <checkboxstyle name="taille">10</checkboxstyle>
+                        <checkboxstyle name="gras">1</checkboxstyle>
+                    </checkbox>
+                    <checkbox>
+                        <property name="text_ckeckbox">2eme check</property>
+                        <property name="mnemonic">1</property>
+                        <property name="checked">0</property>
+                        <property name="x">0</property>
+                        <property name="y">100</property>
+                        <property name="width">50</property>
+                        <property name="height">60</property>
+                        <checkboxstyle name="police">Arial</checkboxstyle>
+                        <checkboxstyle name="color">black</checkboxstyle>
+                        <checkboxstyle name="taille">10</checkboxstyle>
+                        <checkboxstyle name="gras">1</checkboxstyle>
+                    </checkbox>
+                    <checkbox>
+                        <property name="text_ckeckbox">3eme check</property>
+                        <property name="mnemonic">1</property>
+                        <property name="checked">0</property>
+                        <property name="x">0</property>
+                        <property name="y">100</property>
+                        <property name="width">50</property>
+                        <property name="height">60</property>
+                        <checkboxstyle name="police">Arial</checkboxstyle>
+                        <checkboxstyle name="color">black</checkboxstyle>
+                        <checkboxstyle name="taille">10</checkboxstyle>
+                        <checkboxstyle name="gras">1</checkboxstyle>
+                    </checkbox>
+                </checkboxList>
+
+                <button>
+                    <property name="text">ok</property>
+                    <property name="icon">icon.png</property>
+                    <property name="mnemonic">1</property>
+                    <property name="x">0</property>
+                    <property name="y">210</property>
+                    <property name="width">100</property>
+                    <property name="height">10</property>
+                    <buttonstyle name="police">Arial</buttonstyle>
+                    <buttonstyle name="color">white</buttonstyle>
+                    <buttonstyle name="taille">8</buttonstyle>
+                    <buttonstyle name="gras">1</buttonstyle>
+                    <buttonstyle name="modern_bgcolor">#e9b7ce,#d3f3f1</buttonstyle>
+                </button>
+
+
+                <TextView>
+                    <property name="textview_text">hello</property>
+                    <property name="buffer">le texte initiale</property>
+                    <property name="x">500</property>
+                    <property name="y">80</property>
+                    <property name="width">170</property>
+                    <property name="height">170</property>
+                </TextView>
+
+
+
+                <comboBox>
+                    <property name="width">230</property>
+                    <property name="height">40</property>
+                    <property name="active">0</property>
+                    <property name="class"></property>
+                    <property name="x">650</property>
+                    <property name="y">10</property>
+                    <items>
+                        <item name="3">option 3</item>
+                        <item name="2">option 2</item>
+                        <item name="1">option 1</item>
+                        <item name="0">option 0</item>
+                    </items>
+                </comboBox>
+                <entry>
+                    <property name="placeholder">nom</property>
+                    <property name="icon">icon.png</property>
+                    <property name="visibility">1</property>
+                    <property name="carReplacement">-</property>
+                    <property name="alignement">0</property>
+                    <property name="x">300</property>
+                    <property name="y">380</property>
+                    <property name="width">250</property>
+                    <property name="height">40</property>
+                    <property name="maxCaracteres">50</property>
+                    <property name="setFrame">1</property>
+                </entry>
+                <checkboxList>
+                    <checkbox>
+                        <property name="text_ckeckbox">1er check</property>
+                        <property name="mnemonic">1</property>
+                        <property name="checked">0</property>
+                        <property name="x">300</property>
+                        <property name="y">500</property>
+                        <property name="width">50</property>
+                        <property name="height">60</property>
+                        <checkboxstyle name="police">Arial</checkboxstyle>
+                        <checkboxstyle name="color">black</checkboxstyle>
+                        <checkboxstyle name="taille">10</checkboxstyle>
+                        <checkboxstyle name="gras">1</checkboxstyle>
+                    </checkbox>
+                    <checkbox>
+                        <property name="text_ckeckbox">2eme check</property>
+                        <property name="mnemonic">1</property>
+                        <property name="checked">0</property>
+                        <property name="x">0</property>
+                        <property name="y">100</property>
+                        <property name="width">50</property>
+                        <property name="height">60</property>
+                        <checkboxstyle name="police">Arial</checkboxstyle>
+                        <checkboxstyle name="color">black</checkboxstyle>
+                        <checkboxstyle name="taille">10</checkboxstyle>
+                        <checkboxstyle name="gras">1</checkboxstyle>
+                    </checkbox>
+                    <checkbox>
+                        <property name="text_ckeckbox">3eme check</property>
+                        <property name="mnemonic">1</property>
+                        <property name="checked">0</property>
+                        <property name="x">0</property>
+                        <property name="y">100</property>
+                        <property name="width">50</property>
+                        <property name="height">60</property>
+                        <checkboxstyle name="police">Arial</checkboxstyle>
+                        <checkboxstyle name="color">black</checkboxstyle>
+                        <checkboxstyle name="taille">10</checkboxstyle>
+                        <checkboxstyle name="gras">1</checkboxstyle>
+                    </checkbox>
+                </checkboxList>
+
+
+
+
+                <ProgressBar>
+
+                    <property name="width">500</property>
+                    <property name="height">440</property>
+                    <property name="type">f</property>
+                    <property name="fraction">0.5</property>
+                    <property name="active">1</property>
+                </ProgressBar>
+                <login_form></login_form>
+            </children>
+        </fixed>
+    </child>
+</window>
