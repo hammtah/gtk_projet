@@ -19,7 +19,7 @@ GtkWidget* inputTexte(char* label, coordonnees* cord, GtkWidget* container){
     //Creer le box
     StyledBox *bxc = init_styled_box(GTK_ORIENTATION_HORIZONTAL, TRUE,
                                      16, NULL,
-                                     "", "0", "3",
+                                     "", "10", "2",
                                      cord, dim(20, 30),container);
     create_styled_box(bxc);
 
@@ -59,7 +59,7 @@ GtkWidget* inputCheck(char* label, coordonnees* cord, GtkWidget* container){
     //Creer le box
     StyledBox *bxc = init_styled_box(GTK_ORIENTATION_HORIZONTAL, TRUE,
                                      16, NULL,
-                                     "", "0", "3",
+                                     "", "0", "2",
                                      cord, dim(20, 30),container);
     create_styled_box(bxc);
 
@@ -91,7 +91,7 @@ GtkWidget* inputCombo(char* label, coordonnees* cord, GtkWidget* container,char*
     //Creer le box
     StyledBox *bxc = init_styled_box(GTK_ORIENTATION_HORIZONTAL, TRUE,
                                      16, NULL,
-                                     "", "0", "3",
+                                     "", "10", "2",
                                      cord, dim(20, 30),container);
     create_styled_box(bxc);
 

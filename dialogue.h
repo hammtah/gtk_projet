@@ -10,6 +10,37 @@
 GtkWidget* inputTexte(char* label, coordonnees* cord, GtkWidget* container);
 GtkWidget* inputCheck(char* label, coordonnees* cord, GtkWidget* container);
 GtkWidget* inputCombo(char* label, coordonnees* cord, GtkWidget* container,char* items[256]);
+//Structure regroupant les widgets contenus dans un dialogue de creation de bouton
+//nom, label, tooltip, container, margin, dim, img
+typedef struct {
+    GtkWidget* label;
+    GtkWidget* hasMnemonic;
+    GtkWidget* img;
+    GtkWidget* dimX;
+    GtkWidget* dimY;
+    GtkWidget* posX;
+    GtkWidget* posY;
+    //GtkWidget* margin;
+    GtkWidget* isSensitive;
+    GtkWidget* align;
+    GtkWidget* opacity;
+    GtkWidget* container;
+    GtkWidget* color;
+    GtkWidget*  police;
+    GtkWidget*  taille;
+    GtkWidget*  gras;
+    GtkWidget*  border;
+    GtkWidget*  border_radius;
+} DialogWidgets_btn;
+
+DialogWidgets_btn* creerDialogWidgets(){
+    DialogWidgets_btn* data = (DialogWidgets_btn*) malloc(sizeof(DialogWidgets_btn));
+    if(!data){
+        perror("Erreur d'allocation de DialogWidgets");
+        exit(-1);
+    }
+    return data;
+}
 /*********MACROS**********/
 //Définir un macro qui crée une boite de dialogue qui se positionne selon une position
 // de l'enumeration: GtkWindowPosition
@@ -260,10 +291,56 @@ void free_boite_dialog(boite_dialog* bg) {
 
 
 //Traiter les réponses provenants du boite de dialogue
-void dialog_response(GtkDialog *dialog, gint response_id, gpointer user_data) {
-    GtkWidget* combo = (GtkWidget*) user_data;
-    const gchar *combo_text = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(combo));
-    g_print("Entry: %s\n", combo_text);
+void dialog_response(GtkDialog *dialog, gint response_id, gpointer *user_data) {
+    //Cast
+    DialogWidgets_btn* data = (DialogWidgets_btn*) user_data;
+    //Get widgets data
+    const gchar *label = gtk_entry_get_text(GTK_ENTRY(data->label));
+    gboolean hasMnemonic = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(data->hasMnemonic));
+    const gchar *img = gtk_entry_get_text(GTK_ENTRY(data->img));
+    const gchar *width = gtk_entry_get_text(GTK_ENTRY(data->dimX));
+    const gchar *height = gtk_entry_get_text(GTK_ENTRY(data->dimY));
+    const gchar *x = gtk_entry_get_text(GTK_ENTRY(data->posX));
+    const gchar *y = gtk_entry_get_text(GTK_ENTRY(data->posY));
+    const gchar *color = gtk_entry_get_text(GTK_ENTRY(data->color));
+    const gchar *police = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(data->police));
+    const gchar *taille = gtk_entry_get_text(GTK_ENTRY(data->taille));
+    gboolean gras = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(data->gras));
+    //bgcolor
+    const gchar *border = gtk_entry_get_text(GTK_ENTRY(data->border));
+    const gchar *border_radius = gtk_entry_get_text(GTK_ENTRY(data->border_radius));
+
+    //data->margin
+    gboolean isSensitive = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(data->isSensitive));
+    const gchar *align = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(data->align));
+    const gchar *opacite = gtk_entry_get_text(GTK_ENTRY(data->opacity));
+    GtkWidget* container = data->container;
+
+    //Creer l'image du bouton
+    MonImage* ima = NULL;//Initier l'image avec NULL
+    //Creer l'image si le path est saisie
+    if(strlen(img) > 0){
+        ima = init_image(img,*dim(24,24), *cord(0,0));
+    }
+
+    //Creation du bouton
+    int isFixed = 1;
+    int isChecked = 1;
+
+    btn* b = initBtn(NORMAL, label, label, hasMnemonic, label, ima,
+                     dim(atoi(width), atoi(height)),
+                     isFixed, cord(atoi(x), atoi(y)), NULL, isSensitive,
+                     container, NULL, GTK_ALIGN_CENTER,
+                     atoi(opacite), isChecked, NULL);
+    creer_button(b);
+    //Creer le style
+    HexColor* h = hex_color_init(color);
+    Style* style = init_style(police, h, atoi(taille), gras, "white", atoi(border), atoi(border_radius));
+    appliquer_style_button(style, b);
+
+    //Show all
+    gtk_widget_show_all(container);
+
     switch (response_id) {
         case GTK_RESPONSE_OK:
             g_print("\nOK cliqué\n");
@@ -289,10 +366,6 @@ void dialog_response(GtkDialog *dialog, gint response_id, gpointer user_data) {
     }
 
     // Fermer la boîte de dialogue
-
-    // Si besoin, accéder aux données utilisateur
-    //MyData *data = (MyData *)user_data;
-    // ... utilisation de data ...
 }
 
 
@@ -301,31 +374,43 @@ void dialogue_template(char* titre, char* message, char* messageIcon, char* icon
     boite_dialog *boite = NULL;
 
 // Le conteneur des widgets formant le contenue du dialogue (content area)
-    GtkWidget *contentArea = gtk_box_new(GTK_ORIENTATION_VERTICAL, 50);  // Espacement de 10 pixels
+    GtkWidget *contentArea = gtk_box_new(GTK_ORIENTATION_VERTICAL, 16);  // Espacement de 10 pixels
 // Ajoute 20 pixels de padding autour du contenu de la boîte(faire semblant que le box est centré)
-    //gtk_container_set_border_width(GTK_CONTAINER(contentArea), 50);
-//Image
-    //MonImage *ima = init_image(messageIcon, *dim(48, 48), *cord(32, 32));
-    //creer_image(ima);
-//Ajouter l'image au conteneur (contentArea)
-    //gtk_box_pack_start(GTK_BOX(contentArea), ima->Image, TRUE, TRUE, 0);
+    gtk_container_set_border_width(GTK_CONTAINER(contentArea), 24);
 //Label
     GtkWidget *content_label = gtk_label_new(message);
 //Ajouter le label(message) au conteneur (contentArea)
     gtk_box_pack_start(GTK_BOX(contentArea), content_label, TRUE, TRUE, 0);
 
-    //Test
-    GtkWidget* input = inputTexte("Texte", cord(100, 100), contentArea);
-    GtkWidget* btn = inputCheck("isChecked", cord(100, 100), contentArea);
-    char* options[] = {"Colspan", "System", "Sans Serif", "Inter"};
-    GtkWidget* combo = inputCombo("Fonts", cord(100, 100), contentArea, options);
+
+    //Creation des inputs
+    DialogWidgets_btn *data = creerDialogWidgets();
+    data->label = inputTexte("Label", cord(100, 100), contentArea);
+    data->hasMnemonic = inputCheck("HasMnemonic", cord(100, 100), contentArea);
+    data->img = inputTexte("Image", cord(100, 100), contentArea);
+    data->dimX = inputTexte("width", cord(100, 100), contentArea);
+    data->dimY = inputTexte("height", cord(100, 100), contentArea);
+    data->posX = inputTexte("x", cord(100, 100), contentArea);
+    data->posY = inputTexte("y", cord(100, 100), contentArea);
+    data->color = inputTexte("Color", cord(100, 100), contentArea);
+    data->police = inputTexte("Police", cord(100, 100), contentArea);
+    data->taille = inputTexte("Taille", cord(100, 100), contentArea);
+    data->gras = inputCheck("Gras", cord(100, 100), contentArea);
+    data->border = inputTexte("Border", cord(100, 100), contentArea);
+    data->border_radius = inputTexte("Border Radius", cord(100, 100), contentArea);
+    //data->margin
+    data->isSensitive = inputCheck("isSensitive", cord(100, 100), contentArea);
+    char* options[] = {"Red", "Blue", "Green", NULL};
+    data->align = inputCombo("Color", cord(100, 100), contentArea, options);
+    data->opacity = inputTexte("Opacité", cord(100, 100), contentArea);
+    data->container = parent;
 
 
 //Creer le box
     boite = DIALOG(
             contentArea,//Contenu(un widget)
             titre,//titre
-            dim(500, 300),//dimension
+            dim(500, 200),//dimension
             icon, // Pas d'icône pour cet exemple
             parent,//Parent(conteneur)
             TRUE,//modal ou pas
@@ -341,7 +426,7 @@ void dialogue_template(char* titre, char* message, char* messageIcon, char* icon
     GtkWidget *btnAn = gtk_button_new_with_label("Annuler");
     addActionWidget(boite, btnAn, GTK_RESPONSE_CANCEL);
     //Associer un signal au boite
-    g_signal_connect(boite->dialog, "response", G_CALLBACK(dialog_response), combo);
+    g_signal_connect(boite->dialog, "response", G_CALLBACK(dialog_response), data);
 
 }
 

@@ -9,11 +9,20 @@
 #include "box.h"
 #include "projet_utility.h"
 
-void open_dialog(GtkWidget* widget, gpointer data){
-    fixedo* fix = (fixedo*) data;
-    dialogue_template("Boite", "Voulez vous afficher une image",
+void open_dialog(GtkWidget* widget, gpointer *container){
+    fixedo* fix = (fixedo*) container;
+    dialogue_template("Boite", "Creation d'un bouton normale",
                       "ex_img.jpg", "icon.png", *cord(1200, 600),
                       fix->fixed_container);
+    printf("fixed%d", fix);
+
+    /*
+    GtkWidget* bs = gtk_button_new_with_label("hello");
+    fixed_add_widget(fix, bs, 50, 50);
+     */
+    gtk_widget_show_all(fix->fixed_container);
+
+   // gtk_fixed_put(GTK_FIXED(fix), bs, 100, 100);
 }
 
 int main(int argc, char *argv[]) {
@@ -26,7 +35,6 @@ int main(int argc, char *argv[]) {
     coordonnees cord = {200, 100}; // Position: x=200, y=100
     fixedo *fixed;
     Mywindow *maFenetre;
-    {
         // Couleur de fond
         HexColor *bg_color = hex_color_init("#FFC0CB"); // Couleur rose
 
@@ -59,13 +67,12 @@ int main(int argc, char *argv[]) {
         fixed_add_widget(fixed, maFenetre->bgImg.Image, 0, 0);//Appliquer l'arriere plan
 
 
-    }
 
     //////////////////////////////////  Button ///////////////////////////////////////////////////////
     btn* bb = btnNormalFixed("nom", "label", "tooltip", fixed->fixed_container,
                              cord(0, 0), dim(50, 20), NULL);
     creer_button(bb);
-    g_signal_connect(bb->button, "clicked", G_CALLBACK(open_dialog), fixed->fixed_container);
+    g_signal_connect(bb->button, "clicked", G_CALLBACK(open_dialog), fixed);
 
     Style* bst = init_style(NULL, hex_color_init("#000"),
                             -1, -1, "#ff55", -1,
