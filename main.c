@@ -122,28 +122,28 @@ fixed= init_fixed("principal",dim);
         dimension dim_pulse = {.width = 300, .height = 30};
         dimension dim_fraction = {.width = 300, .height = 30};
 
-        // // Créer une barre de progression de type pulsation
-        // progress_bar_type_pulse *pbar_pulse = Init_ProgressBar_Type_Pulse(
-        //         &dim_pulse, TRUE, 'b', 100);
+        // Créer une barre de progression de type pulsation
+        progress_bar_type_pulse *pbar_pulse = Init_ProgressBar_Type_Pulse(
+                &dim_pulse, TRUE, 'b', 100);
 
-        // GtkWidget *pulse_widget = add_progressbar_Tpulse(pbar_pulse);
-        // // Position dans le conteneur fixed
-        // fixed_add_widget(fixed, pulse_widget, 500, 900);
+        GtkWidget *pulse_widget = add_progressbar_Tpulse(pbar_pulse);
+        // Position dans le conteneur fixed
+        fixed_add_widget(fixed, pulse_widget, 500, 900);
 
 
-        // // Créer une barre de progression fractionnée
+        // Créer une barre de progression fractionnée
 
-        // progress_bar_type_fraction *pbar_fraction = Init_ProgressBar_Type_Fraction(
-        //         &dim_fraction, TRUE, 'r', 10.0);
-        // // Simuler un téléchargement avec `DownloadProgress`
-        // DownloadProgress *progress = g_malloc(sizeof(DownloadProgress));
-        // progress->progress_bar = GTK_PROGRESS_BAR(pbar_fraction->pbar);
-        // progress->total_size = 1024 * 100;  // 100 KB
-        // progress->current_size = 0;
-        // progress->is_active = TRUE;
+        progress_bar_type_fraction *pbar_fraction = Init_ProgressBar_Type_Fraction(
+                &dim_fraction, TRUE, 'r', 10.0);
+        // Simuler un téléchargement avec `DownloadProgress`
+        DownloadProgress *progress = g_malloc(sizeof(DownloadProgress));
+        progress->progress_bar = GTK_PROGRESS_BAR(pbar_fraction->pbar);
+        progress->total_size = 1024 * 100;  // 100 KB
+        progress->current_size = 0;
+        progress->is_active = TRUE;
 
-        // GtkWidget *fraction_widget = add_progressbar_Tfraction(pbar_fraction, progress);
-        // fixed_add_widget(fixed, fraction_widget, 500, 920);
+        GtkWidget *fraction_widget = add_progressbar_Tfraction(pbar_fraction, progress);
+        fixed_add_widget(fixed, fraction_widget, 500, 920);
     }
 ////////////////////////////////////////////////////////////////////////////////////////////
 

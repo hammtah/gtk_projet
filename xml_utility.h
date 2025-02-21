@@ -22,7 +22,6 @@ void label_xml(FILE *file, int parent);
 void entry_xml(FILE *file,int parent);
 void TextView_xml(FILE *file, int parent);
 void box_xml(FILE *file,int parent);
-void ProgressBar_xml(FILE *file, int parent);
 
 //tableau global qui contient les widgets parents
 //0: window, 2:fixed, 4:menu_parent
@@ -166,8 +165,6 @@ int balise(FILE *file)
     else if (!(strcmp("<checkboxList",motlue))) return 36;
     else if (!(strcmp("</radioList",motlue))){return -31;}
     else if (!(strcmp("</checkboxList",motlue))){return -36;}
-    else if(!(strcmp("<ProgressBar",motlue))) return 37;
-
     else if (!(strcmp("</checkbox",motlue))){return -3;}
     else if (!(strcmp("</radio",motlue))){return -4;}
     //La balise <child></child> est toujours la fille d'une balise de positionnement,
@@ -244,8 +241,6 @@ void creer_object(FILE *file,int parent)
         case 6:TextView_xml(file, parent);break;
         case 17: box_xml(file,parent);break;
         case 31:radioList_xml(file,parent);break;
-        case 37: ProgressBar_xml(file, parent); break;
-
 
         /*
         case 13: menu_barre_xml(file,parent);break;
