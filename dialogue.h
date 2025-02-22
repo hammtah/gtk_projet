@@ -293,77 +293,72 @@ void free_boite_dialog(boite_dialog* bg) {
 
 //Traiter les réponses provenants du boite de dialogue
 void dialog_response(GtkDialog *dialog, gint response_id, gpointer *user_data) {
-    //Cast
-    DialogWidgets_btn* data = (DialogWidgets_btn*) user_data;
-    //Get widgets data
-    const gchar *label = gtk_entry_get_text(GTK_ENTRY(data->label));
-    gboolean hasMnemonic = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(data->hasMnemonic));
-    const gchar *img = gtk_entry_get_text(GTK_ENTRY(data->img));
-    const gchar *width = gtk_entry_get_text(GTK_ENTRY(data->dimX));
-    const gchar *height = gtk_entry_get_text(GTK_ENTRY(data->dimY));
-    const gchar *x = gtk_entry_get_text(GTK_ENTRY(data->posX));
-    const gchar *y = gtk_entry_get_text(GTK_ENTRY(data->posY));
-    const gchar *color = gtk_entry_get_text(GTK_ENTRY(data->color));
-    const gchar *police = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(data->police));
-    const gchar *taille = gtk_entry_get_text(GTK_ENTRY(data->taille));
-    gboolean gras = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(data->gras));
-    //bgcolor
-    const gchar *border = gtk_entry_get_text(GTK_ENTRY(data->border));
-    const gchar *border_radius = gtk_entry_get_text(GTK_ENTRY(data->border_radius));
+    //Creer la boite de creation d'un bouton normale
+    if (response_id == GTK_RESPONSE_OK) {
+        //Cast
+        DialogWidgets_btn* data = (DialogWidgets_btn*) user_data;
+        //Get widgets data
+        const gchar *label = gtk_entry_get_text(GTK_ENTRY(data->label));
+        gboolean hasMnemonic = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(data->hasMnemonic));
+        const gchar *img = gtk_entry_get_text(GTK_ENTRY(data->img));
+        const gchar *width = gtk_entry_get_text(GTK_ENTRY(data->dimX));
+        const gchar *height = gtk_entry_get_text(GTK_ENTRY(data->dimY));
+        const gchar *x = gtk_entry_get_text(GTK_ENTRY(data->posX));
+        const gchar *y = gtk_entry_get_text(GTK_ENTRY(data->posY));
+        const gchar *color = gtk_entry_get_text(GTK_ENTRY(data->color));
+        const gchar *police = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(data->police));
+        const gchar *taille = gtk_entry_get_text(GTK_ENTRY(data->taille));
+        gboolean gras = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(data->gras));
+        //bgcolor
+        const gchar *border = gtk_entry_get_text(GTK_ENTRY(data->border));
+        const gchar *border_radius = gtk_entry_get_text(GTK_ENTRY(data->border_radius));
 
-    //data->margin
-    gboolean isSensitive = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(data->isSensitive));
-    const gchar *align = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(data->align));
-    const gchar *opacite = gtk_entry_get_text(GTK_ENTRY(data->opacity));
-    GtkWidget* container = data->container;
+        //data->margin
+        gboolean isSensitive = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(data->isSensitive));
+        const gchar *align = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(data->align));
+        const gchar *opacite = gtk_entry_get_text(GTK_ENTRY(data->opacity));
+        GtkWidget* container = data->container;
 
-    //Creer l'image du bouton
-    MonImage* ima = NULL;//Initier l'image avec NULL
-    //Creer l'image si le path est saisie
-    if(strlen(img) > 0){
-        ima = init_image(img,*dim(24,24), *cord(0,0));
+        //Creer l'image du bouton
+        MonImage* ima = NULL;//Initier l'image avec NULL
+        //Creer l'image si le path est saisie
+        if(strlen(img) > 0){
+            ima = init_image(img,*dim(24,24), *cord(0,0));
+        }
+
+        //Creation du bouton
+        int isFixed = 1;
+        int isChecked = 1;
+
+        //Default values, provided when the input is empty
+        if(strlen(width) == 0 ) width = "10";
+        if(strlen(height) == 0 ) height = "10";
+        if(strlen(x) == 0 ) x = "10";
+        if(strlen(y) == 0 ) y = "10";
+        if(strlen(color) == 0 ) color = "#000";
+        if(strlen(taille) == 0 ) taille = "8";
+        if(strlen(border) == 0 ) border = "0";
+        if(strlen(border_radius) == 0 ) border_radius = "0";
+        if(strlen(opacite) == 0 ) opacite = "1";
+
+
+
+        btn* b = initBtn(NORMAL, label, label, hasMnemonic, label, ima,
+                         dim(atoi(width), atoi(height)),
+                         isFixed, cord(atoi(x), atoi(y)), NULL, isSensitive,
+                         container, NULL, GTK_ALIGN_CENTER,
+                         atoi(opacite), isChecked, NULL);
+        creer_button(b);
+        //Creer le style
+        HexColor* h = hex_color_init(color);
+        Style* style = init_style(police, h, atoi(taille), gras, "white", atoi(border), atoi(border_radius));
+        appliquer_style_button(style, b);
+
+        //Show all
+        gtk_widget_show_all(container);
     }
-
-    //Creation du bouton
-    int isFixed = 1;
-    int isChecked = 1;
-
-    btn* b = initBtn(NORMAL, label, label, hasMnemonic, label, ima,
-                     dim(atoi(width), atoi(height)),
-                     isFixed, cord(atoi(x), atoi(y)), NULL, isSensitive,
-                     container, NULL, GTK_ALIGN_CENTER,
-                     atoi(opacite), isChecked, NULL);
-    creer_button(b);
-    //Creer le style
-    HexColor* h = hex_color_init(color);
-    Style* style = init_style(police, h, atoi(taille), gras, "white", atoi(border), atoi(border_radius));
-    appliquer_style_button(style, b);
-
-    //Show all
-    gtk_widget_show_all(container);
-
-    switch (response_id) {
-        case GTK_RESPONSE_OK:
-            g_print("\nOK cliqué\n");
-            // Traitement pour OK
-            break;
-
-        case GTK_RESPONSE_CANCEL:
-            g_print("\nAnnulation cliquée\n");
-            gtk_widget_destroy(GTK_WIDGET(dialog));
-
-            // Traitement pour Annuler
-            break;
-
-        case GTK_RESPONSE_NO:
-            g_print("\nNon cliqué\n");
-            // Traitement pour Non
-            break;
-
-        default:
-            g_print("\nRéponse inattendue: %d\n", response_id);
-            // Traitement par défaut
-            break;
+    else if(response_id == GTK_RESPONSE_CANCEL) {
+        gtk_widget_destroy(GTK_WIDGET(dialog));
     }
 
     // Fermer la boîte de dialogue

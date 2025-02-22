@@ -61,6 +61,7 @@ typedef struct btn{
     double opacity;//l'opacité du bouton.
     gboolean isChecked;//Si le bouton est coché.
     spinObj* sp;//L'objet contenant les parametres du button spin.
+
 }btn;
 
 /**************************************
