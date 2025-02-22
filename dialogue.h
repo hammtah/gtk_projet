@@ -7,9 +7,9 @@
 #include "global.h"
 #include "coordonnees.h"
 
-GtkWidget* inputTexte(char* label, coordonnees* cord, GtkWidget* container);
-GtkWidget* inputNumber(char* label, coordonnees* cord, GtkWidget* container);
-GtkWidget* inputCheck(char* label, coordonnees* cord, GtkWidget* container);
+GtkWidget* inputTexte(char* label, coordonnees* cord, GtkWidget* container, char* defaultTexte);
+GtkWidget* inputNumber(char* label, coordonnees* cord, GtkWidget* container,char* defaultNum);
+GtkWidget* inputCheck(char* label, coordonnees* cord, GtkWidget* container, gboolean isChecked);
 GtkWidget* inputCombo(char* label, coordonnees* cord, GtkWidget* container,char* items[256]);
 //Structure regroupant les widgets contenus dans un dialogue de creation de bouton
 //nom, label, tooltip, container, margin, dim, img
@@ -290,8 +290,12 @@ void free_boite_dialog(boite_dialog* bg) {
     }
 }
 
+void btnNormaleModify(GtkWidget* widget, gpointer* data){
+    btn* b = (btn*) data;
+    g_print("%s", b->label);
+}
 
-//Traiter les réponses provenants du boite de dialogue
+//Traiter les réponses provenants du boite de dialogue(nice)
 void dialog_response(GtkDialog *dialog, gint response_id, gpointer *user_data) {
     //Creer la boite de creation d'un bouton normale
     if (response_id == GTK_RESPONSE_OK) {
@@ -314,7 +318,8 @@ void dialog_response(GtkDialog *dialog, gint response_id, gpointer *user_data) {
         const gchar *border_radius = gtk_entry_get_text(GTK_ENTRY(data->border_radius));
 
         //data->margin
-        gboolean isSensitive = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(data->isSensitive));
+        gboolean isSensitive = 1;//Le bouton est sensible par défaut
+        isSensitive = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(data->isSensitive));
         const gchar *align = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(data->align));
         const gchar *opacite = gtk_entry_get_text(GTK_ENTRY(data->opacity));
         GtkWidget* container = data->container;
@@ -331,6 +336,7 @@ void dialog_response(GtkDialog *dialog, gint response_id, gpointer *user_data) {
         int isChecked = 1;
 
         //Default values, provided when the input is empty
+        if(strlen(label) == 0 ) label = "button";
         if(strlen(width) == 0 ) width = "10";
         if(strlen(height) == 0 ) height = "10";
         if(strlen(x) == 0 ) x = "10";
@@ -351,8 +357,13 @@ void dialog_response(GtkDialog *dialog, gint response_id, gpointer *user_data) {
         creer_button(b);
         //Creer le style
         HexColor* h = hex_color_init(color);
-        Style* style = init_style(police, h, atoi(taille), gras, "white", atoi(border), atoi(border_radius));
+        Style* style = init_style(police, h, atoi(taille),
+                                  gras, "", atoi(border),
+                                  atoi(border_radius));
         appliquer_style_button(style, b);
+
+        //Ajouter le callback permettant la modification du bouton
+        g_signal_connect(b->button, "clicked", G_CALLBACK(btnNormaleModify), b);
 
         //Show all
         gtk_widget_show_all(container);
@@ -365,7 +376,7 @@ void dialog_response(GtkDialog *dialog, gint response_id, gpointer *user_data) {
 }
 
 
-void dialogue_template(char* titre, char* message, char* messageIcon, char* icon,
+void btnNormaleProperties(char* titre, char* message, char* messageIcon, char* icon,
                        coordonnees c, GtkWidget* parent) {
     boite_dialog *boite = NULL;
 
@@ -381,24 +392,24 @@ void dialogue_template(char* titre, char* message, char* messageIcon, char* icon
 
     //Creation des inputs
     DialogWidgets_btn *data = creerDialogWidgets();
-    data->label = inputTexte("Label", cord(100, 100), contentArea);
-    data->hasMnemonic = inputCheck("HasMnemonic", cord(100, 100), contentArea);
-    data->img = inputTexte("Image", cord(100, 100), contentArea);
-    data->dimX = inputNumber("width", cord(100, 100), contentArea);
-    data->dimY = inputNumber("height", cord(100, 100), contentArea);
-    data->posX = inputNumber("x", cord(100, 100), contentArea);
-    data->posY = inputNumber("y", cord(100, 100), contentArea);
-    data->color = inputTexte("Color", cord(100, 100), contentArea);
-    data->police = inputTexte("Police", cord(100, 100), contentArea);
-    data->taille = inputNumber("Taille", cord(100, 100), contentArea);
-    data->gras = inputCheck("Gras", cord(100, 100), contentArea);
-    data->border = inputNumber("Border", cord(100, 100), contentArea);
-    data->border_radius = inputNumber("Border Radius", cord(100, 100), contentArea);
+    data->label = inputTexte("Label", cord(100, 100), contentArea, NULL);
+    data->hasMnemonic = inputCheck("HasMnemonic", cord(100, 100), contentArea, TRUE);
+    data->img = inputTexte("Image", cord(100, 100), contentArea, "");
+    data->dimX = inputNumber("width", cord(100, 100), contentArea, "10");
+    data->dimY = inputNumber("height", cord(100, 100), contentArea, "10");
+    data->posX = inputNumber("x", cord(100, 100), contentArea, "10");
+    data->posY = inputNumber("y", cord(100, 100), contentArea, "10");
+    data->color = inputTexte("Color", cord(100, 100), contentArea, "");
+    data->police = inputTexte("Police", cord(100, 100), contentArea, "");
+    data->taille = inputNumber("Taille", cord(100, 100), contentArea, "8");
+    data->gras = inputCheck("Gras", cord(100, 100), contentArea, FALSE);
+    data->border = inputNumber("Border", cord(100, 100), contentArea,"");
+    data->border_radius = inputNumber("Border Radius", cord(100, 100), contentArea, "0");
     //data->margin
-    data->isSensitive = inputCheck("isSensitive", cord(100, 100), contentArea);
+    data->isSensitive = inputCheck("isSensitive", cord(100, 100), contentArea, TRUE);
     char* options[] = {"Red", "Blue", "Green", NULL};
     data->align = inputCombo("Color", cord(100, 100), contentArea, options);
-    data->opacity = inputNumber("Opacité", cord(100, 100), contentArea);
+    data->opacity = inputNumber("Opacité", cord(100, 100), contentArea, "1");
     data->container = parent;
 
 

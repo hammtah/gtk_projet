@@ -11,7 +11,7 @@
 
 void open_dialog(GtkWidget* widget, gpointer *container){
     fixedo* fix = (fixedo*) container;
-    dialogue_template("Boite", "Creation d'un bouton normale",
+    btnNormaleProperties("Button Normale", "Creation d'un bouton normale",
                       "ex_img.jpg", "icon.png", *cord(1200, 600),
                       fix->fixed_container);
     printf("fixed%d", fix);
