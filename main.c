@@ -13,7 +13,7 @@ void open_dialog(GtkWidget* widget, gpointer *container){
     fixedo* fix = (fixedo*) container;
     btnNormaleProperties("Button Normale", "Creation d'un bouton normale",
                       "ex_img.jpg", "icon.png", *cord(1200, 600),
-                      fix->fixed_container);
+                      fix->fixed_container, NULL);
     printf("fixed%d", fix);
 
     /*
