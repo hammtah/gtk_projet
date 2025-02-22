@@ -8,6 +8,7 @@
 #include "coordonnees.h"
 
 GtkWidget* inputTexte(char* label, coordonnees* cord, GtkWidget* container);
+GtkWidget* inputNumber(char* label, coordonnees* cord, GtkWidget* container);
 GtkWidget* inputCheck(char* label, coordonnees* cord, GtkWidget* container);
 GtkWidget* inputCombo(char* label, coordonnees* cord, GtkWidget* container,char* items[256]);
 //Structure regroupant les widgets contenus dans un dialogue de creation de bouton
@@ -374,7 +375,7 @@ void dialogue_template(char* titre, char* message, char* messageIcon, char* icon
     boite_dialog *boite = NULL;
 
 // Le conteneur des widgets formant le contenue du dialogue (content area)
-    GtkWidget *contentArea = gtk_box_new(GTK_ORIENTATION_VERTICAL, 16);  // Espacement de 10 pixels
+    GtkWidget *contentArea = gtk_box_new(GTK_ORIENTATION_VERTICAL, 8);  // Espacement de 10 pixels
 // Ajoute 20 pixels de padding autour du contenu de la boîte(faire semblant que le box est centré)
     gtk_container_set_border_width(GTK_CONTAINER(contentArea), 24);
 //Label
@@ -388,21 +389,21 @@ void dialogue_template(char* titre, char* message, char* messageIcon, char* icon
     data->label = inputTexte("Label", cord(100, 100), contentArea);
     data->hasMnemonic = inputCheck("HasMnemonic", cord(100, 100), contentArea);
     data->img = inputTexte("Image", cord(100, 100), contentArea);
-    data->dimX = inputTexte("width", cord(100, 100), contentArea);
-    data->dimY = inputTexte("height", cord(100, 100), contentArea);
-    data->posX = inputTexte("x", cord(100, 100), contentArea);
-    data->posY = inputTexte("y", cord(100, 100), contentArea);
+    data->dimX = inputNumber("width", cord(100, 100), contentArea);
+    data->dimY = inputNumber("height", cord(100, 100), contentArea);
+    data->posX = inputNumber("x", cord(100, 100), contentArea);
+    data->posY = inputNumber("y", cord(100, 100), contentArea);
     data->color = inputTexte("Color", cord(100, 100), contentArea);
     data->police = inputTexte("Police", cord(100, 100), contentArea);
-    data->taille = inputTexte("Taille", cord(100, 100), contentArea);
+    data->taille = inputNumber("Taille", cord(100, 100), contentArea);
     data->gras = inputCheck("Gras", cord(100, 100), contentArea);
-    data->border = inputTexte("Border", cord(100, 100), contentArea);
-    data->border_radius = inputTexte("Border Radius", cord(100, 100), contentArea);
+    data->border = inputNumber("Border", cord(100, 100), contentArea);
+    data->border_radius = inputNumber("Border Radius", cord(100, 100), contentArea);
     //data->margin
     data->isSensitive = inputCheck("isSensitive", cord(100, 100), contentArea);
     char* options[] = {"Red", "Blue", "Green", NULL};
     data->align = inputCombo("Color", cord(100, 100), contentArea, options);
-    data->opacity = inputTexte("Opacité", cord(100, 100), contentArea);
+    data->opacity = inputNumber("Opacité", cord(100, 100), contentArea);
     data->container = parent;
 
 
