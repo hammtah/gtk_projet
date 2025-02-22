@@ -118,7 +118,7 @@ GtkWidget* inputNumber(char* label, coordonnees* cord, GtkWidget* container){
  * @param container Le pere du choix
  * @return GtkWidget* un pointeur vers le bouton
  * */
-GtkWidget* inputCheck(char* label, coordonnees* cord, GtkWidget* container){
+GtkWidget* inputCheck(char* label, coordonnees* cord, GtkWidget* container, gboolean isChecked){
     //Creer le box
     StyledBox *bxc = init_styled_box(GTK_ORIENTATION_HORIZONTAL, TRUE,
                                      16, NULL,
@@ -133,7 +133,7 @@ GtkWidget* inputCheck(char* label, coordonnees* cord, GtkWidget* container){
     */
 
     btn* mybtn = btnCheck(label, label, label, margin(0,0,0,0),
-                     bxc->widget,FALSE,NULL
+                     bxc->widget,isChecked,NULL
     );
     Style *st = init_style("Colspan", NULL, 8, 1, NULL, -1, -1);
     creer_button(mybtn);
