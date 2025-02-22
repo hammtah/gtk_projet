@@ -35,6 +35,7 @@ typedef struct {
     GtkWidget*  gras;
     GtkWidget*  border;
     GtkWidget*  border_radius;
+    btn* bouton;
 } DialogWidgets_btn;
 
 DialogWidgets_btn* creerDialogWidgets(){
@@ -371,8 +372,15 @@ void dialog_response(GtkDialog *dialog, gint response_id, gpointer *user_data) {
         //Ajouter le callback permettant la modification du bouton
         g_signal_connect(b->button, "clicked", G_CALLBACK(btnNormaleModify), b);
 
+        //Détruire l'ancien bouton s'il existe déja(dans le cas de modification d'un bouton déja existant)
+        if(data->bouton){
+            gtk_widget_destroy(data->bouton->button);
+        }
         //Show all
         gtk_widget_show_all(container);
+        //Fermer le dialogue
+        gtk_widget_destroy(GTK_WIDGET(dialog));
+
     }
     else if(response_id == GTK_RESPONSE_CANCEL) {
         gtk_widget_destroy(GTK_WIDGET(dialog));
@@ -417,6 +425,7 @@ void btnNormaleProperties(char* titre, char* message, char* messageIcon, char* i
         data->align = inputCombo("Color", cord(100, 100), contentArea, options);
         data->opacity = inputNumber("Opacité", cord(100, 100), contentArea, "1");
         data->container = parent;
+        data->bouton = NULL;
     }
     else{
         //Creation des inputs
@@ -456,7 +465,7 @@ void btnNormaleProperties(char* titre, char* message, char* messageIcon, char* i
         //data->margin
         char *options[] = {"Red", "Blue", "Green", NULL};
         data->align = inputCombo("Color", cord(100, 100), contentArea, options);
-
+        data->bouton = bouton;
     }
 
 //Creer le box
