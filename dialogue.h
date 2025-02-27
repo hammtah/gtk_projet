@@ -27,7 +27,7 @@ btnNew* allocateBtnNew(){
 }
 
 GtkWidget* inputTexte(char* label, coordonnees* cord, GtkWidget* container, char* defaultTexte);
-GtkWidget* inputNumber(char* label, coordonnees* cord, GtkWidget* container,char* defaultNum);
+GtkWidget* inputNumber(char* label, coordonnees* cord, GtkWidget* container, int defaultNum, float steps);
 GtkWidget* inputCheck(char* label, coordonnees* cord, GtkWidget* container, gboolean isChecked);
 GtkWidget* inputCombo(char* label, coordonnees* cord, GtkWidget* container,char* items[256]);
 
@@ -334,7 +334,7 @@ void dialog_response(GtkDialog *dialog, gint response_id, gpointer *user_data) {
         const gchar *label = gtk_entry_get_text(GTK_ENTRY(data->label));
         gboolean hasMnemonic = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(data->hasMnemonic));
         //const gchar *img = gtk_entry_get_text(GTK_ENTRY(data->img));
-        gchar *img = "";
+        gchar *img = gtk_entry_get_text(GTK_ENTRY(data->img));
         const gchar *width = gtk_entry_get_text(GTK_ENTRY(data->dimX));
         const gchar *height = gtk_entry_get_text(GTK_ENTRY(data->dimY));
         const gchar *x = gtk_entry_get_text(GTK_ENTRY(data->posX));
@@ -383,7 +383,7 @@ void dialog_response(GtkDialog *dialog, gint response_id, gpointer *user_data) {
                          dim(atoi(width), atoi(height)),
                          isFixed, cord(atoi(x), atoi(y)), NULL, isSensitive,
                          container, NULL, GTK_ALIGN_CENTER,
-                         atoi(opacite), isChecked, NULL);
+                         atof(opacite), isChecked, NULL);
         creer_button(b);
         //Creer le style
         HexColor* h = hex_color_init(color);
@@ -438,23 +438,22 @@ void btnNormaleProperties(char* titre, char* message, char* messageIcon, char* i
         data->label = inputTexte("Label", cord(100, 100), contentArea, NULL);
         data->hasMnemonic = inputCheck("HasMnemonic", cord(100, 100), contentArea, TRUE);
         data->img = inputTexte("Image", cord(100, 100), contentArea, "");
-        data->dimX = inputNumber("width", cord(100, 100), contentArea, "10");
-        data->dimY = inputNumber("height", cord(100, 100), contentArea, "10");
-        data->posX = inputNumber("x", cord(100, 100), contentArea, "10");
-        data->posY = inputNumber("y", cord(100, 100), contentArea, "10");
+        data->dimX = inputNumber("width", cord(100, 100), contentArea, 10, 10);
+        data->dimY = inputNumber("height", cord(100, 100), contentArea, 10, 10);
+        data->posX = inputNumber("x", cord(100, 100), contentArea, 10, 10);
+        data->posY = inputNumber("y", cord(100, 100), contentArea, 10, 10);
         data->color = inputTexte("Color", cord(100, 100), contentArea, "");
         data->police = inputTexte("Police", cord(100, 100), contentArea, "");
-        data->taille = inputNumber("Taille", cord(100, 100), contentArea, "8");
+        data->taille = inputNumber("Taille", cord(100, 100), contentArea, 8, 1);
         data->gras = inputCheck("Gras", cord(100, 100), contentArea, FALSE);
-        data->border = inputNumber("Border", cord(100, 100), contentArea, "");
-        data->border_radius = inputNumber("Border Radius", cord(100, 100), contentArea, "0");
+        data->border = inputNumber("Border", cord(100, 100), contentArea, 0, 1);
+        data->border_radius = inputNumber("Border Radius", cord(100, 100), contentArea, 0, 1);
         //data->margin
         data->isSensitive = inputCheck("isSensitive", cord(100, 100), contentArea, TRUE);
         char *options[] = {"Red", "Blue", "Green", NULL};
         data->align = inputCombo("Color", cord(100, 100), contentArea, options);
         //data->opacity = inputNumber("Opacité", cord(100, 100), contentArea, "1");
-        //data->opacity =
-                btnSpin("Opacité", "Opacité","Opacité",NULL,contentArea, spinObj(1));
+        data->opacity = inputNumber("Opacité", cord(100, 100), contentArea, 1, 0.1);
         data->container = parent;
         data->bouton = NULL;
     }
@@ -463,43 +462,27 @@ void btnNormaleProperties(char* titre, char* message, char* messageIcon, char* i
         //Creation des inputs
         data->label = inputTexte("Label", cord(100, 100), contentArea, bouton->b->label);
         data->hasMnemonic = inputCheck("HasMnemonic", cord(100, 100), contentArea, bouton->b->hasMnemonic);
-        //data->img = inputTexte("Image", cord(100, 100), contentArea, bouton->img->path);
+        data->img = inputTexte("Image", cord(100, 100), contentArea, bouton->b->img->path);
         //width
-        char width[20];
-        sprintf(width, "%d", bouton->b->dim->width);//Convert from int to string
-        data->dimX = inputNumber("width", cord(100, 100), contentArea, width);
+        data->dimX = inputNumber("width", cord(100, 100), contentArea, bouton->b->dim->width, 10);
         //height
-        char height[20];
-        sprintf(height, "%d", bouton->b->dim->height);//Convert from int to string
-        data->dimY = inputNumber("height", cord(100, 100), contentArea, height);
+        data->dimY = inputNumber("height", cord(100, 100), contentArea, bouton->b->dim->height, 10);
         //x
-        char x[20];
-        sprintf(x, "%d", bouton->b->pos->x);//Convert from int to string
-        data->posX = inputNumber("x", cord(100, 100), contentArea, x);
+        data->posX = inputNumber("x", cord(100, 100), contentArea, bouton->b->pos->x, 10);
         //y
-        char y[20];
-        sprintf(y, "%d", bouton->b->pos->y);//Convert from int to string
-        data->posY = inputNumber("y", cord(100, 100), contentArea, y);
+        data->posY = inputNumber("y", cord(100, 100), contentArea, bouton->b->pos->y, 10);
         data->isSensitive = inputCheck("isSensitive", cord(100, 100), contentArea, bouton->b->isSensitive);
         //opacity
-        char opacity[20];
-        sprintf(opacity, "%.0f", bouton->b->opacity);//Convert from int to string
-        data->opacity = inputNumber("Opacité", cord(100, 100), contentArea, opacity);
+        data->opacity = inputNumber("Opacité", cord(100, 100), contentArea, bouton->b->opacity, 0.1);
         data->container = parent;
 
         //should get it from style structure
         data->color = inputTexte("Color", cord(100, 100), contentArea, bouton->s->color->hex_code);
         data->police = inputTexte("Police", cord(100, 100), contentArea, bouton->s->police);
-        char taille[20];
-        sprintf(taille, "%d", bouton->s->taille);//Convert from int to string
-        data->taille = inputNumber("Taille", cord(100, 100), contentArea, taille);
+        data->taille = inputNumber("Taille", cord(100, 100), contentArea, bouton->s->taille, 1);
         data->gras = inputCheck("Gras", cord(100, 100), contentArea, bouton->s->gras);
-        char border[20];
-        sprintf(border, "%d", bouton->s->border);//Convert from int to string
-        data->border = inputNumber("Border", cord(100, 100), contentArea, border);
-        char border_radius[20];
-        sprintf(border_radius, "%d", bouton->s->border_radius);//Convert from int to string
-        data->border_radius = inputNumber("Border Radius", cord(100, 100), contentArea, border_radius);
+        data->border = inputNumber("Border", cord(100, 100), contentArea, bouton->s->border, 1);
+        data->border_radius = inputNumber("Border Radius", cord(100, 100), contentArea, bouton->s->border_radius, 1);
         //data->margin
         char *options[] = {"Red", "Blue", "Green", NULL};
         data->align = inputCombo("Color", cord(100, 100), contentArea, options);

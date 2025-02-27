@@ -79,7 +79,7 @@ GtkWidget* inputTexte(char* label, coordonnees* cord, GtkWidget* container, char
  * @param defaultNum Le numero par défaut(veuillez le saisir sous forme d'une chaine de caractere)
  * @return GtkWidget* un pointeur vers le entry
  * */
-GtkWidget* inputNumber(char* label, coordonnees* cord, GtkWidget* container, char* defaultNum){
+GtkWidget* inputNumber(char* label, coordonnees* cord, GtkWidget* container, int defaultNum, float steps){
     //Creer le box
     StyledBox *bxc = init_styled_box(GTK_ORIENTATION_HORIZONTAL, TRUE,
                                      16, NULL,
@@ -93,6 +93,7 @@ GtkWidget* inputNumber(char* label, coordonnees* cord, GtkWidget* container, cha
                            "black", 1, "16", "Colspan"));
 
     //Creer le input
+    /*
     entry_type_basic *basic_entry = Init_Entry_Basic(
 
             dim(10, 30),
@@ -103,14 +104,15 @@ GtkWidget* inputNumber(char* label, coordonnees* cord, GtkWidget* container, cha
             defaultNum,
             bxc->widget,
             cord(0, 0)
-    );
+    );*/
 
-    // Ajouter l'entrée basic au conteneur
-    GtkWidget *basic_entry_widget = creer_entry_basic(basic_entry);
-    g_signal_connect(basic_entry_widget, "changed", (GCallback )inputNumberHandler, NULL);
+    //GtkWidget *basic_entry_widget = creer_entry_basic(basic_entry);
+    //Creer le spin
+    btn* bspin = creer_button(btnSpin(label, label,label,NULL,bxc->widget, spinObj(defaultNum, steps)));
+    g_signal_connect(bspin->button, "changed", (GCallback )inputNumberHandler, NULL);
 
     //Retourner le input
-    return (GtkWidget*) basic_entry_widget;
+    return (GtkWidget*) bspin->button;
 }
 
 /**

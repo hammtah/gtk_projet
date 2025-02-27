@@ -69,7 +69,7 @@ int main(int argc, char *argv[]) {
 
 
     //////////////////////////////////  Button ///////////////////////////////////////////////////////
-    btnSpinFixed("Opacité", "Opacité","Opacité",dim(32,32), cord(200,200),fixed->fixed_container, spinObj(1));
+    btnSpinFixed("Opacité", "Opacité","Opacité",dim(32,32), cord(200,200),fixed->fixed_container, spinObj(1,2));
 
     MonImage* ima = init_image("btn-icon.png",*dim(24,24), *cord(0,0));
 
