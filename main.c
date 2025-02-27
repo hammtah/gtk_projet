@@ -69,8 +69,12 @@ int main(int argc, char *argv[]) {
 
 
     //////////////////////////////////  Button ///////////////////////////////////////////////////////
-    btn* bb = btnNormalFixed("nom", "label", "tooltip", fixed->fixed_container,
-                             cord(0, 0), dim(50, 20), NULL);
+    btnSpinFixed("Opacité", "Opacité","Opacité",dim(32,32), cord(200,200),fixed->fixed_container, spinObj(1));
+
+    MonImage* ima = init_image("btn-icon.png",*dim(24,24), *cord(0,0));
+
+    btn* bb = btnNormalFixed("nom", "Bouton Normale ", "tooltip", fixed->fixed_container,
+                             cord(0, 0), dim(50, 20), ima);
     creer_button(bb);
     g_signal_connect(bb->button, "clicked", G_CALLBACK(open_dialog), fixed);
 

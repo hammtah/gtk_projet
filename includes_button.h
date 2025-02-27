@@ -122,6 +122,7 @@ spinObj* createSpinObj(gdouble start, gdouble borneInf, gdouble borneSup, gdoubl
     //Retourner le spinObjet
     return ((spinObj*)sp);
 }
+#define spinObj(step) createSpinObj(0, 0, 1000000000, step, 2)
 
 
 

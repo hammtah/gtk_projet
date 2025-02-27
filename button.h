@@ -22,7 +22,6 @@ typedef enum {
 */
 
 
-
 //Définition d'une énumération 'BtnType' comportant les types de boutons possibles.
 typedef enum
 {
@@ -551,6 +550,7 @@ void liste_checks(char* labels[256], Style* st, StyledBox* bx) {
 
     }
 }
+
 
 
 

@@ -6,6 +6,25 @@
 #define TEST1_DIALOGUE_H
 #include "global.h"
 #include "coordonnees.h"
+#include "button.h"
+#include "bouton_xml.h"
+
+typedef struct btnNew{
+    btn* b;
+    Style* s;
+}btnNew;
+
+btnNew* allocateBtnNew(){
+    btnNew* mybtnNew=(btnNew*)malloc(sizeof(btnNew));//Allocation
+    //Retourner un message d'erreur et sortire du programme si l'allocation est échouée
+    if(!mybtnNew)
+    {
+        perror("Erreur d'allocation de bouton dans allocateBtnNew\n");
+        exit -1;
+    }
+    //Retourner le bouton
+    return (btnNew*) mybtnNew;
+}
 
 GtkWidget* inputTexte(char* label, coordonnees* cord, GtkWidget* container, char* defaultTexte);
 GtkWidget* inputNumber(char* label, coordonnees* cord, GtkWidget* container,char* defaultNum);
@@ -13,7 +32,7 @@ GtkWidget* inputCheck(char* label, coordonnees* cord, GtkWidget* container, gboo
 GtkWidget* inputCombo(char* label, coordonnees* cord, GtkWidget* container,char* items[256]);
 
 void btnNormaleProperties(char* titre, char* message, char* messageIcon, char* icon,
-                          coordonnees c, GtkWidget* parent, btn* bouton);
+                          coordonnees c, GtkWidget* parent, btnNew* bouton);
 //Structure regroupant les widgets contenus dans un dialogue de creation de bouton
 //nom, label, tooltip, container, margin, dim, img
 typedef struct {
@@ -295,12 +314,16 @@ void free_boite_dialog(boite_dialog* bg) {
 }
 
 void btnNormaleModify(GtkWidget* widget, gpointer* data){
-    btn* b = (btn*) data;
+    btnNew* bn = (btnNew*) data;
     btnNormaleProperties("Button Normale", "Modification d'un bouton normale",
                          "ex_img.jpg", "icon.png", *cord(1200, 600),
-                         b->container, b);
+                         bn->b->container, bn);
 }
 
+void deleteBtn(GtkWidget* widget, gpointer* data){
+    GtkWidget* btn = (GtkWidget*) data;
+    gtk_widget_destroy(btn);
+}
 //Traiter les réponses provenants du boite de dialogue(nice)
 void dialog_response(GtkDialog *dialog, gint response_id, gpointer *user_data) {
     //Creer la boite de creation d'un bouton normale
@@ -369,8 +392,12 @@ void dialog_response(GtkDialog *dialog, gint response_id, gpointer *user_data) {
                                   atoi(border_radius));
         appliquer_style_button(style, b);
 
+        btnNew* bn = allocateBtnNew();
+        bn->b = b;
+        bn->s = style;
+
         //Ajouter le callback permettant la modification du bouton
-        g_signal_connect(b->button, "clicked", G_CALLBACK(btnNormaleModify), b);
+        g_signal_connect(b->button, "clicked", G_CALLBACK(btnNormaleModify), bn);
 
         //Détruire l'ancien bouton s'il existe déja(dans le cas de modification d'un bouton déja existant)
         if(data->bouton){
@@ -382,7 +409,7 @@ void dialog_response(GtkDialog *dialog, gint response_id, gpointer *user_data) {
         gtk_widget_destroy(GTK_WIDGET(dialog));
 
     }
-    else if(response_id == GTK_RESPONSE_CANCEL) {
+    else if(response_id == GTK_RESPONSE_CANCEL || response_id == GTK_RESPONSE_CLOSE) {
         gtk_widget_destroy(GTK_WIDGET(dialog));
     }
 
@@ -390,8 +417,9 @@ void dialog_response(GtkDialog *dialog, gint response_id, gpointer *user_data) {
 }
 
 
+
 void btnNormaleProperties(char* titre, char* message, char* messageIcon, char* icon,
-                       coordonnees c, GtkWidget* parent, btn* bouton) {
+                       coordonnees c, GtkWidget* parent, btnNew* bouton) {
     boite_dialog *boite = NULL;
 
 // Le conteneur des widgets formant le contenue du dialogue (content area)
@@ -404,6 +432,7 @@ void btnNormaleProperties(char* titre, char* message, char* messageIcon, char* i
     gtk_box_pack_start(GTK_BOX(contentArea), content_label, TRUE, TRUE, 0);
     DialogWidgets_btn *data = creerDialogWidgets();
 
+    //'bouton' est null çad qu'on va creer un nouveau bouton
     if(!bouton) {
         //Creation des inputs
         data->label = inputTexte("Label", cord(100, 100), contentArea, NULL);
@@ -423,49 +452,58 @@ void btnNormaleProperties(char* titre, char* message, char* messageIcon, char* i
         data->isSensitive = inputCheck("isSensitive", cord(100, 100), contentArea, TRUE);
         char *options[] = {"Red", "Blue", "Green", NULL};
         data->align = inputCombo("Color", cord(100, 100), contentArea, options);
-        data->opacity = inputNumber("Opacité", cord(100, 100), contentArea, "1");
+        //data->opacity = inputNumber("Opacité", cord(100, 100), contentArea, "1");
+        //data->opacity =
+                btnSpin("Opacité", "Opacité","Opacité",NULL,contentArea, spinObj(1));
         data->container = parent;
         data->bouton = NULL;
     }
+    //on va modifier un bouton existant
     else{
         //Creation des inputs
-        data->label = inputTexte("Label", cord(100, 100), contentArea, bouton->label);
-        data->hasMnemonic = inputCheck("HasMnemonic", cord(100, 100), contentArea, bouton->hasMnemonic);
+        data->label = inputTexte("Label", cord(100, 100), contentArea, bouton->b->label);
+        data->hasMnemonic = inputCheck("HasMnemonic", cord(100, 100), contentArea, bouton->b->hasMnemonic);
         //data->img = inputTexte("Image", cord(100, 100), contentArea, bouton->img->path);
         //width
         char width[20];
-        sprintf(width, "%d", bouton->dim->width);//Convert from int to string
+        sprintf(width, "%d", bouton->b->dim->width);//Convert from int to string
         data->dimX = inputNumber("width", cord(100, 100), contentArea, width);
         //height
         char height[20];
-        sprintf(height, "%d", bouton->dim->height);//Convert from int to string
+        sprintf(height, "%d", bouton->b->dim->height);//Convert from int to string
         data->dimY = inputNumber("height", cord(100, 100), contentArea, height);
         //x
         char x[20];
-        sprintf(x, "%d", bouton->pos->x);//Convert from int to string
+        sprintf(x, "%d", bouton->b->pos->x);//Convert from int to string
         data->posX = inputNumber("x", cord(100, 100), contentArea, x);
         //y
         char y[20];
-        sprintf(y, "%d", bouton->pos->y);//Convert from int to string
+        sprintf(y, "%d", bouton->b->pos->y);//Convert from int to string
         data->posY = inputNumber("y", cord(100, 100), contentArea, y);
-        data->isSensitive = inputCheck("isSensitive", cord(100, 100), contentArea, bouton->isSensitive);
+        data->isSensitive = inputCheck("isSensitive", cord(100, 100), contentArea, bouton->b->isSensitive);
         //opacity
         char opacity[20];
-        sprintf(opacity, "%.0f", bouton->opacity);//Convert from int to string
+        sprintf(opacity, "%.0f", bouton->b->opacity);//Convert from int to string
         data->opacity = inputNumber("Opacité", cord(100, 100), contentArea, opacity);
         data->container = parent;
 
         //should get it from style structure
-        data->color = inputTexte("Color", cord(100, 100), contentArea, "");
-        data->police = inputTexte("Police", cord(100, 100), contentArea, "");
-        data->taille = inputNumber("Taille", cord(100, 100), contentArea, "8");
-        data->gras = inputCheck("Gras", cord(100, 100), contentArea, FALSE);
-        data->border = inputNumber("Border", cord(100, 100), contentArea, "");
-        data->border_radius = inputNumber("Border Radius", cord(100, 100), contentArea, "0");
+        data->color = inputTexte("Color", cord(100, 100), contentArea, bouton->s->color->hex_code);
+        data->police = inputTexte("Police", cord(100, 100), contentArea, bouton->s->police);
+        char taille[20];
+        sprintf(taille, "%d", bouton->s->taille);//Convert from int to string
+        data->taille = inputNumber("Taille", cord(100, 100), contentArea, taille);
+        data->gras = inputCheck("Gras", cord(100, 100), contentArea, bouton->s->gras);
+        char border[20];
+        sprintf(border, "%d", bouton->s->border);//Convert from int to string
+        data->border = inputNumber("Border", cord(100, 100), contentArea, border);
+        char border_radius[20];
+        sprintf(border_radius, "%d", bouton->s->border_radius);//Convert from int to string
+        data->border_radius = inputNumber("Border Radius", cord(100, 100), contentArea, border_radius);
         //data->margin
         char *options[] = {"Red", "Blue", "Green", NULL};
         data->align = inputCombo("Color", cord(100, 100), contentArea, options);
-        data->bouton = bouton;
+        data->bouton = bouton->b;
     }
 
 //Creer le box
@@ -479,7 +517,12 @@ void btnNormaleProperties(char* titre, char* message, char* messageIcon, char* i
             GTK_WIN_POS_CENTER//Position
     );
     creer_boite_dialogue(boite);
-
+    if(bouton){
+        //Ajouter bouton de suppression
+        GtkWidget* delete = gtk_button_new_with_label("Supprimer");
+        g_signal_connect(delete, "clicked", G_CALLBACK(deleteBtn), bouton->b->button);
+        addActionWidget(boite, delete, GTK_RESPONSE_CLOSE);
+    }
     //Ajouter des boutons
     GtkWidget *btnOk = gtk_button_new_with_label("Oui");
     addActionWidget(boite, btnOk, GTK_RESPONSE_OK);
