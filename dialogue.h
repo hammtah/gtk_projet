@@ -49,6 +49,7 @@ typedef struct {
     GtkWidget* opacity;
     GtkWidget* container;
     GtkWidget* color;
+    GtkWidget* bg;
     GtkWidget*  police;
     GtkWidget*  taille;
     GtkWidget*  gras;
@@ -340,6 +341,7 @@ void dialog_response(GtkDialog *dialog, gint response_id, gpointer *user_data) {
         const gchar *x = gtk_entry_get_text(GTK_ENTRY(data->posX));
         const gchar *y = gtk_entry_get_text(GTK_ENTRY(data->posY));
         const gchar *color = gtk_entry_get_text(GTK_ENTRY(data->color));
+        const gchar *bg = gtk_entry_get_text(GTK_ENTRY(data->bg));
         const gchar *police = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(data->police));
         const gchar *taille = gtk_entry_get_text(GTK_ENTRY(data->taille));
         gboolean gras = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(data->gras));
@@ -350,7 +352,7 @@ void dialog_response(GtkDialog *dialog, gint response_id, gpointer *user_data) {
         //data->margin
         gboolean isSensitive = 1;//Le bouton est sensible par défaut
         isSensitive = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(data->isSensitive));
-        const gchar *align = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(data->align));
+        //const gchar *align = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(data->align));
         const gchar *opacite = gtk_entry_get_text(GTK_ENTRY(data->opacity));
         GtkWidget* container = data->container;
 
@@ -376,6 +378,7 @@ void dialog_response(GtkDialog *dialog, gint response_id, gpointer *user_data) {
         if(strlen(border) == 0 ) border = "0";
         if(strlen(border_radius) == 0 ) border_radius = "0";
         if(strlen(opacite) == 0 ) opacite = "1";
+        if(strlen(bg) == 0 ) bg = "";
 
 
 
@@ -388,7 +391,7 @@ void dialog_response(GtkDialog *dialog, gint response_id, gpointer *user_data) {
         //Creer le style
         HexColor* h = hex_color_init(color);
         Style* style = init_style(police, h, atoi(taille),
-                                  gras, "", atoi(border),
+                                  gras, bg, atoi(border),
                                   atoi(border_radius));
         appliquer_style_button(style, b);
 
@@ -443,26 +446,35 @@ void btnNormaleProperties(char* titre, char* message, char* messageIcon, char* i
         data->posX = inputNumber("x", cord(100, 100), contentArea, 10, 10);
         data->posY = inputNumber("y", cord(100, 100), contentArea, 10, 10);
         data->color = inputTexte("Color", cord(100, 100), contentArea, "");
-        data->police = inputTexte("Police", cord(100, 100), contentArea, "");
+        //data->police = inputTexte("Police", cord(100, 100), contentArea, "");
         data->taille = inputNumber("Taille", cord(100, 100), contentArea, 8, 1);
         data->gras = inputCheck("Gras", cord(100, 100), contentArea, FALSE);
         data->border = inputNumber("Border", cord(100, 100), contentArea, 0, 1);
         data->border_radius = inputNumber("Border Radius", cord(100, 100), contentArea, 0, 1);
         //data->margin
         data->isSensitive = inputCheck("isSensitive", cord(100, 100), contentArea, TRUE);
-        char *options[] = {"Red", "Blue", "Green", NULL};
-        data->align = inputCombo("Color", cord(100, 100), contentArea, options);
+        //char *options[] = {"Red", "Blue", "Green", NULL};
+        //data->align = inputCombo("Align", cord(100, 100), contentArea, options);
         //data->opacity = inputNumber("Opacité", cord(100, 100), contentArea, "1");
+        data->bg = inputTexte("Background", cord(100, 100), contentArea, "");
         data->opacity = inputNumber("Opacité", cord(100, 100), contentArea, 1, 0.1);
         data->container = parent;
         data->bouton = NULL;
+        char *polices[] = {
+                "Arial", "Verdana", "Tahoma", "Times New Roman", "Georgia",
+                "Calibri", "Cambria", "Courier New", "Consolas", "Trebuchet MS",
+                "Segoe UI", "Lucida Sans Unicode", "Comic Sans MS", "Impact",
+                "Palatino Linotype", "Gadugi", "Microsoft Sans Serif", NULL
+        };
+        data->police = inputCombo("Police", cord(100, 100), contentArea, polices);
+
     }
     //on va modifier un bouton existant
     else{
         //Creation des inputs
         data->label = inputTexte("Label", cord(100, 100), contentArea, bouton->b->label);
         data->hasMnemonic = inputCheck("HasMnemonic", cord(100, 100), contentArea, bouton->b->hasMnemonic);
-        data->img = inputTexte("Image", cord(100, 100), contentArea, bouton->b->img->path);
+        data->img = inputTexte("Image", cord(100, 100), contentArea, bouton->b->img? bouton->b->img->path: "");
         //width
         data->dimX = inputNumber("width", cord(100, 100), contentArea, bouton->b->dim->width, 10);
         //height
@@ -478,15 +490,25 @@ void btnNormaleProperties(char* titre, char* message, char* messageIcon, char* i
 
         //should get it from style structure
         data->color = inputTexte("Color", cord(100, 100), contentArea, bouton->s->color->hex_code);
-        data->police = inputTexte("Police", cord(100, 100), contentArea, bouton->s->police);
         data->taille = inputNumber("Taille", cord(100, 100), contentArea, bouton->s->taille, 1);
         data->gras = inputCheck("Gras", cord(100, 100), contentArea, bouton->s->gras);
         data->border = inputNumber("Border", cord(100, 100), contentArea, bouton->s->border, 1);
         data->border_radius = inputNumber("Border Radius", cord(100, 100), contentArea, bouton->s->border_radius, 1);
         //data->margin
-        char *options[] = {"Red", "Blue", "Green", NULL};
-        data->align = inputCombo("Color", cord(100, 100), contentArea, options);
+        //char *options[] = {"Red", "Blue", "Green", NULL};
+        //data->align = inputCombo("Color", cord(100, 100), contentArea, options);
         data->bouton = bouton->b;
+        //police
+        char *polices[] = {
+                "Arial", "Verdana", "Tahoma", "Times New Roman", "Georgia",
+                "Calibri", "Cambria", "Courier New", "Consolas", "Trebuchet MS",
+                "Segoe UI", "Lucida Sans Unicode", "Comic Sans MS", "Impact",
+                "Palatino Linotype", "Gadugi", "Microsoft Sans Serif", NULL
+        };
+
+        g_print("\nlast bgcolor: %s", bouton->s->bgcolor);
+        data->bg = inputTexte("Background", cord(100, 100), contentArea, bouton->s->bgcolor);
+
     }
 
 //Creer le box

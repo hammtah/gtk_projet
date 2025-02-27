@@ -83,6 +83,17 @@ int main(int argc, char *argv[]) {
                             -1);
     appliquer_style_button(bst, bb);
 
+    PangoFontMap *font_map = pango_cairo_font_map_get_default();
+    PangoFontFamily **families;
+    int n_families;
+
+    pango_font_map_list_families(font_map, &families, &n_families);
+
+    g_print("Available fonts:\n");
+    for (int i = 0; i < n_families; i++) {
+        g_print("%s\n", pango_font_family_get_name(families[i]));
+    }
+
     //inputChoix("Texte", cord(100, 100), fixed->fixed_container);
     gtk_widget_show_all(maFenetre->window);
     gtk_main();

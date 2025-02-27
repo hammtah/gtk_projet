@@ -320,15 +320,24 @@ Style *init_style(gchar police[50], HexColor* color, gint taille,
         }
 
     //Initier les attributs de style
-        stl->police = stl->bgcolor = NULL;
+        //stl->police = stl->bgcolor = NULL;
     //Si la police est non vide alors copier la
-    if(police)
-        if(police[0] != '\0' )
-            stl->police = police;
+    //if(police)
+      ///  if(police[0] != '\0' )
+      stl->police = stl->bgcolor = NULL;
+    if(police){
+        stl->police = (gchar*)malloc(25*sizeof(gchar));
+        strcpy(stl->police, police);
+        //stl->police = strdup(police);
+    }
     //Si la bgcolor est non vide alors copier la
-    if(bgcolor)
-        if(bgcolor[0] != '\0')
-            stl->bgcolor = bgcolor;
+    //if(bgcolor)
+      //  if(bgcolor[0] != '\0')
+    if(bgcolor) {
+        stl->bgcolor = (char*)malloc(25*sizeof(char));
+        strcpy(stl->bgcolor, bgcolor);
+        //stl->bgcolor = strdup(bgcolor);
+    }
     //Copier la couleur
     stl->color = color;
     //Copier la taille
