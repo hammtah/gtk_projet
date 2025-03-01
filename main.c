@@ -81,7 +81,7 @@ int main(int argc, char *argv[]) {
     StyledBox *bxc = init_styled_box(GTK_ORIENTATION_HORIZONTAL, TRUE,
                                      16, NULL,
                                      "", "6", "2",
-                                     cord(100,200), dim(200, 200),racine->widget);
+                                     cord(100,200), dim(200, 200),racine->widget,"child1");
     create_styled_box(bxc);
             btn* mybtn = btnNormal("nom", "Bouton Normale ", "tooltip", bxc->widget,margin(0, 0,0, 0), dim(50, 20),NULL);
     creer_button(mybtn);
@@ -90,7 +90,7 @@ int main(int argc, char *argv[]) {
     //racine = insererArbre(racine, allouer_arbre("child1", box, NULL, NULL, 1), "fixed");
     //gtk_widget_show_all(box);
 
-    racine = insererArbre(racine, allouer_arbre("child1", bxc->widget, NULL, NULL, 1), "fixed");
+    racine = insererArbre(racine, allouer_arbre(bxc->nom, bxc->widget, NULL, NULL, 1), "fixed");
     gtk_widget_show_all(bxc->widget);
 
 

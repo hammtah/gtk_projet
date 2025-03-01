@@ -25,6 +25,7 @@ typedef struct {
     coordonnees* cord; //Position
     dimension* dim;
     GtkWidget* container;//Conteneur (fixed)
+    char* nom;
 } StyledBox;
 
 /**
@@ -64,8 +65,9 @@ StyledBox *allocate_styled_box() {
 StyledBox *init_styled_box( GtkOrientation orientation, gboolean homogeneous, gint spacing,
                      const gchar *css_classes, const gchar *background_color,
                      const gchar *border_radius, const gchar *border, coordonnees* cord, dimension* dim,
-                     GtkWidget* container) {
+                     GtkWidget* container, char* nom) {
     StyledBox* box = allocate_styled_box();
+    box->nom = strdup(nom);
     box->orientation = orientation;
     box->homogeneous = homogeneous;
     box->spacing = spacing;
@@ -125,6 +127,8 @@ void create_styled_box(StyledBox *box) {
                 box->border_radius ? box->border_radius : "0px",
                 box->border ? box->border : "0px"
         );
+
+        gtk_widget_set_tooltip_text(box->widget, box->nom);
 
         // Chargement et application du style CSS
         gtk_css_provider_load_from_data(provider, css, -1, NULL);
@@ -216,7 +220,7 @@ void box_xml(FILE *file,int parent)
     StyledBox* b = init_styled_box(orientation, homogeneous, atoi(spacing),
                                    NULL, bgColor,border_radius, border,
                                    cord(atoi(x), atoi(y)),
-                                   dim(atoi(width), atoi(height)),parents[parent]);
+                                   dim(atoi(width), atoi(height)),parents[parent], "nom");
     create_styled_box(b);
     //le mettre dans fixed
     //gtk_fixed_put(GTK_FIXED(parents[parent]),MonBox->box,cord.xw,cord.yh);
