@@ -8,8 +8,9 @@
 #include "taha_template.h"
 #include "box.h"
 #include "projet_utility.h"
+#include "btn_projet.h"
 
-void open_dialog(GtkWidget* widget, gpointer *container){
+void openBtnNormaleProperties(GtkWidget* widget, gpointer *container){
     fixedo* fix = (fixedo*) container;
     btnNormaleProperties("Button Normale", "Creation d'un bouton normale",
                       "ex_img.jpg", "icon.png", *cord(1200, 600),
@@ -76,7 +77,7 @@ int main(int argc, char *argv[]) {
     btn* bb = btnNormalFixed("nom", "Bouton Normale ", "tooltip", fixed->fixed_container,
                              cord(0, 0), dim(50, 20), ima);
     creer_button(bb);
-    g_signal_connect(bb->button, "clicked", G_CALLBACK(open_dialog), fixed);
+    g_signal_connect(bb->button, "clicked", G_CALLBACK(openBtnNormaleProperties), fixed);
 
     Style* bst = init_style(NULL, hex_color_init("#000"),
                             -1, -1, "#ff55", -1,
