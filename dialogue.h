@@ -378,7 +378,7 @@ void dialog_response(GtkDialog *dialog, gint response_id, gpointer *user_data) {
         if(strlen(border) == 0 ) border = "0";
         if(strlen(border_radius) == 0 ) border_radius = "0";
         if(strlen(opacite) == 0 ) opacite = "1";
-        if(strlen(bg) == 0 ) bg = "";
+        //if(strlen(bg) == 0 ) bg = "";
 
 
 
@@ -498,6 +498,7 @@ void btnNormaleProperties(char* titre, char* message, char* messageIcon, char* i
         //char *options[] = {"Red", "Blue", "Green", NULL};
         //data->align = inputCombo("Color", cord(100, 100), contentArea, options);
         data->bouton = bouton->b;
+        data->bg = inputTexte("Background", cord(100, 100), contentArea, bouton->s->bgcolor);
         //police
         char *polices[] = {
                 "Arial", "Verdana", "Tahoma", "Times New Roman", "Georgia",
@@ -505,9 +506,9 @@ void btnNormaleProperties(char* titre, char* message, char* messageIcon, char* i
                 "Segoe UI", "Lucida Sans Unicode", "Comic Sans MS", "Impact",
                 "Palatino Linotype", "Gadugi", "Microsoft Sans Serif", NULL
         };
+        data->police = inputCombo("Police", cord(100, 100), contentArea, polices);
 
         g_print("\nlast bgcolor: %s", bouton->s->bgcolor);
-        data->bg = inputTexte("Background", cord(100, 100), contentArea, bouton->s->bgcolor);
 
     }
 

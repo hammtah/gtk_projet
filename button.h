@@ -385,7 +385,7 @@ void regler_css(btn *b, Style* stl) {
                                         border: %dpx solid black; \
                                         border-radius: %dpx;}",
                               b->nom, bgcolor, stl->border, stl->border_radius);
-        printf("bgcolor est couleur");
+        printf("\nbgcolor est couleur %s", bgcolor);
 
     }
 
