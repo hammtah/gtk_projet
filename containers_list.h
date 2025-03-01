@@ -171,4 +171,32 @@ void getNomsConteneurs(Arbre *racine, char *noms[MAX_CONTAINER_NAMES]) {
 }
 
 
+/**
+ * @brief Retourne le widget associé au noeud dont le nom correspond au nom donné.
+ *
+ * La fonction parcourt récursivement l'arbre à partir de la racine et compare le nom de chaque
+ * noeud au nom recherché. Si une correspondance est trouvée, le widget associé est retourné.
+ *
+ * @param racine La racine de l'arbre à parcourir.
+ * @param nom Le nom à rechercher dans l'arbre.
+ * @return GtkWidget* Le widget associé au nom donné, ou NULL s'il n'est pas trouvé.
+ */
+GtkWidget* getWidgetByNom(Arbre *racine, const char *nom) {
+    if (racine == NULL) {
+        return NULL;
+    }
+
+    if (strcmp(racine->nom, nom) == 0) {
+        return racine->widget;
+    }
+
+    GtkWidget *resultat = getWidgetByNom(racine->fils, nom);
+    if (resultat != NULL) {
+        return resultat;
+    }
+
+    return getWidgetByNom(racine->frere, nom);
+}
+
+
 #endif //XML_TAHA_CONTAINERS_LIST_H

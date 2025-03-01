@@ -11,20 +11,19 @@
 #include "btn_projet.h"
 #include "containers_list.h"
 
-void openBtnNormaleProperties(GtkWidget* widget, gpointer *container){
+void openBtnNormaleProperties(GtkWidget* widget, gpointer *racine){
 
-    fixedo* fix = (fixedo*) container;
+    Arbre* r = (Arbre*) racine;
 
     btnNormaleProperties("Button Normale", "Creation d'un bouton normale",
                       "ex_img.jpg", "icon.png", *cord(1200, 600),
-                      fix->fixed_container, NULL);
-    printf("fixed%d", fix);
+                      r, NULL);
 
     /*
     GtkWidget* bs = gtk_button_new_with_label("hello");
     fixed_add_widget(fix, bs, 50, 50);
      */
-    gtk_widget_show_all(fix->fixed_container);
+    gtk_widget_show_all(r->widget);
 
    // gtk_fixed_put(GTK_FIXED(fix), bs, 100, 100);
 }
@@ -75,45 +74,59 @@ int main(int argc, char *argv[]) {
 
 
         ///////////////////////////////////////////////////////////////////////////
+
+
     Arbre* racine = allouer_arbre("fixed", fixed->fixed_container, NULL, NULL, 1);
 
-    racine = insererArbre(racine, allouer_arbre("child1", NULL, NULL, NULL, 1), "fixed");
-
-
-
-    //////////////////////////////////  Button ///////////////////////////////////////////////////////
-    btnSpinFixed("Opacité", "Opacité","Opacité",dim(32,32), cord(200,200),fixed->fixed_container, spinObj(1,2));
-
-    MonImage* ima = init_image("btn-icon.png",*dim(24,24), *cord(0,0));
-
-    btn* bb = btnNormalFixed("nom", "Bouton Normale ", "tooltip", fixed->fixed_container,
-                             cord(0, 0), dim(50, 20), ima);
-    creer_button(bb);
-    g_signal_connect(bb->button, "clicked", G_CALLBACK(openBtnNormaleProperties), fixed);
-
-    Style* bst = init_style(NULL, hex_color_init("#000"),
-                            -1, -1, "#ff55", -1,
-                            -1);
-    appliquer_style_button(bst, bb);
-
-    PangoFontMap *font_map = pango_cairo_font_map_get_default();
-    PangoFontFamily **families;
-    int n_families;
-
-    pango_font_map_list_families(font_map, &families, &n_families);
-
-    g_print("Available fonts:\n");
-    for (int i = 0; i < n_families; i++) {
-        g_print("%s\n", pango_font_family_get_name(families[i]));
-    }
-
-    //Container* containers = NULL;
-//Creer le box
-    /*StyledBox *bxc = init_styled_box(GTK_ORIENTATION_HORIZONTAL, TRUE,
+    StyledBox *bxc = init_styled_box(GTK_ORIENTATION_HORIZONTAL, TRUE,
                                      16, NULL,
                                      "", "6", "2",
-                                     cord(100,200), dim(20, 30),fix->fixed_container);
+                                     cord(100,200), dim(200, 200),racine->widget);
     create_styled_box(bxc);
+            btn* mybtn = btnNormal("nom", "Bouton Normale ", "tooltip", bxc->widget,margin(0, 0,0, 0), dim(50, 20),NULL);
+    creer_button(mybtn);
+    //GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
+    //gtk_fixed_put(GTK_FIXED(fixed->fixed_container), box, 200, 300);
+    //racine = insererArbre(racine, allouer_arbre("child1", box, NULL, NULL, 1), "fixed");
+    //gtk_widget_show_all(box);
+
+    racine = insererArbre(racine, allouer_arbre("child1", bxc->widget, NULL, NULL, 1), "fixed");
+    gtk_widget_show_all(bxc->widget);
+
+
+//////////////////////////////////  Button ///////////////////////////////////////////////////////
+btnSpinFixed("Opacité", "Opacité","Opacité",dim(32,32), cord(200,200),fixed->fixed_container, spinObj(1,2));
+
+MonImage* ima = init_image("btn-icon.png",*dim(24,24), *cord(0,0));
+
+btn* bb = btnNormalFixed("nom", "Bouton Normale ", "tooltip", fixed->fixed_container,
+                     cord(0, 0), dim(50, 20), ima);
+creer_button(bb);
+g_signal_connect(bb->button, "clicked", G_CALLBACK(openBtnNormaleProperties), racine);
+
+Style* bst = init_style(NULL, hex_color_init("#000"),
+                    -1, -1, "#ff55", -1,
+                    -1);
+appliquer_style_button(bst, bb);
+
+PangoFontMap *font_map = pango_cairo_font_map_get_default();
+PangoFontFamily **families;
+int n_families;
+
+pango_font_map_list_families(font_map, &families, &n_families);
+
+g_print("Available fonts:\n");
+for (int i = 0; i < n_families; i++) {
+g_print("%s\n", pango_font_family_get_name(families[i]));
+}
+
+//Container* containers = NULL;
+//Creer le box
+/*StyledBox *bxc = init_styled_box(GTK_ORIENTATION_HORIZONTAL, TRUE,
+                             16, NULL,
+                             "", "6", "2",
+                             cord(100,200), dim(20, 30),fix->fixed_container);
+create_styled_box(bxc);
 */
     //containers= inserer_container("box1", bxc->widget, containers);
     //le fixed eest en queue de liste donc

@@ -250,7 +250,7 @@ btn* creer_button(btn* mybtn)
     if((!mybtn->isFixed) && ((mybtn->container)!=NULL))
     {
         gtk_container_add(GTK_CONTAINER(mybtn->container), mybtn->button);
-        //gtk_box_pack_start(GTK_BOX(mybtn->container), mybtn->button, TRUE, TRUE, 0);
+        gtk_box_pack_start(GTK_BOX(mybtn->container), mybtn->button, FALSE, FALSE, 0);
 
     }
     //Aligner le bouton
@@ -283,6 +283,8 @@ btn* creer_button(btn* mybtn)
     gdk_rgba_parse(&color, "blue"); // You can use color names or hex codes
     gtk_widget_override_background_color(mybtn->button, GTK_STATE_FLAG_NORMAL, &color);
 */
+
+    gtk_widget_show_all(mybtn->container);
     return(btn*) mybtn;
 }
 

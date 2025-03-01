@@ -21,7 +21,7 @@
 #define btnNormalFixed(nom, label, tooltip, container, pos, dim, img) \
                                 initBtn(NORMAL, nom, label,TRUE,tooltip,img,\
                                 dim, TRUE, pos,NULL,\
-                                TRUE, container, NULL,GTK_ALIGN_START,1, FALSE, NULL); \
+                                TRUE, container, NULL,GTK_ALIGN_START,1, FALSE, NULL) \
 
 /***********************RADIO************************/
 #define btnRadio(nom, label, tooltip, container, margin, groupeMember, img) \

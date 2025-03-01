@@ -8,6 +8,7 @@
 #include "coordonnees.h"
 #include "button.h"
 #include "bouton_xml.h"
+#include "containers_list.h"
 
 typedef struct btnNew{
     btn* b;
@@ -33,7 +34,7 @@ GtkWidget* inputCheck(char* label, coordonnees* cord, GtkWidget* container, gboo
 GtkWidget* inputCombo(char* label, coordonnees* cord, GtkWidget* container,char* items[256]);
 
 void btnNormaleProperties(char* titre, char* message, char* messageIcon, char* icon,
-                          coordonnees c, GtkWidget* parent, btnNew* bouton);
+                          coordonnees c, Arbre* racine, btnNew* bouton);
 //Structure regroupant les widgets contenus dans un dialogue de creation de bouton
 //nom, label, tooltip, container, margin, dim, img
 typedef struct {
@@ -57,6 +58,7 @@ typedef struct {
     GtkWidget*  border;
     GtkWidget*  border_radius;
     btn* bouton;
+    Arbre* racine;
 } DialogWidgets_btn;
 
 DialogWidgets_btn* creerDialogWidgets_btn(){
@@ -69,10 +71,10 @@ DialogWidgets_btn* creerDialogWidgets_btn(){
 }
 
 void btnNormaleModify(GtkWidget* widget, gpointer* data){
-    btnNew* bn = (btnNew*) data;
+    /*btnNew* bn = (btnNew*) data;
     btnNormaleProperties("Button Normale", "Modification d'un bouton normale",
                          "ex_img.jpg", "icon.png", *cord(1200, 600),
-                         bn->b->container, bn);
+                         bn->b->container, bn);*/
 }
 
 void deleteBtn(GtkWidget* widget, gpointer* data){
@@ -108,7 +110,10 @@ void btnNormalePropertiesResponse(GtkDialog *dialog, gint response_id, gpointer 
         isSensitive = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(data->isSensitive));
         //const gchar *align = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(data->align));
         const gchar *opacite = gtk_entry_get_text(GTK_ENTRY(data->opacity));
-        GtkWidget* container = data->container;
+        const gchar *containerString = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(data->container));
+        g_print("\ncontainerstring %s", containerString);
+        GtkWidget* container = getWidgetByNom(data->racine, containerString);
+        //GtkWidget* container = data->container;
 
         //Creer l'image du bouton
         MonImage* ima = NULL;//Initier l'image avec NULL
@@ -118,7 +123,12 @@ void btnNormalePropertiesResponse(GtkDialog *dialog, gint response_id, gpointer 
         }
 
         //Creation du bouton
-        int isFixed = 1;
+        int isFixed = 0;
+        if(GTK_IS_FIXED(container)){
+            isFixed = 1;
+            g_print("\nfixeeeeeeeeeeeeeeed");
+        }
+
         int isChecked = 1;
 
         //Default values, provided when the input is empty
@@ -142,6 +152,7 @@ void btnNormalePropertiesResponse(GtkDialog *dialog, gint response_id, gpointer 
                          container, NULL, GTK_ALIGN_CENTER,
                          atof(opacite), isChecked, NULL);
         creer_button(b);
+        gtk_widget_show(b->button);
         //Creer le style
         HexColor* h = hex_color_init(color);
         Style* style = init_style(police, h, atoi(taille),
@@ -176,7 +187,7 @@ void btnNormalePropertiesResponse(GtkDialog *dialog, gint response_id, gpointer 
 
 
 void btnNormaleProperties(char* titre, char* message, char* messageIcon, char* icon,
-                          coordonnees c, GtkWidget* parent, btnNew* bouton) {
+                          coordonnees c, Arbre* racine, btnNew* bouton) {
     boite_dialog *boite = NULL;
 
 // Le conteneur des widgets formant le contenue du dialogue (content area)
@@ -212,7 +223,12 @@ void btnNormaleProperties(char* titre, char* message, char* messageIcon, char* i
         //data->opacity = inputNumber("Opacité", cord(100, 100), contentArea, "1");
         data->bg = inputTexte("Background", cord(100, 100), contentArea, "");
         data->opacity = inputNumber("Opacité", cord(100, 100), contentArea, 1, 0.1);
-        data->container = parent;
+
+        char* containers[20];
+        getNomsConteneurs(racine, containers);
+        data->container = inputCombo("Container", cord(100, 100), contentArea, containers);
+        data->racine = racine;
+        //data->container = parent;
         data->bouton = NULL;
         char *polices[] = {
                 "Arial", "Verdana", "Tahoma", "Times New Roman", "Georgia",
@@ -240,7 +256,7 @@ void btnNormaleProperties(char* titre, char* message, char* messageIcon, char* i
         data->isSensitive = inputCheck("isSensitive", cord(100, 100), contentArea, bouton->b->isSensitive);
         //opacity
         data->opacity = inputNumber("Opacité", cord(100, 100), contentArea, bouton->b->opacity, 0.1);
-        data->container = parent;
+        //data->container = parent;
 
         //should get it from style structure
         data->color = inputTexte("Color", cord(100, 100), contentArea, bouton->s->color->hex_code);
@@ -272,7 +288,7 @@ void btnNormaleProperties(char* titre, char* message, char* messageIcon, char* i
             titre,//titre
             dim(500, 200),//dimension
             icon, // Pas d'icône pour cet exemple
-            parent,//Parent(conteneur)
+            racine->widget,//Parent(conteneur)
             TRUE,//modal ou pas
             GTK_WIN_POS_CENTER//Position
     );
