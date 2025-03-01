@@ -9,9 +9,12 @@
 #include "box.h"
 #include "projet_utility.h"
 #include "btn_projet.h"
+#include "containers_list.h"
 
 void openBtnNormaleProperties(GtkWidget* widget, gpointer *container){
+
     fixedo* fix = (fixedo*) container;
+
     btnNormaleProperties("Button Normale", "Creation d'un bouton normale",
                       "ex_img.jpg", "icon.png", *cord(1200, 600),
                       fix->fixed_container, NULL);
@@ -29,6 +32,8 @@ void openBtnNormaleProperties(GtkWidget* widget, gpointer *container){
 int main(int argc, char *argv[]) {
     // Initialisation de GTK
     gtk_init(&argc, &argv);
+
+
 
     ////////////////////////////////---création de window---///////////////////////////////////////////////
     // Dimensions et coordonnées de la fenêtre
@@ -69,6 +74,13 @@ int main(int argc, char *argv[]) {
 
 
 
+        ///////////////////////////////////////////////////////////////////////////
+    Arbre* racine = allouer_arbre("fixed", fixed->fixed_container, NULL, NULL, 1);
+
+    racine = insererArbre(racine, allouer_arbre("child1", NULL, NULL, NULL, 1), "fixed");
+
+
+
     //////////////////////////////////  Button ///////////////////////////////////////////////////////
     btnSpinFixed("Opacité", "Opacité","Opacité",dim(32,32), cord(200,200),fixed->fixed_container, spinObj(1,2));
 
@@ -95,8 +107,26 @@ int main(int argc, char *argv[]) {
         g_print("%s\n", pango_font_family_get_name(families[i]));
     }
 
+    //Container* containers = NULL;
+//Creer le box
+    /*StyledBox *bxc = init_styled_box(GTK_ORIENTATION_HORIZONTAL, TRUE,
+                                     16, NULL,
+                                     "", "6", "2",
+                                     cord(100,200), dim(20, 30),fix->fixed_container);
+    create_styled_box(bxc);
+*/
+    //containers= inserer_container("box1", bxc->widget, containers);
+    //le fixed eest en queue de liste donc
+    //containers= inserer_container("fixed", fixed->fixed_container, containers);
+
+
+    // Affichage de l'arbre
+    printf("Arborescence de l'arbre :\n");
+    afficher_arbre(racine, 0);
+
     //inputChoix("Texte", cord(100, 100), fixed->fixed_container);
     gtk_widget_show_all(maFenetre->window);
     gtk_main();
     return 0;
 }
+
