@@ -36,7 +36,7 @@
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 49,
+				"line" : 50,
 				"parent" : 0
 			},
 			{
@@ -351,7 +351,8 @@
 				29,
 				30,
 				31,
-				32
+				32,
+				33
 			]
 		}
 	],
@@ -522,6 +523,11 @@
 		{
 			"backtrace" : 1,
 			"path" : "containers_list.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "box_projet.h",
 			"sourceGroupIndex" : 1
 		}
 	],

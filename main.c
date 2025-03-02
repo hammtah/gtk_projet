@@ -10,6 +10,7 @@
 #include "projet_utility.h"
 #include "btn_projet.h"
 #include "containers_list.h"
+#include "box_projet.h"
 
 void openBtnNormaleProperties(GtkWidget* widget, gpointer *racine){
 
@@ -19,13 +20,20 @@ void openBtnNormaleProperties(GtkWidget* widget, gpointer *racine){
                       "ex_img.jpg", "icon.png", *cord(1200, 600),
                       r, NULL);
 
-    /*
-    GtkWidget* bs = gtk_button_new_with_label("hello");
-    fixed_add_widget(fix, bs, 50, 50);
-     */
     gtk_widget_show_all(r->widget);
 
-   // gtk_fixed_put(GTK_FIXED(fix), bs, 100, 100);
+}
+
+void openBoxProperties(GtkWidget* widget, gpointer *racine){
+
+    Arbre* r = (Arbre*) racine;
+
+    boxProperties("Button Normale", "Creation d'un box",
+                         "ex_img.jpg", "icon.png", *cord(1200, 600),
+                         r, NULL);
+
+    gtk_widget_show_all(r->widget);
+
 }
 
 int main(int argc, char *argv[]) {
@@ -83,8 +91,7 @@ int main(int argc, char *argv[]) {
                                      "", "6", "2",
                                      cord(100,200), dim(200, 200),racine->widget,"child1");
     create_styled_box(bxc);
-            btn* mybtn = btnNormal("nom", "Bouton Normale ", "tooltip", bxc->widget,margin(0, 0,0, 0), dim(50, 20),NULL);
-    creer_button(mybtn);
+
     //GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
     //gtk_fixed_put(GTK_FIXED(fixed->fixed_container), box, 200, 300);
     //racine = insererArbre(racine, allouer_arbre("child1", box, NULL, NULL, 1), "fixed");
@@ -95,8 +102,6 @@ int main(int argc, char *argv[]) {
 
 
 //////////////////////////////////  Button ///////////////////////////////////////////////////////
-btnSpinFixed("Opacité", "Opacité","Opacité",dim(32,32), cord(200,200),fixed->fixed_container, spinObj(1,2));
-
 MonImage* ima = init_image("btn-icon.png",*dim(24,24), *cord(0,0));
 
 btn* bb = btnNormalFixed("nom", "Bouton Normale ", "tooltip", fixed->fixed_container,
@@ -109,16 +114,6 @@ Style* bst = init_style(NULL, hex_color_init("#000"),
                     -1);
 appliquer_style_button(bst, bb);
 
-PangoFontMap *font_map = pango_cairo_font_map_get_default();
-PangoFontFamily **families;
-int n_families;
-
-pango_font_map_list_families(font_map, &families, &n_families);
-
-g_print("Available fonts:\n");
-for (int i = 0; i < n_families; i++) {
-g_print("%s\n", pango_font_family_get_name(families[i]));
-}
 
 //Container* containers = NULL;
 //Creer le box
@@ -131,6 +126,15 @@ create_styled_box(bxc);
     //containers= inserer_container("box1", bxc->widget, containers);
     //le fixed eest en queue de liste donc
     //containers= inserer_container("fixed", fixed->fixed_container, containers);
+
+
+    //////////////box
+
+    btn* btnx = btnNormalFixed("btnx", "Box ", "Box", fixed->fixed_container,
+                             cord(0, 150), dim(50, 20), NULL);
+    creer_button(btnx);
+
+    g_signal_connect(btnx->button, "clicked", G_CALLBACK(openBoxProperties), racine);
 
 
     // Affichage de l'arbre

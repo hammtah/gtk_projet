@@ -28,6 +28,7 @@ typedef struct arbre {
     struct arbre *frere;         /**< Pointeur vers le frère de l'élément */
     struct arbre *fils;          /**< Pointeur vers le premier fils de l'élément */
     int is_container;            /**< Indicateur pour savoir si c'est un conteneur (1) ou non (0) */
+    //TODO : type du widget(enum)
 } Arbre;
 
 /**
